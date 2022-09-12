@@ -1,0 +1,141 @@
+# (APPENDIX) Appendices {-} 
+
+# Spherical optical model potential {#OMP-model-appendix}
+
+TALYS implements several nuclear models, the main one being th spherical optical model potential [@talys]. All but two of the active input parameters in the analysis are parameters in this model. The two that are not are parameters in an alternative model which is used in certain incident neutron energy ranges. Fore more detail see Chapter 4 of reference [@talys]. For completeness the equation, along with the mapping between TALYS and equation parameters, are given here.
+
+\begin{align}
+(\#eq:omp-equation)
+V_V(E) &= v_1 \left[ 1 - v_2 (E - E_f) + v_3(E - E_f)^2 - v_4(E-E_f)^3 \right]\\ \nonumber
+W_V(E) &= w_1 \frac{(E-E_f)^2}{(E-E_f)^2 + w_2^2} \\ \nonumber
+r_V &= \textrm{constant}\\ \nonumber
+a_V &= \textrm{constant}\\ \nonumber
+W_D(E) &= d_1 \frac{(E-E_f)^2}{(E-E_f)^2 + d_3^2}\exp\left[-d_2(E-E_f) \right] \\ \nonumber
+r_D &= \textrm{constant}\\ \nonumber
+a_D &= \textrm{constant}\\ \nonumber
+V_{SO}(E) &= v_{so1} exp\left[ -v_{so2}(E-E_f)\right] \\ \nonumber
+W_{SO}(E) &= w_{so1} \frac{(E-E_f)^2}{(E-E_f)^2 + w_{so2}^2}\\ \nonumber
+r_{SO} &= \textrm{constant}\\ \nonumber
+a_{SO} &= \textrm{constant}\\ \nonumber
+r_C &= \textrm{constant}
+\end{align}
+
+\begin{table}\centering
+\caption{Active input parameters in the analysis and the parameters they adjust in Equation \@ref(eq:omp-equation)}
+\label{tab:input-params}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{TALYS} & \textbf{Equation}\\
+\hline
+v1adjust & v1\\
+v2adjust & v2\\
+v3adjust & v3\\ 
+v4adjust & v4\\   
+rvadjust & rv\\  
+avadjust & av\\   
+rwadjust & rw\\   
+awadjust & aw\\  
+w1adjust & w1\\  
+w2adjust & w2\\ 
+w3adjust & NA\\   
+w4adjust & NA\\   
+rvdadjust & rvd\\  
+avdadjust & avd\\
+rwdadjust & rwd\\
+awdadjust & awd\\
+d1adjust & d1\\
+d2adjust & d2\\
+d3adjust & d3\\ 
+vso1adjust & vso1\\
+vso2adjust & vso2\\ 
+wso1adjust & wso1\\
+wso2adjust & wso2\\
+rvsoadjust & rvso\\
+avsoadjust & avso\\
+rwsoadjust & rwso\\
+awsoadjust & awso\\
+rcadjust & rcadjust\\
+\hline
+\end{tabular}
+\end{table}
+
+
+# R code to generate implausibility/ optical depth heatmaps {#r-code-impl}
+
+Below is the R code used to generate the implausibility and optical depth heat maps from Section \@ref(impl-optical-depth). The function 'get\_implausibilities' expects names of two of the active parameters as arguments 'v1' and 'v2'. The argument 'df' should be a data frame with at least two named parameters columns with the parameter values, and third column 'I2' with the corresponding implausibility measure. The function 'optical_depth_plot' requires a further column 'plausible' which is 1 of the input parameters were evaluated as plausible, and zero otherwise. 
+
+```{r, echo=T, include=T, eval=F}
+# Pull out the minimum maximum implausibilities
+get_implausibilites <- function(v1,v2,df){
+  v1 = rlang::sym(v1)
+  v2 = rlang::sym(v2)
+  x <- seq(-1,1,length.out = 20)
+  gap <- (x[2] - x[1])/2
+  midpoint_1 <- x[1] + gap
+  y <- seq(midpoint_1,-midpoint_1,length.out=19)
+  gr <- expand.grid(y,y)
+  # Slice up the parameter space and find the minimum
+  # implausibility in each interval
+  interval_mins <- purrr::pmap_dfr(gr, function(Var1,Var2){
+    l1 <- Var1 - gap
+    l2 <- Var2 - gap
+    u1 <- Var1 + gap
+    u2 <- Var2 + gap
+    min_i <- df %>% dplyr::filter(!!v1 < u1 & !!v1 > l1 &
+                                    !!v2 < u2 & !!v2 > l2) %>%
+      dplyr::pull(I2) %>% min()
+    tibble::as_tibble(t(c(Var1,Var2,min_i))) %>%
+      dplyr::rename(v1 = V1, v2 = V2, "Implausibility"=V3) 
+  } )
+  interval_mins %>%
+    ggplot2::ggplot(ggplot2::aes(x=v1,y=v2)) +
+    ggplot2::geom_tile(ggplot2::aes(fill=Implausibility ) ) +
+    ggplot2::theme_minimal() + 
+    ggplot2::scale_fill_viridis_c(direction=-1) +
+    ggplot2::labs(fill= "Minimal\nImplausibility",
+                  x = v1, y=v2) 
+}
+
+
+# Compute optical depths in each interval and plot heatmap
+optical_depth_plot <- function(v1,v2,df){
+  v1 = rlang::sym(v1)
+  v2 = rlang::sym(v2)
+  x <- seq(-1,1,length.out = 20)
+  gap <- (x[2] - x[1])/2
+  midpoint_1 <- x[1] + gap
+  y <- seq(midpoint_1,-midpoint_1,length.out=19)
+  gr <- expand.grid(y,y)
+  optical_depths <- purrr::pmap_dfr(gr, function(Var1,Var2){
+    l1 <- Var1 - gap
+    l2 <- Var2 - gap
+    u1 <- Var1 + gap
+    u2 <- Var2 + gap
+    depth <- df %>% dplyr::filter(!!v1 < u1 & !!v1 > l1 &
+                                    !!v2 < u2 & !!v2 > l2) %>%
+      dplyr::summarise(count = dplyr::n(), 
+                       plausible = sum(plausible)) %>%
+      dplyr::mutate(o_depth = plausible/count) %>% 
+      dplyr::pull(o_depth)
+    tibble::as_tibble(t(c(Var1,Var2,depth))) %>%
+      dplyr::rename(v1 = V1, v2 = V2, "Depth"=V3)
+  } )
+  optical_depths %>%
+    ggplot2::ggplot(ggplot2::aes(x=v1,y=v2)) +
+    ggplot2::geom_tile(ggplot2::aes(fill=Depth  ) )+
+    ggplot2::theme_minimal() + 
+    ggplot2::scale_fill_viridis_c(direction=-1,
+                                  option="C") +
+    ggplot2::labs(fill= "Optical\nDepth",
+                  x = v1, y=v2)
+  
+}
+```
+
+# Research Ethics Approval
+
+The research ethics approval process for the work described in this dissertation was completed in April 2020, before any work using data commenced. Upon completion of the required online ethics declaration form, it was decided that it was not necessary to gain formal research ethics approval for the dissertation, owing to the lack of data involving human subjects. A scan of a student declaration form saying as much, and signed by both the student and the supervisor, is included below.
+
+```{r ethicsapprov, echo = FALSE, fig.cap = "The research ethics approval letter provided for the work outlined in this dissertation, following compliance with the University of Sheffield offical research ethics processes.", out.width='100%', fig.align='center'}
+knitr::include_graphics("~/Maths/Sheffield/dissertation/BookdownTemplate/Dissertation/figures/declaration.pdf")
+```

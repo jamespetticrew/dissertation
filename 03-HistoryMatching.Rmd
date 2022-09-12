@@ -1,0 +1,233 @@
+# History matching {#History-Matching}
+
+## Introduction {#HM-Intro}
+
+In this section we give an overview of the main quantities involved in history matching and then develop the notation that we will use for the rest of the dissertation. We then describe the process workflow of history matching, and describe the various sources of uncertainty that need to be characterised in order to carry out the analysis. We then describe some of the metrics that we use to help us identify suitable values for TALYS design parameters. 
+
+## Motivation
+
+The primary goal of this dissertation is to identify a subset or subsets of the 28-dimensional design parameter space which could give rise to acceptable matches between TALYS outputs, denoted $f$, and the true cross-section which it attempts to simulate, which we denote $y$. The term 'acceptable' here implies that an exact match is not expected. One reason for this is that we cannot observe $y$ perfectly, but that there is a discrepancy between the measured cross-section, denoted $z$, and $y$. A second reason is that we do not expect TALYS to perfectly recreate $y$. At third reason is that, as discussed in Section \@ref(GPR), history matching requires $f$ to be evaluated an infeasibly large number of times and consequently we use a statistical emulator $\hat{f}$ to approximate $f$. The relationships between these four quantities are shown in Figure \@ref(uncertainty sketch). If we are able to well quantify the discrepancies between the quantities (see Section \@ref(HM-Uncertainty) ) as well as the quantities themselves, then we can compute some metric to decide if the match been TALYS and the true process is acceptable (Section \@ref(HM-Implausibility)). 
+
+```{r uncertainty-sketch, fig.cap="Both the experimental measurement $z$ and the simulator $f$ imperfectly capture the true process $y$. A further discrepancy occurs because the simulator itself most be imperfectly emulated by $f$.", echo=FALSE}
+knitr::include_graphics("~/Maths/Sheffield/dissertation/BookdownTemplate/Dissertation/figures/uncertanties_bigger.png")
+```
+
+History matching is a method which allows us to find values of design parameters for TALYS which give good agreement with  empirical data. The assumption is that this increases the capacity of the simulator to generalise, giving good predictions for processes which have not, or cannot be, observed. This is pertinent for TALYS, where some of the cross-sections are almost impossible to measure. History matching works by iteratively discounting values of the design parameters as implausible give empirical observations and relevant uncertainties, and retraining sets of statistical emulators which focus on predicting well in the non-implausible design space, known as 'refocussing'. In order to describe it in more detail, we now develop our mathematical notation further. 
+
+## Notation {#Intro-notation}
+
+In history matching we have a simulator with $p$ design parameters, denoted by the p-vector $\mathbf{x} = [x^{(1)}, x^{(2)},...,x^{(p)}]$, that do not have fixed values and on which the simulator outputs depend. In this application $p=28$. $\mathbf{x}$  can be any point in domain $\mathcal{X}$, which could be the set of all $\mathbf{x}$ that the simulator will accept as inputs, or a smaller subset of feasible inputs dictated by physical constraints or expert knowledge. In this application, $\mathcal{X}=[0.1,10]^{28}$ as described in Section \@ref(Background:talys). The simulator implements a mathematical model describing some physical process $y$. The physical process is observed imperfectly through some measurement process $z$. We have a vector of experimental data points, denoted by the n-vector $\mathbf{z} = [z_1,z_2,...,z_n]$, and index the individual measurements as $z_i~i \in 1,2,...,n$. These are measurements of the $n$ physical processes, denoted by the n-vector $\mathbf{y} = [y_1,y_2,...,y_n]$. In this application $n=608$. The simulator outputs a vector of quantities and consequently it can simulate all of $\mathbf{y}$ in one code run at some value of $\mathbf{x}$. We denote this output n-vector $\mathbf{f}(\mathbf{x})= [f_1(\mathbf{x}), f_2(\mathbf{x}),...,f_n(\mathbf{x}) ]$. In the context of the discussion in Section \@ref(Background:data), each element of $\mathbf{f(x)}$ corresponds to a cross-section for a given reaction at a given energy. 
+
+To represent the imperfection of the experimental measurement process we write
+
+\begin{equation}
+z_i = y_i + \delta_i
+\label{eq:observation_uncertainty}
+\end{equation}
+
+where $\delta_i$ is a univariate Gaussian random variable with expectation 0 and variance $V^{(obs)}_i$ which we use to represent our belief about the uncertainty of $y_i|z_i$. We also assume that simulator is an imperfect representation of reality and represent this by writing
+
+\begin{equation}
+f_i(\mathbf{x}) = y_i + \phi_i
+\label{eq:model_inadequacy}
+\end{equation}
+
+where $\phi_i$ is a zero-centred univariate Gaussian random variable with variance $V_i^{(s)}$ used to represent out belief about the uncertainty of $y_i|f_i(\mathbf{x})$. Here we assume that $\phi_i$ is independent from $\mathbf{x}$.
+
+The aim of history matching is to identify a subset or subsets of $\mathcal{X}$ for which the simulator could feasibly produce outputs consistent with the true process $y$. This requires comparing the simulator output to observations for $m$ proposal inputs, $\mathbf{x_1},\mathbf{x_2},...,\mathbf{x_m}$, indexed using $j = 1,2,...,m$, where each of the $\mathbf{x_j}$ is a p-vector with a proposed scalar value for each of the $p$ design parameters. Theoretically, if the models in TALYS were a perfect representation of reality, there would exist a $\mathbf{x_j}$ such that $f_i(\mathbf{x_j})= y_i~ \forall i$, since all of the elements of $\mathbf{x}$ are observable quantities. This situation could also arise if TALYS were not a perfect representation of reality (getting the right answer for the wrong reasons).
+
+In order to well explore $\mathcal{X}$ it is required that $m$ is very large. It is often the case that one run of the simulator can take several hours to complete, and as such it is not possible to examine a very large number of proposal $\mathbf{x_j}$ directly. To address this, we use $k<<m$ training runs of the simulator to build $n$ emulators, one for each of the $f_1(\cdot),f_2(\cdot),...,f_n(\cdot)$. We denote the subset of $\mathcal{X}$ used for the training runs as $\mathcal{X}^*$ and the corresponding outputs as $\mathbf{f}(\mathcal{X}^*) = \left[\mathbf{f_1}(\mathcal{X}^*),\mathbf{f_2}(\mathcal{X}^*),...,\mathbf{f_n}(\mathcal{X}^*)\right]$, where each element of $\mathbf{f}(\mathcal{X}^*)$ is a k-vector, each element of which corresponds to the output of one of the $k$ training runs. We use these emulators to estimate $\mathbf{f}(\mathbf{x_j})$ for proposal points $\mathbf{x_j}$ at which the simulator has not been evaluated. Each of the $n$ elements in $\mathbf{f}(\mathbf{x_j})$ is estimated using its own emulator, and the $n$ emulators are statistically independent. There is uncertainty about $f_i(\mathbf{x_j})$, and we represent this uncertainty using a random variable structure. $E[f_i(\mathbf{x_j})]$ denotes our belief about the expected value of $f_i(\mathbf{x_j})$ and $V[f_i(\mathbf{x_j})]$, the marginal emulator variance, represents our belief about the uncertainty of $f_i(\mathbf{x_j})|f_i(\mathcal{X}^*)$. In the case of a deterministic simulator, as we have here, if $\mathbf{x}_j \in \mathcal{X}^*$ then $V[f_i(\mathbf{x_j})] = 0$ and $E[f_i(\mathbf{x_j})] = f_i(\mathbf{x}_j)$.
+
+A summary of the notation used hereafter is presented in Table \ref{tab:notation}.
+
+\begin{table}\centering
+\caption{A summary of notation used to describe the history matching analysis}
+\label{tab:notation}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Symbol}&\textbf{Meaning}\\
+\hline
+$\mathbf{x}$& Vector of simulator calibration parameters\\
+\hline
+$p$& Number of calibration parameters \\
+\hline
+$\mathcal{X}$&The set of all values that $\mathbf{x}$ can take \\
+\hline
+$y_i$& The $i$th physical process that the simulator attempts to reproduce\\
+\hline
+$z_i$& An experimental measurement of the process $y_i$\\
+\hline
+$n$& The total number of experimental measurements available in the analysis\\
+\hline
+$f_i(\mathbf{x_j})$& Simulated value of the physical process $y_i$ for calibration input $\mathbf{x_j}$\\
+\hline
+$\delta_i$& Random variable representing our uncertainty about the\\ 
+&discrepancy between the process $y_i$ and its measurement $z_i$\\
+\hline
+$V_i^{(obs)}$& Variance of $\delta_i$\\
+\hline
+$\phi_i$&Random variable representing our uncertainty about the\\
+&discrepancy between the process $y_i$ and its simulated value $f_i(\mathbf{x})$\\
+\hline
+$\mathcal{X^*}$& Subset of $\mathcal{X}$ used to build emulators for $\mathbf{f}(\cdot)$\\
+\hline
+$k$& Number of points in the training set $\mathcal{X^*}$\\
+\hline
+$E[f_i(\mathbf{x_j})]$& Emulator expectation value for the $i$th simulator output\\ 
+& at input $\mathbf{x_j}$\\
+\hline
+$V[f_i(\mathbf{x_j})]$& Marginal emulator variance for the $i$th simulator output\\ 
+& at input $\mathbf{x_j}$\\
+\hline
+\end{tabular}
+\end{table}
+
+## Workflow
+
+Here we give an overview of the steps carried out in history matching, following the schematic shown in Figure \@ref(fig:hm-workflow).
+
+\newpage
+```{r hm-workflow, fig.cap="Schematic showing a typical history matching workflow. The process is iterative where each iteration is called a wave, and a wave ends either with refocussing, which is a reduction of the non-implasible input space, or with stoppinng with the current non-implausible space.", echo=FALSE}
+knitr::include_graphics("~/Maths/Sheffield/dissertation/BookdownTemplate/Dissertation/figures/hm-workflow-vertical.png")
+```
+
+
+
+* \textbf{Choose design points for Wave 1}: The number of candidate input parameters that we wish to examine is very large but the number of times we can run TALYS to evaluate these inputs directly is relatively small. Consequently the best use of the limited number of runs we can afford is to build a statistical emulator for TALYS. In this dissertation we begin with a 28-dimensional uniform input parameter space $\mathcal{X}$. Initially, we have no idea of the relative plausibilities of samples from this space, and we want to build emulators from a limited number of TALYS runs that well represent its behaviour over the entirety of $\mathcal{X}$. To be in with the best chance of doing this, and to minimise the predictive variance of the emulators, we want to employ a space-filling design that provides coverage of $\mathcal{X}$ in some way that is optimised for the number of runs that we can afford. Typically this is not achieved from randomly sampling our design points in $\mathcal{X}$, or from a uniform design. In this dissertation we use a Latin Hypercube (LH) design. This is a high-dimensional extension of the Latin square experimental design.  
+
+* \textbf{Run simulator at design points and use results to build a emulators}: Once the design points have been chosen, TALYS needs to be run to obtain the $\mathbf{x}-y$ mappings needed to train the Gaussian process emulators. The results then need to be consolidated and formatted to suit the input format of the Gaussian process software package being used (see Section \@ref(gp-software)). In some cases, it may be desirable to scale $\mathbf{x}$ or $y$ to help the modelling. For example, it is often useful to log-scale strictly non-negative outputs, particularly if they vary across orders of magnitude. When training many emulators, it may be the case that some models fail, perhaps due to convergence problems in the numerical estimation routine (see Section \@ref(model-selection)), especially if the design space is very large, as some outputs may be hard to emulate initially. One advantage of history matching is that the analysis is not invalidated if we simply drop these emulators at this stage of the analysis.
+
+* \textbf{Validate models and discard invalid ones}: A small number of TALYS runs should also be carried out in order to test the out-of-sample predictive performance of the emulators. Any emulators not giving satisfactory out-of-sample performance should be dropped from this wave of history matching. More details on the validation methodology used in this dissertation are given in Section \@ref(wave1).
+
+* \textbf{Generate a great many candidate} $\mathbf{x}$: The validated emulators can now predict the TALYS output a great number of times at a fraction of the cost of running the simulator. Consequently we generate very many samples for $\mathbf{x}$ and use the emulators to generate predictions for each one.
+
+* \textbf{Compute implausibility measures}: As discussed in Section \@ref(HM-Implausibility) below, we compute implausibility metrics for each candidate $\mathbf{x}$ as a function of the emulator predictions, the observed quantities, and the uncertainties present system. This typically leads to a large reduction in the non-implausible parameter space [@jeremy_histmatch] [@bower2010galaxy], based on the implausibility metrics exceeding some acceptable threshold.
+
+* \textbf{Discard implausible candidates}: The reduction in non-implausible parameter space is know as refocussing, and can lead to two outcomes. The non-implausible space (or a subset of it) can now be used as the values for design variables for the next set of TALYS runs, upon which a new set of emulators is built, and the process is repeated. This has the advantage of focussing the emulators in areas which have been shown to give acceptable matches to observations, leading to more precise emulation in these regions. As will be seen in Section \@ref(HM-Implausibility) this can lead to fewer candidate points being accepted as non-implausible, refocussing even further. A second outcome from a given wave is that the process is stopped, and the current non-implausible space is accepted as the outcome of the analysis. Stopping may occur because the computational budget for TALYS runs has been reached, or because the proportional reduction in parameter space that occurred in this wave is not significantly different than those in previous waves, indicating that there is little to be gained in continuing.
+
+History matching can be used as a way of helping to understand which parameter values are consistent with observations, which may be especially useful if the parameters represent observable quantities. It may be also used as a precursor to an uncertainty quantification study where, having found the values for the input parameters consistent with observations, we now wish to find the set of different cross-section values consistent with observations. 
+
+In order to decide if input parameter candidates $\mathbf{x}$ are implausible or not, we need to quantify the uncertainties that are present in the system. We discuss these, and how we model them, in the next section.
+
+
+
+## Sources of uncertainty {#HM-Uncertainty}
+
+### Observation uncertainty
+
+In many ways we can think of the process of measurement as an aleatoric random process, in that if we take one measurement $z_i^{(1)}$ of the process $y_i$ and then take a second measurement $z_i^{(2)}$ then in general $z_i^{(1)} \neq z_i^{(2)}$. We generally make an assumption that the measurement process is imprecise, but not systematically wrong. This implies that if we take $n$ measurements $z_i^{(1)},z_i^{(2)},...,z_i^{(n)}$, as n gets larger $\frac{1}{n}\sum_{j=1}^n z_i^{(j)} \rightarrow y_i$ and that the variance of the estimator for $y_i$ is proportional to $\frac{1}{\sqrt{n}}$. In most practical cases, it is only possible to take one measurement $z_i$ and the scientist must provide their own estimate of the observation uncertainty, based on their knowledge of the experimental process.
+
+The authors of Reference [@Schnabel_2021] provide tools for extracting and contextualising the uncertainties that accompanied the experimental data used in this dissertation. However, the computational expense required was too large to undertake, and consequently a simple approach was taken in order allow progress to be made. It was decided that the observation uncertainty $V_i^{(obs)}$ for $y_i$ should be $0.1z_i$. We write
+
+\begin{equation}
+(\#eq:observation-uncertainty)
+y_i = z_i + \delta_i
+\end{equation}
+
+where $\delta_i \sim N(0, V_i^{(obs)})$.
+
+### Simulator inadequacy
+
+We accept that there can be a discrepancy between the TALYS output $f$ and the true process $y$, and we expect this discrepancy to arise in several ways. First, TALYS implements some mathematical model, which is assumed to be an imperfect representation of reality. Second, the simulator itself may implement the mathematical model imperfectly. 
+
+The objective of history matching is not to find the 'correct' input parameters for a given simulation, and the method does not require the inputs to be physically meaningful. A consequence of this is that history matching can give the right answer for the wrong reasons. For example, the mathematical model may be imperfect, but for certain values of its parameters it might give a good match to observations. Consequently, simulator inadequacy is difficult to quantify, and even more difficult to characterise in terms of contributions from different sources. One approach would be to consult a subject matter expert (SME) or experts to attempt to elicit a probability distribution representing their belief about how great a discrepancy could arise between TALYS and reality. In this dissertation, in order to focus on the methodology, we take a very simple approach to uncertainty quantification, equating it to the corresponding measurement uncertainty of the process being simulated. We write
+
+\begin{equation}
+(\#eq:simulator-inadequacy)
+y_i =  f_i(\mathbf{x}) + \phi_i ~ \forall \mathbf{x}
+\end{equation}
+
+where $\phi_i \sim N(0,V_i^{(s)})$ and $V_i^{(s)}=V_i^{(obs)}$. In particular, $\phi_i$ is independent of $\mathbf{x}$ in this model.
+
+### Emulator variance
+
+As described in Section \@ref(GPR), we use an emulator $\hat{f}$ to represent the simulator $f$ as it allows us to explore the input space much more efficiently. The price for this efficiency is that another source of uncertainty is introduced. The uncertainty depends on $\mathbf{x}$ in this case and we write
+
+\begin{equation}
+(\#eq:emulator-variance)
+f_i(\mathbf{x_j}) \sim N\left( E[ f_i(\mathbf{x_j}), V[f_i(\mathbf{x_j}\right)],
+\end{equation}
+
+where $E[f_i(\mathbf{x_j})]$ is computed from Equation \@ref(eq:pred-mean) and $V[f_i(\mathbf{x_j})]$ is computed from \@ref(eq:pred-var). We go into more detail on this in the next chapter.
+
+### Conclusion
+
+In this dissertation we consider uncertainties that arise from the imprecisions of the measurement process, the inability of TALYS to perfectly simulate cross-sections, and the imprecise predictions that arise from using a statistical model to represent TALYS. In some applications, other sources of uncertainty may exist. For example, the application may required a simulator that employs Monte Carlo methods, and as such does not always give the same output when ran twice at the same input. This uncertainty could be estimated from multiple simulator runs. Once all sources of uncertainty have been quantified, it is possible to compute implausibility metrics to help assess if the simulator $f_i$ could give an acceptable match to the true process $y_i$.
+
+## Implausibility measure {#HM-Implausibility}
+
+We want a metric that is a function of $\mathbf{x}$ and gives large values if $f(\mathbf{x})$ is unlikely to give an acceptable match to $y$ and smaller values if it is more likely to give an acceptable match. Consequently it makes sense if the metric is proportional to $|f(\mathbf{x}) - y_i|$. But we also have to take into account the uncertainties discussed in Section \@ref(HM-Uncertainty). The greater the combined uncertainty in the system, the less sure we can be in branding values of $\mathbf{x_j}$ implausible. Consequently it makes sense if the metric is inversely proportional to the combined uncertainty. The standard approach to combining uncertainties [@jeremy_histmatch] [@bower2010galaxy] is to assume that they are independent, and consequently that the variances are additive. We take that approach here, and hence the one-dimensional implausibility metric for $\mathbf{x_j}$ is
+
+\begin{equation}
+(\#eq:one-d-implausibility)
+I_j = \frac{|E[f(\mathbf{x})] - z_i|}{\sqrt{V_i^{(obs)} + V_i^{(sim)} + V[f_i(\mathbf{x_j})]}}.
+\end{equation}
+
+This metric is proportional to the difference between the observed and simulated process, inversely proportional to the total uncertainty in the system, and depends on $\mathbf{x_j}$. In order to decided what value of $I_j$ to use as the cutoff for deeming $\mathbf{x_j}$ plausible/ implausible, we leverage Pukelsheim's $3\sigma$ rule, which states that for any continuous unimodal distribution, 95% of its probability mass lies within 3 standard deviations of its mean [@three_sigma]. One way to proceed would then be to reject all values of $\mathbf{x_j}$ for which $I_j > 3$ as implausible. Assuming that $|E[f(\mathbf{x})] - z_i|$ meets Pukelsheim's requirements, we should then retain 95% of all plausible $\mathbf{x_j}$ on average, and pay the price of losing 5% of our non-implausible $\mathbf{x_j}$. In practice, this boundary can be moved to allow a more suitable number of candidate $\mathbf{x_j}$ to be accepted as not implausible if required. 
+
+Suppose that the function $y = x^2-5x$  represents a simulator with a single input $x$ and we examine one of its outputs, $y$. We have made a measurement $z$ of $y$ and found that $z=100$, with some uncertainty associated with it. We have run our simulator at five different values for $x$ and built an emulator for $y$. We then predict the simulator output at a great many points. Figure \@ref(fig:impl-plot) illustrates the scenario. The dots are the design point, which are interpolated by the simulators mean prediction. The emulator predictor variance has been summed with the observation uncertainty and simulator inadequacy variances and the corresponding 3$\sigma$ intervals are shown in the Figure as the solid rectangle.
+
+```{r,echo=FALSE,warning=FALSE,message=FALSE,include=FALSE}
+all_x <- seq(from=-10,to=10,length.out=100)
+all_y <- all_x^2 - 5*all_x
+extend_x <- seq(from=-10,to=100,length.out=1000)
+subset <- readr::read_rds("~/Maths/Sheffield/dissertation/BookdownTemplate/Dissertation/data/subset.rds")
+data <- tibble::tibble(all_x,all_y) %>%
+  dplyr::rename("x" = all_x, "y" = all_y)
+mod <- RobustGaSP::rgasp(design = as.matrix(subset$x), response = subset$y,
+                         zero.mean = "No",
+                         nugget.est =F )
+p <-  predict(mod, all_x, X = mod@X)
+preds_mod <- tibble::tibble(mean = p$mean, lower95 = p$lower95,
+                            upper95 = p$upper95, x= all_x) %>%
+  dplyr::left_join(subset,by="x") %>% 
+  dplyr::mutate(Model = "Constant mean")
+mod_zero <- RobustGaSP::rgasp(design = as.matrix(subset$x), response = subset$y,
+                              zero.mean = "Yes",
+                              nugget.est = F)
+p_zero <-  predict(mod_zero, all_x, X = mod_zero@X)
+preds_mod_zero <- tibble::tibble(mean = p_zero$mean, lower95 = p_zero$lower95 - 0.1*p_zero$mean -10,
+                                 upper95 = p_zero$upper95 + 0.1*p_zero$mean+10, x= all_x) %>%
+  dplyr::left_join(subset,by="x") %>%
+  dplyr::mutate(Model = "Zero-mean")#,
+               # upper95 = upper95+0.1*mean, lower95=lower95+.1*mean)
+preds_mod_zero <- preds_mod_zero %>% dplyr::mutate( "Implausibility"= abs(mean-100)/(.25*(upper95-lower95)) )
+ 
+true_y <- 100
+xstart <- preds_mod_zero %>% dplyr::filter(lower95 >=true_y) %>% dplyr::pull(x) %>% max()
+xend <-   preds_mod_zero %>% dplyr::filter(upper95 >=true_y) %>% dplyr::pull(x) %>% max()
+```
+
+
+
+```{r, impl-plot,echo=FALSE,warning=FALSE,message=FALSE, fig.cap="The simulator y is a function of one input x. The simulator has been run at the five points shown, and an emulator is built using these five points. Its predictions are shown interpolating the design points. An observation has been made of y=100. The uncertanties arising due to the emulator, simulator and act of observation are combined and the 3 sigma uncertainty intervals are plotted. If we use a 3 sigma cutoff for implausibility, only those values of x shown interessecting the rectangle are non-implausible. "}
+preds_mod_zero%>% ggplot(aes(x=x,y = mean)) + 
+  geom_rect(xmin=xstart, xmax=xend,ymin=-Inf,ymax=Inf,fill="#44FBA3",alpha=.08) +
+  geom_line() +
+  geom_line(aes(y=upper95), color="red") +
+  geom_line(aes(y=lower95), color="red") +
+  geom_point(aes(y=y),col="blue") +
+  theme_bw() + ylab("y") + geom_hline(yintercept = true_y, linetype="longdash")
+```
+
+If we set our implausibility cutoff at 3 $\sigma$, values for $x$ that intersect the rectangle are non-implausible - roughly the interval [-8.99,-6.97]. The correct value is around -7.81. If we were then to run the simulator at a point in that region, the emulator variance, would shrink to zero at that point, reducing the width of the rectangle further. However, simulator inadequacy and observation uncertainty would still remain and so the correct input could not be found precisely. It is also worth noting that the non-implausible region need not be continuous. From Figure \@ref(fig:impl-plot) we could imagine that were the domain of $x$ to extend to +15, the mean prediction would intersect $y=100$ again, and indeed a second, much wider interval in $x$ would be deemed no implausible as the 3 $\sigma$ intervals grow wider as the simulator predicts further from the data. In subsequent runs, candidate $x$'s from this interval would be evaluated using the simulator and used to build emulators that predict better in this region, consequently the non-implausible space would shrink. 
+
+$I$ is a one-dimensional implausibility metric, computed with respect to a single TALYS output $f$. In this dissertation, we examine hundreds of TALYS outputs simultaneously, and it is the job of the simulator to give non-implausible matches to them all. Consequently we extend the idea of the implausibility measure in Equation \@ref(eq:one-d-implausibility) to two implausibility measures for multiple outputs.
+
+## Multidimensional implausibility {#HM-Multi-D}
+
+Hundreds of outputs $f_1(\mathbf{x_j}),f_2(\mathbf{x_j}),...,f_n(\mathbf{x_j})$ are produced each time we run TALYS for the input $\mathbf{x_j}$. Each output $f_i(\mathbf{x})$ has a corresponding measurement $z_i$ of a true process $y_i$. Some approaches exist for emulating multivariate outputs and accounting for correlations [@jonty_efficient] [@multivariate_gp]. In this approach we take the simplest possible approach and emulate each of the $f_i$ independently. As a consequence of this, there are $n$ univariate implausibility measures for each input, and the criterion for labelling $\mathbf{x_j}$ plausible or non-implausible must be modified. One approach is to take the maximum of the $n$ measures as $I_j$ and to require that this be less than or equal to three for $\mathbf{x_j}$ to be implausible. The second or third largest $I_j$ can also be taken - again, the sensitivity of the size of the non-implausible space to the choice of metric can be examined, and a pragmatic choice can be made.
+
+A second multivariate implausibility metric is
+
+\begin{equation}
+(\#eq:chi-sq-impl)
+I(\mathbf{x_j}) = (\mathbf(z) - E[f(\mathbf{x_j})])^T\left(\mathbf{V}_i^{(obs)} + \mathbf{V}_i^{(sim)} + \mathbf{V}[f_i(\mathbf{x_j})]\right)(\mathbf(z) - E[f(\mathbf{x_j})]).
+\end{equation}
+
+Where we now have the vector of observations $\mathbf{z} = (z_1,z_2,...,z_n)$ and the corresponding emulated quantities $\mathbf{f(x_j)} = (f_1(\mathbf{x_j}),f_2(\mathbf{x_j}),...,f_n(\mathbf{x_j}))$ and where $\left(\mathbf{V}_i^{(obs)} + \mathbf{V}_i^{(sim)} + \mathbf{V}[f_i(\mathbf{x_j})]\right)$ should now be a full $n \times n$ covariance matrix. $I(\mathbf{x_j})$ has an asymptotic $\chi^2$ distribution and consequently we can choose a cut-off percentile from the appropriate distribution for deeming $\mathbf{x_j}$ plausible or implausible.
+
+## Conclusion
+
+In this section we discussed the process workflow of history matching, and two of its important components, uncertainties and implausibility metrics. We also discussed the idea of using a Gaussian process emulator as a fast approximation for TALYS, enabling the space of design parameters to be explored more efficiently, at the cost of introducing another source of uncertainty. We dicuss Gaussian processes further in the next chapter. 
+

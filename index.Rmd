@@ -1,0 +1,58 @@
+--- 
+site: bookdown::bookdown_site
+output:
+  bookdown::pdf_document2:
+    keep_tex: true
+    includes:
+      before_body: frontpage.tex
+      in_header: preamble.tex
+documentclass: book
+fontsize: 12pt
+classoption: twoside
+papersize: a4
+toc: false
+bibliography: [references.bib, packages.bib]
+biblio-style: acm
+link-citations: yes
+description: "This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook."
+---
+
+```{r setup, include=FALSE}
+# You can set global chunk options here
+# These can be temporarily overwritten within
+# any code chunk
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE,
+                      fig.pos = 'H',
+                      fig.align = 'center',
+                      out.width = '80%')
+library(magrittr)
+library(ggplot2)
+```
+
+
+# Acknowledgements {-}
+
+Thank you to Jeremy for spending a lot of time listening to me say nonsense and replying with sense. Thank you to previous colleagues names redacted for reasons redacted. Thank you to Henrik, Georg and Joachim at Uppsala. Thank you to my Button.
+
+# Lay Summary of the Dissertation {-}
+
+In nuclear physics applications, cross-sections are used to quantify the probabilities of interactions between radiation and matter across energy states. They are commonly modelled using computer simulation tools as it is impossible to measure them comprehensively enough across energy fidelities and interaction scenarios. However the capacity of these tools to produce accurate results is limited, partially due to incomplete knowledge of the physical processes they try to model, and partially because the simulator takes a set of user-defined input parameters, the correct values of which are not known. 
+
+One way to learn more about these parameters is through history matching. In this dissertation, history matching was used to efficiently identify and discard values of the parameters that were unlikely to result in the simulator giving good match to experiments once the inadequacy of the simulator and experimental imprecision were accounted for. A Gaussian process (GP) statistical model was used to emulate the relationship between the input parameters and the simulator outputs. This greatly sped up computation at the expense of adding another source of uncertainty, which had to be considered when assessing the inputs. A GP emulator was built using a small number of simulator runs at carefully chosen values of the input parameters. Emulators that displayed good out-of-sample predictive performance were then used to identify parameters settings that could plausibly result in the the simulator well matching experiments, and further emulators were built for using simulator runs at those parameter settings. Iterating over this process, known as refocussing, was shown to greatly reduce the space of plausible values for the 28 input parameters considered, at the cost of only several hundred simulator runs. 
+
+
+\tableofcontents
+
+\fancyhead{}
+\fancyfoot{}
+\pagestyle{fancy}
+\fancyhead[RO,LE]{\thepage}
+\fancyhead[LO,RE]{\rightmark}
+
+\newcommand{\studentcomment}[1]{\todo[inline, backgroundcolor=blue!30]{\textsc{Student:} #1}}
+\newcommand{\DSWcomment}[1]{\todo[inline, backgroundcolor=green!30]{\textsc{DSW:} #1}}
+\newcommand{\supcomment}[1]{\todo[inline, backgroundcolor=red!30]{\textsc{Supervisor:} #1}}
+
+
+\mainmatter
+

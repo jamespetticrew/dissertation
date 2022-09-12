@@ -1,0 +1,292 @@
+# Gaussian process regression {#GPR}
+ ```{r prelims, include=FALSE}
+ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+ library(magrittr)
+library(ggplot2)
+ ```
+## Introduction
+
+In this section we discuss some of the key ideas in Gaussian process regression (GPR). We start with a discussion of the theory, followed by two key components of GPR, the covariance kernel and mean function. We finish with a discussion on some of the software packages with with we attempted at least some of the modelling in this dissertation, highlighting the key features that led to them being accepted or rejected as the tool of choice.
+
+
+## Gaussian process regression {#GPR:GPR}
+
+In this section we reason about a single output of TALYS $\hat{y}_i = \hat{f}_i(\cdot)$. There is no loss of generality in proceeding this way, as we chose to model all of the TALYS outputs independently, so we drop the $i$ subscript for convenience.
+
+We wish to use a statistical model as an emulator for TALYS in order to predict, with associated uncertainty estimates, the output of $\hat{f}(\cdot)$ at some unobserved inputs $\mathbf{x}^\dagger$. If we take some arbitrary input vector $\mathbf{x}$ and run TALYS twice for this input we get $y^{(1)} = \hat{f}(\mathbf{x})$ and $y^{(2)} = \hat{f}(\mathbf{x})$. Because TALYS is deterministic,  $y^{(1)} = y^{(2)}~ \forall~ \mathbf{x}$. Consequently the uncertainty around $y = \hat{f}(\mathbf{x})$ reduces to zero once $y$ has been observed, and there is no uncertainty due to random behaviour, often called aleatoric uncertainty, associated with the process $\hat{f}(\cdot)$. However, for $y = \hat{f}(\mathbf{x})$ where $y$ is unobserved (the simulator has not been run at $\mathbf{x}$), there is uncertainty about the value of $y$ due to incomplete knowledge about the process $\hat{f}(\cdot)$. This uncertainty is often described as epistemic, and in the Bayesian framework we use statistical models to describe our belief about the unobserved process, and the uncertainty surrounding it. If we denote as $\mathbf{x^\dagger} \subset \mathcal{X}$ the set of points at which we have not evaluated $\hat{f}(\cdot)$, then we treat the outputs at these points as random variables $Y = \hat{f}(\mathbf{x^\dagger})$ and $\hat{f}(\cdot)$ as a stochastic process.
+
+We assume that $Y$ is the sum of a deterministic trend function, $\mu(\mathbf{\cdot})$ and a zero mean Gaussian process, $Z(\mathbf{\cdot})$ [@dicekriging]:
+
+\begin{equation}
+(\#eq:process)
+Y(\mathbf{x}) = \mu(\mathbf{x}) + Z(\mathbf{x}).
+\end{equation}
+
+A Gaussian process (GP) is a collection of random variables, any finite number of which has a multivariate Gaussian distribution [@gp4ml]. Although there is no upper bound to the number of random variables that can be a part of the GP, we are only ever concerned with two subsets of all possible $Y$, the set of $y^*$ which we have observed, and the set of $Y^\dagger$ at which we wish to predict. Before we observe the $y^*$, we model out belief about the joint distribution
+of the two sets of random variables with the multivariate normal likelihood
+
+\begin{equation}
+(\#eq:joint-distro)
+\begin{bmatrix} \mathbf{Y^*} \\
+\mathbf{Y^\dagger}
+\end{bmatrix}
+\sim MVN\left( \begin{bmatrix} \mu(\mathbf{x^*})\\
+\mu(\mathbf{x^\dagger}) \end{bmatrix},
+ \begin{bmatrix} \mathbf{\Sigma^*} & \mathbf{\Sigma^{*\dagger}}\\
+ \mathbf{\Sigma^\dagger} & \mathbf{\Sigma^{ \dagger *}} \end{bmatrix} \right)
+\end{equation}
+
+
+For some mean function $\mu(\cdot)$ (whose form is the same for all $y$ but takes different values due to $x$) and some covariance matrices $\mathbf{\Sigma^*}, \mathbf{\Sigma^\dagger}$, which are functions of $\mathbf{x^*}$ and $\mathbf{x^\dagger}$ respectively, and $\mathbf{\Sigma^{*\dagger}} = (\mathbf{\Sigma^{ \dagger *}})^{-1}$, which are functions of both $\mathbf{x^*}$ and $\mathbf{x^\dagger}$. $\mathbf{x^*} = \{\mathbf{x^*_1}, \mathbf{x^*_2},...,\mathbf{x^*_k}\}$ denotes the set of k points in $\mathcal{X}$ for which we have observed simulator outputs $\mathbf{y^*}$. The function $Z(\cdot)$ is constrained to have specific properties, which we discuss in Section \@ref(covariance), in order to be considered a GP, as the $\Sigma$ must have the same fundamental properties as the covariance matrix of a multivariate normal distribution. The function $\mu(\cdot)$ can be any normal linear regression function which we discuss in Section \@ref(mean).
+
+Both $\mu(\cdot)$ and $Z(\cdot)$ are functions with parameters that we must learn about from $(\mathbf{x^*}, \mathbf{y^*})$. Parameter estimation methods vary between software implementations. After learning the parameters we can make inferences about the joint distributions of unobserved outputs $\mathbf{Y^\dagger}$, conditional on both the $\mathbf{y^*}$ and the learned parameters, which is what we wish to do in history matching to efficiently explore the space of possible values of $\mathbf{x}$.
+
+## Parameter estimation {#model-selection}
+
+The mean function in a GP takes the form of a linear model
+
+\begin{equation}
+(\#eq:mean-function)
+\mu(\mathbf{x}) = \sum_{i=1}^p h_i(x_i)^T \beta_i.
+\end{equation}
+
+Where $p$ is the number of elements in the vector $\mathbf{x}$. The $h_i$s are fixed basis functions. These basis functions are chosen by the user, some examples being $h_i(x_i) = x_i$ and $h_i(x_i) = \sin(x_i)$. Each element of the covariance matrix is usually given by $c(\mathbf{x}, \mathbf{x'})=\sigma^2 r(\mathbf{x}, \mathbf{x'})$, where $r$ is some function that depends on $|\mathbf{x} - \mathbf{x'}|$ where $\mathbf{x}$ and $\mathbf{x'}$ are two points from the input parameter space $\mathcal{X}$. So the covariance between two of the $\mathbf{y}$s depends in some way on the distance between their $\mathbf{x}$-coordinates. The function $r$ has $p$ hyperparameters, denoted $\mathbf{\gamma}$ which must be learned from the observed data, one for each element of $\mathbf{x}$. An optional noise parameter, sometimes called a nugget, can be learned (see Section \@ref(covariance) for more on $\mathbf{\gamma}$ and the noise parameter). We denote the vector of model parameters $\mathbf{\theta}$.
+
+The mean function can simply be $\mu(\mathbf{x})=0~\forall~\mathbf{x}$ and as such the minimum amount of parameters that must be learned from the data for a function with a $p-$dimensional input is $p+1$. In Bayesian inference we derive an expression proportional to the joint posterior distribution of the the parameters $\mathbf{\theta}$ given the observed data $\mathbf{y}$, $\pi(\mathbf{\theta}|\mathbf{y})$ by multiplying together the likelihood of the data given the parameters $L(\mathbf{y}| \mathbf{\theta})$ and the priors for the parameters $\pi(\mathbf{\theta})$. One approach is to then use Markov Chain Monte Carlo (MCMC) to generate samples from $\pi(\mathbf{\theta}|\mathbf{y})$. However this requires a great many proposal samples from the posterior to be generated. Consequently if it is computationally expensive to generate one proposal sample, this method becomes impractical, and an alternative is required. A common compromise is to find the mode of the posterior distributions and use these modal values as point estimates for the parameters in the model.
+
+In this dissertation we use the Dice Kriging [@dice_r] software package, which implements improper uniform priors [@dicekriging] for the $\mathbf{\theta}$ and as a result $\pi(\mathbf{\theta}|\mathbf{y}) \propto L(\mathbf{y}| \mathbf{\theta})$. Consequently maximum likelihood (ML) estimation is used to learn the $\mathbf{\theta}$, which is equivalent to finding the maximum posterior mode in the uniform prior case^[Provided the domain of the likelihood is the same as, or a subset of, the domain of the prior(s)]. The observations $\mathbf{y}$ have a joint Gaussian distribution with mean $\mathbf{h(\mathbf{x^*})\mathbf{\beta}}$ and covariance $\mathbf{C} = \sigma^2 \mathbf{R}$, where $\mathbf{R}$ is an $n \times n$ covariance matrix with the $i,j$-th element equal to $r(\mathbf{x_i}, \mathbf{x_j})$ where $n$ is the number of observations and $i \in 1,2,...,n$, $j \in 1,2,...,n$. Hence the likelihood function to be maximised is
+
+\begin{equation}
+(\#eq:likelihood)
+L(\mathbf{y}| \mathbf{\theta}) = \frac{1}{(2\pi)^{n/2} |\sigma^2 \mathbf{R}|^{1/2}} \exp \left( - \frac{1}{2} \left( \mathbf{y} - \mathbf{H}^T\mathbf{\beta}\right)^T \left(\sigma^2 \mathbf{R} \right)^{-1} \left( \mathbf{y} - \mathbf{H}^T\mathbf{\beta}\right) \right)
+\end{equation}
+
+ Where $\mathbf{H}$ is the $n \times p$ matrix with each row $h(\mathbf{\mathbf{x}})$ one of the $n$ observations and each column one of the $p$ parameters. Each time the likelihood is evaluated, the matrix $\mathbf{R}$ needs to be inverted, which requires $\mathcal{O}(n^3)$ computation^[The computational expense is proportional to $n^3$] [@gelman2013bayesian], which means the computational expense grows very rapidly. This, and numerical issues that can arise from inverting $\mathbf{R}$ (see Section \@ref(covariance)) are the two main hurdles that motivate the use of posterior mode/ ML point estimates of the model parameters, as opposed to 'full Bayesian' distributions.
+
+ Equation \@ref(eq:likelihood) is maximised with respect to $\mathbf{\beta}, \sigma$ and $\mathbf{\gamma}$. Analytic expressions for ML estimators for $\mathbf{\beta}$ and $\sigma$ can be found in terms of $\mathbf{R}$ and the data:
+
+\begin{equation}
+(\#eq:beta-hat)
+\mathbf{\hat{\beta}} = \left( \mathbf{H}^T\mathbf{R}^{-1}\mathbf{H} \right)^{-1}\mathbf{H}^T \mathbf{R}\mathbf{y}
+\end{equation}
+
+and
+
+\begin{equation}
+(\#eq:sigma-hat)
+\hat{\sigma}^2 = \frac{1}{n} \left( \mathbf{y} - \mathbf{H}^T\mathbf{\hat{\beta}}\right)^T \mathbf{R} ^{-1}\left( \mathbf{y} - \mathbf{H}^T\mathbf{\hat{\beta}}\right)
+\end{equation}
+
+which look similar to the predictors for the similar terms in ordinary linear model theory, except for the presence of $\mathbf{R}$ because of the correlation of the residuals. The likelihood now need only be maximised with respect to the $\mathbf{\gamma}$, a slightly easier numerical task. The maximum of the likelihood is then found using a gradient-based numerical optimisation algorithm, with multiple starting points to combat possible multi-modality in the likelihood [@dicekriging]. Once we have the parameter estimates we have fully characterised the joint distribution of $\mathbf{Y^*}$ and$\mathbf{Y^\dagger}$. We also have the observed $\mathbf{Y^*} = \mathbf{y^*}$. Consequently we can find the joint conditional distribution $\mathbf{Y^\dagger}| \mathbf{\theta}, y^*$, which we use to emulate the simulator at unobserved points.
+
+## Conditioning on the data
+
+Assume that $\mathbf{Y^*}$ and $\mathbf{Y^\dagger}$ in Equation \@ref(eq:joint-distro) each have length one. Then, once we have estimators for the parameters $\mathbf{\hat{\sigma}}$, their joint distribution would look something like Figure \@ref(fig:conditioning), which shows a bivariate Gaussian distribution where the ovals are lines of constant probability density. We can see that there is some positive correlation between these two simulator outputs; this may be because their x-coordinates are close together, or that the covariance hyperparameters $\mathbf{\hat{\gamma}}$ for this process imply that there is not a great amount of variation in the function, or both. The left hand plot can be generated solely using the input parameter vectors $\mathbf{x_1}$ and $\mathbf{x_2}$. The right hand plot shows what happens when we observe $Y_1 = y_1$. Our belief about the simulator output at $\mathbf{x_2}$ changes. The joint bivariate density is three-dimensional, and we can imagine slicing it with the plane at $Y_1=y_1$ and observing the exposed surface, whose dimensions are now the $Y_2$ axis and probability density. This is the conditional density of $Y_2$ given $Y_1=y_1$. For some unevaluated simulator input $\mathbf{x^\dagger}$ with observed simulator outputs $\mathbf{y^*} = \hat{f}(\mathbf{x^*})$ its mean, $\hat{y(\mathbf{x^\dagger})}$  and variance, $s^2(\mathbf{x^\dagger})$ are given by
+
+\begin{equation}
+(\#eq:pred-mean)
+\hat{y}(\mathbf{x^\dagger})| \mathbf{y^*}, \hat{\mathbf{\theta}} = \mathbf{h}(\mathbf{x^\dagger})^T \hat{\mathbf{\beta}} + \mathbf{c}(\mathbf{x}^\dagger) \mathbf{C}^{-1} \left( \mathbf{y^*} - \mathbf{h}(\mathbf{x})^T \hat{\mathbf{\beta}} \right)
+\end{equation}
+
+and
+
+\begin{align}
+(\#eq:pred-var)
+s^2(\mathbf{x^\dagger})|\mathbf{y^*}, \hat{\mathbf{\theta}} = c(\mathbf{x^*}, \mathbf{x^*}) - c^T(\mathbf{x^*})\mathbf{C}^{-1} c(\mathbf{x^*}) +\\ \nonumber
+\left( \mathbf{h}(\mathbf{x^\dagger}) - \mathbf{h}^T(\mathbf{x^*}) \mathbf{C}^{-1} \mathbf{c}(\mathbf{x^\dagger}) \right)^T \left( \mathbf{h}^T(\mathbf{\mathbf{x^*}}) \mathbf{C}^{-1} \mathbf{h}(\mathbf{x^*}) \right)^{-1} \left( \mathbf{h}(\mathbf{x^\dagger}) - \mathbf{h}^T \mathbf(x^\dagger) \mathbf{C}^{-1} \mathbf{c}(\mathbf{x^\dagger}) \right)
+\end{align}
+
+```{r conditioning, echo=FALSE, fig.cap="Projection of the joint distribution of Y1 and Y2 onto the Y1Y2 plane. The ovals are lines of constant probability density. Once we have observed y1, Y2 has a univariate Gaussian distribution."}
+knitr::include_graphics("~/Maths/Sheffield/dissertation/BookdownTemplate/Dissertation/figures/conditioning_bigger.png", error=T,rel_path=FALSE)
+```
+
+where $\mathbf{c}(\mathbf{x^\dagger})$ denotes the vector $\left( c(\mathbf{x^\dagger}, \mathbf{x_1^*}),c(\mathbf{x^\dagger}, \mathbf{x_1^*}),...,c(\mathbf{x^\dagger}, \mathbf{x_k^*}) \right)$ where $k$ is the number of observed $(\mathbf{x^*}, y^*)$. So $c(\mathbf{x^\dagger})$ is the vector of covariances between $\mathbf{x^\dagger}$ and each of the $k$ observed points. Chapter 2 of Reference @jeothesis shows how these equations arise from properties of multivariate normal distributions.
+
+If we use Equations \@(eq:pred-mean) and \@(eq:refpred-var) to try and predict with the input vector $\mathbf{x_j}$ of one of the observed simulator runs then $\mathbf{c}^T(\mathbf{x_j}) \mathbf{C}^{(-1)} = \mathbf{C}^{(-1)} \mathbf{c}(\mathbf{x_j}) = \mathbf{e_j}$ where $\mathbf{e_k}$ is the n-vector where the j-th element is one and all the other elements are zero. Consequently
+
+\begin{align}
+(\#eq:pred-design-1)
+\hat{y}(\mathbf{x_j}) &= \mathbf{h}(\mathbf{x_j})^T \hat{\mathbf{\beta}} + y_j - \mathbf{h}(\mathbf{x_j})^T \hat{\mathbf{\beta}} \\ \nonumber
+&= y_j
+\end{align}
+
+and
+
+\begin{align}
+(\#eq:pred-design-2)
+s^2(\mathbf{x_j}) &= c(\mathbf{x_j}, \mathbf{x_j}) - c(\mathbf{x_j}, \mathbf{x_j}) + \left( \mathbf{h}(\mathbf{x^*}) - \mathbf{h}(\mathbf{x^*}) \right)\mathbf{h}(\mathbf{x^*})\left( \mathbf{h}(\mathbf{x^*}) - \mathbf{h}(\mathbf{x^*}) \right)\\ \nonumber
+&= 0.
+\end{align}
+
+Consequently the observed $\mathbf{y^*}$ are interpolated exactly with zero uncertainty. This is desirable in cases where the data are observed with no error, as is the case with a deterministic computer simulation. Intuitively we would expect this to be true as Equations \@ref{eq:pred-mean} and \@ref(eq:pred-var) define the conditional distribution of $Y(\mathbf{x}^\dagger)|y^*$ and the distribution of $Y(\mathbf{x^*})|\mathbf{y^*}$ is just $\mathbf{y^*}$. Stochastic behaviour can also be encapsulated by estimating a 'nugget' parameter form the data, which we discuss next, along with other properties of the covariance function.
+
+## Covariance function {#covariance}
+
+The covariance between $y_i$ and $y_j$ is computed from the input parameters $\mathbf{x_i}$ and $\mathbf{x_j}$ and it is a key assumption of Gaussian processes that points that are close together in $\mathbf{x}$-space should be close together in $y$-space, and that if we wish to predict $Y^\dagger$ for some $\mathbf{x^\dagger}$, then observed points close to $\mathbf{x^\dagger}$ should tell us more about $Y^\dagger$ than those that are far away. The hyperparameters $\mathbf{\gamma}$ encapsulate this idea. The function $c(\cdot, \cdot)$ must
+produce covariances matrices for $Y$ that are consistent with a multivariate normal distribution.
+
+* Covariance matrices are symmetric in that for matrix $\mathbf{A}$, $\mathbf{A}=\mathbf{A}^{-1}$ and in particular $\mathbf{A}_{i,j} = \mathbf{A}_{j,i}$ where i and j index the rows and columns of $\mathbf{A}$. Consequently the covariance function $c(\cdot, cdot)$ must also be symmetric in that $c(\mathbf{x}, \mathbf{x'}) = \cdot(\mathbf{x'}, \mathbf{x})$.
+* Covariance matrices are positive semidefinite (PSD), which means they have no negative eigenvalues. Hence $c(\cdot,\cdot)$ must produce covariance matrices which are PSD.
+* A covariance function that is a function of $\mathbf{x} - \mathbf{x'}$ is stationary, in that the covariance between two points does not depend on where they are in $\mathcal{X}$ but only the distance between them.
+* Furthermore a covariance function that is a function of $|\mathbf{x} - \mathbf{x'}|$ is isotropic.
+
+If a covariance function is stationary, then we can express it as a product of a correlation matrix $\mathbf{R}$ and a constant variance $\sigma^2$. Table \@ref(tab:kernels) shows the covariance functions available in DiceKriging [@dicekriging], or more appropriately correlation functions, as each is multiplied by $\sigma$ to get the required covariance. All of the covariance functions in Table \@ref(tab:kernels) produce symmetric, PSD matrices, and they are all stationary and isotropic.  
+
+\begin{table}\centering
+\caption{Correlation functions availabe in the software package DiceKriging.}
+\label{tab:kernels}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Name} & \textbf{Expression} \\
+\hline
+Gaussian & $\exp(- \frac{(x - x')^2}{2\gamma^2})$\\
+Matérn  $\nu = \frac{5}{2}$ & $\left( 1 + \frac{\sqrt{5}|(x - x')|}{\gamma} + \frac{5(x - x')^2}{3l\gamma2}\right)\exp\left(-\frac{\sqrt{5}|(x - x')|}{\gamma} \right)$ \\
+Matérn $\nu = \frac{3}{2}$ &$\left( 1 + \frac{\sqrt{3}|(x - x')|}{\gamma}\right)\exp(-\frac{\sqrt{3}|(x - x')|}{\gamma})$\\
+Exponential & $\exp\left(-\frac{|(x - x')|}{\gamma} \right)$\\
+Power-Exponential & $\exp\left(-\left(\frac{|(x - x')|}{\gamma}\right)^p\right)$\\
+\hline
+\end{tabular}
+\end{table}
+
+The Matérn correlation function with parameter $\nu = \frac{5}{2}$ is a popular choice and is the default option in both the DickeKriging and RobustGaSP [@rgasp_manual] software packages. The $nu$ parameter in the Matérn family controls the smoothness of the function. As $\nu \rightarrow \infty$, the Matérn function begins to look more like the Gaussian covariance function, which is infinitely differentiable and can hence be unrealistically smooth. For $\nu = \frac{5}{2}$, the process is mean  square twice differentiable, which guarantees the existence of first and second moments, and hence predictive means and variances, which is desirable. Achieving the same level of smoothness with the squared exponential kernel would come at the price of correlations quickly going to zero as $|\mathbf{x} - \mathbf{x'}|$ increases [@rgasp_manual]. In this work we use the Matérn $\frac{5}{2}$ correlation function.
+
+The correlation functions $r(\cdot, \cdot)$ in Table \@ref(tab:kernels) take two scalar inputs and return a single scalar output^[A function that does this is called a kernel, and hence the $r(\cdot, \cdot)$ are sometimes called kernels]. To extend this to compute correlations for multivariate $\mathbf{x}$ the most common approach is to take the product of the univariate correlations:
+
+\begin{equation}
+(\#eq:mv-correlation)
+\mathbf{c}(\mathbf{\mathbf{x}, \mathbf{x'}}) = \sigma^2 \prod_{i=1}^d c(x_i, x'_i)
+\end{equation}
+
+where $d$ is the number of elements of $\mathbf{x}$. For each of element of $\mathbf{x}$ a separate $\gamma$ is learned, and that controls how influential that input parameter is on determining the value and the precision of the emulator prediction at other points. The $\mathbf{\gamma}$ are often called length-scale parameters. As we predict at points in $\mathcal{X}$ further away from the observed $\mathbf{x^*}$, the predictive variance will tend to $\sigma^2$. If we changed $\gamma$ from 1 to 0.5 for $x_i$, we would expect to see the same amount of variation in a fixed interval double along the $x_i$ axis. Their is an interplay between the $\mathbf{\gamma}$ and $\sigma$, The smaller the $\mathbf{\gamma}$ are the more the function, and hence $\sigma^2$ would be smaller, as large fluctuations in $y$ can be explained by function variation rather than noise. Higher values for $\mathbf{\gamma}$ are associated with higher values for $\sigma^2$ and imply a constant function with a lot noise. Lower values for $\mathbf{\gamma}$ are associated with lower values for $\sigma^2$ and imply a white-noise process [@gp4ml].
+
+Often the function $\hat{f}(\cdot)$ being emulated is non-deterministic. In this case, it is possible to learn another parameter from that data, called the 'nugget', which is the variance of a zero-centred Gaussian distribution. The univariate nugget is added to the diagonal elements of the covariance matrix for the observed data and the emulator is no longer constrained to interpolate the observed $\mathbf{y^*}$. The nugget can also be used to address problems with inverting $\mathbf{C}$ in Equation \@ref(eq:likelihood) which can arise when its elements are very close to 0 or 1. In this dissertation we allow for a nugget parameter to help  with likelihood estimation.
+
+There is a lot of flexibility in choosing covariance functions and they can be customised to reflect prior knowledge of the function being emulated. In particular, any sum or product of valid covariance functions is also a valid covariance function
+[@gp4ml]. The covariance function is the defining element of a GP, but emulation is often boosted by the inclusion of a mean function, which we illustrate now with a simple example, along with some other properties of the GP discussed in this section.
+
+```{r gp_example_data, include=FALSE,echo=FALSE,warning=FALSE,message=FALSE}
+all_x <- seq(from=-10,to=10,length.out=100)
+all_y <- all_x^2 - 5*all_x
+extend_x <- seq(from=-10,to=100,length.out=1000)
+subset <- readr::read_rds("~/Maths/Sheffield/dissertation/BookdownTemplate/Dissertation/data/subset.rds")
+data <- tibble::tibble(all_x,all_y) %>%
+  dplyr::rename("x" = all_x, "y" = all_y)
+
+mod <- RobustGaSP::rgasp(design = as.matrix(subset$x), response = subset$y,
+                zero.mean = "No",
+                nugget.est =F )
+p <-  predict(mod, all_x, X = mod@X)
+preds_mod <- tibble::tibble(mean = p$mean, lower95 = p$lower95,
+                            upper95 = p$upper95, x= all_x) %>%
+  dplyr::left_join(subset,by="x") %>% 
+  dplyr::mutate(Model = "Constant mean")
+mod_zero <- RobustGaSP::rgasp(design = as.matrix(subset$x), response = subset$y,
+                       zero.mean = "Yes",
+                       nugget.est = F)
+p_zero <-  predict(mod_zero, all_x, X = mod_zero@X)
+preds_mod_zero <- tibble::tibble(mean = p_zero$mean, lower95 = p_zero$lower95,
+                            upper95 = p_zero$upper95, x= all_x) %>%
+  dplyr::left_join(subset,by="x") %>%
+  dplyr::mutate(Model = "Zero-mean")
+
+long_x <- seq(from=-10,to=100,length.out=1000)
+p <-  predict(mod, long_x, X = mod@X)
+preds_mod_long <- tibble::tibble(mean = p$mean, lower95 = p$lower95,
+                            upper95 = p$upper95, x= long_x) %>%
+  dplyr::left_join(subset,by="x") %>% 
+  dplyr::mutate(Model = "Constant mean")
+p_zero <-  predict(mod_zero, long_x, X = mod_zero@X)
+preds_mod_zero_long <- tibble::tibble(mean = p_zero$mean, lower95 = p_zero$lower95,
+                            upper95 = p_zero$upper95, x= long_x) %>%
+  dplyr::left_join(subset,by="x") %>%
+  dplyr::mutate(Model = "Zero-mean")
+
+```
+
+
+ 
+## Mean function {#mean}
+
+
+We can think of a GP of telling us how far we expect the true process to deviate from some given regression function. Any variation in the true process not captured by the regression function needs to be captured by the GP, which can often lead to less precision in emulator predictions. We illustrate this with an example. Assume we wish to emulate the function $y=x^2 - 5x$ shown in Figure \@ref(fig:gp_example_data) using a GP. We are only able to observed the five points shown. There is a region with no observed points, roughly between -9 and 0 on the x-axis. The emulator  will have to interpolate in this region. There are no observations in the region above about 6 on the x-axis, the emulator will have to extrapolate in this region. Luckily, we have a good amount of data around the point of inflection at $x=2.5$. This is where the function varies the most.
+
+```{r function-plot, echo=FALSE, fig.cap="A simple function maths expression to be emulated, with the five points used to build the emulator shown. There is a region with no training data approximately maths expression."}
+subset %>% dplyr::rename("Samples" = y) %>% 
+  dplyr::right_join(data, b = "x") %>%
+  ggplot2::ggplot(ggplot2::aes(x=x,y=y)) +
+  ggplot2::geom_line() + ggplot2::theme_bw() +
+  ggplot2::geom_point(ggplot2::aes(y = Samples),col= "blue",size=2)
+```
+
+We first build a zero-mean GP emulator, using a Matérn $\frac{5}{2}$ correlation function, without a 'nugget'. We then use the emulator to predict, with 95% posterior predictive intervals, the value of the function between x = -10 and 10. We then do the same again, but this time allow a simple first-order^[as in $y=mx+c$] mean function to be estimated from the data. The results are shown in Figure \@ref(zero-mean-predictor). The predictive means of both emulators do a good job of reproducing the function and both emulators have larger predictive intervals further away from the data. However, the constant-mean emulator (right pane) shows greater precision in predictions. 
+
+```{r predictors,echo=FALSE, fig.cap="Predictions using a zero-mean (left) and first-order mean (right) GP emulator trained on the five points shown for the function, with 95 percent predictive intervals shown. The emulators predict the training points exactly, and the width of the predictive intervals increases further from the data. The first-order mean emulator is able to interpolate and extrapolate with greater precision."}
+
+p1 <- preds_mod_zero%>% ggplot(aes(x=x,y = mean)) + geom_line() +
+  geom_line(aes(y=upper95), color="red") +
+  geom_line(aes(y=lower95), color="red") +
+  geom_point(aes(y=y),col="blue") +
+  theme_bw() + ylab("y")
+p2 <- preds_mod %>% ggplot(aes(x=x,y = mean)) + geom_line() +
+  geom_line(aes(y=upper95), color="red") +
+  geom_line(aes(y=lower95), color="red") +
+  geom_point(aes(y=y),col="blue") +
+  theme_bw() + theme(axis.title.y = element_blank())
+gridExtra::grid.arrange(p1,p2,ncol=2)
+```
+
+As the emulator tries to predict at points further away from the training data, the influence of the training data on the predictions drops off, and the emulator reverts to the mean function, as show in Figure \@ref(predictors), where the zero-mean emulator on the left tends to zero with larger x, and the constant-mean emulator on the right tends to the average of the training data, albeit both with such wide posterior predictive intervals as to render the results quite useless.
+
+```{r predict-long, fig.cap="Behaviour of the emulator as it predicts further from the training data. Both the zero-mean (left) and first-order mean (right) emulators tend to their respective mean functions as the distance from the observed data grows larger."}
+library(ggplot2)
+p1 <- preds_mod_zero_long%>% ggplot(aes(x=x,y = mean)) + geom_line() +
+  geom_line(aes(y=upper95), color="red") +
+  geom_line(aes(y=lower95), color="red") +
+  geom_point(aes(y=y)) +
+  theme_bw() + ylab("y")
+p2 <- preds_mod_long %>% ggplot(aes(x=x,y = mean)) + geom_line() +
+  geom_line(aes(y=upper95), color="red") +
+  geom_line(aes(y=lower95), color="red") +
+  geom_point(aes(y=y)) +
+  theme_bw() + theme(axis.title.y = element_blank())
+gridExtra::grid.arrange(p1,p2,ncol=2)
+```
+
+
+Theoretically, the mean function can be any linear (in the coefficients) model of the inputs $\mathbf{x}$. Some sources [@gp_comparison] favour a mean-only model, describing the estimation of coefficients for higher order polynomials as possibly extraneous. Prior knowledge of the process to be emulated can be useful in choosing a suitable mean function. In this dissertation, where, 28 input parameters were being varied, and knowledge of the relationship between them and the simulator output was limited, a mean function of the kind
+
+\begin{equation}
+(\#eq:simple-mean-function)
+\mu(\mathbf{x}) = \beta_0 + \sum_{i=1}^{28} \beta_i x_i
+\end{equation}
+
+was used, which meant that 29 parameters needed to be learned for the mean function. This was a practical choice - each emulator was trained using several hundred runs. Introducing second order terms may have required many more simulator runs to get good reliable estimates for the $\mathbf{\beta}$, and the computational resource required for this was not available. 
+The choice of mean function, and other modelling choices, may also be a function of the software package used, and we discuss the choice of software implementation in the next section.
+
+## Software implementations {#gp-software}
+
+Three software packages were tried to do the GP emulation in this dissertation, *RobustGaSP* [@rgasp_manual], the *scikit-learn* [@scikit] module *GaussianProcessRegressor*, and *DiceKriging* [@dice_r]. 
+
+The *RobustGaSP* package distinguishes itself from the other two by implementing a non-uniform prior for the GP parameters and using the maximum posterior modes as point estimates for the parameters. This approach is supposed to protect against some of the numerical issues arising from parameter estimation (discussed briefly in Section \@ref(model-selection)). However, this software package was very slow to run, and as such it was impractical for training many hundreds of emulators at a time. Crucially, it did not expose a public method for generating a predictive covariance matrix, which was crucial for history matching, as discussed in Section ???. 
+
+The *scikit-learn GaussianProcessRegressor* module was the only Python module examined. It was very quick, and appeared to offer the greatest flexibility in building custom covariance functions. However, it failed very often in parameter estimation, and it only offered two mean function options: zero-mean or constant (equal to the mean of the training data), which may have been the cause of its problem in parameter estimation.
+
+In this dissertation, we focussed on training many hundreds of GP emulators for processes with unknown behaviours. As such, it was impractical to have to wait a long time for parameters to be estimated, or to spend much time examining the impacts of different covariance functions. The preferred method was to build the emulators with sensible defaults, and to conservatively filter out models with poor generalisation performance. It was also crucial to be able to easily generate predictive covariance matrices. Consequently, the *DiceKriging* package was used, as it was relatively fast, and could compute covariance matrices using its 'predict' method.
+
+The order of the information presented in this chapter was not indicative of the timeline of the modelling process, so we end with brief summary of GP modelling considerations, and a reminder of the purpose of GPs in this dissertation.
+
+## Conclusion
+
+In this chapter we discussed some fo the theory and the main building blocks of GPs, while hopefully helping to build some intuition. In summary, once we have collected our data on the function we wish to emulate we
+
+1. Choose a structure for the mean and covariance function,
+2. Compute the parameters for the emulator by maximising the likelihood of the data with respect to the parameters,
+3. We now have a model for the joint distribution of the unobserved and observed points, which means we have a model for the conditional distribution of the unobserved points, conditional on the observed points. It is this conditional distribution we use to predict at the unobserved points.
+
+The prediction at an unobserved point is a Gaussian random variable, which means that we have a point estimate for the function there (the mean) and a quantification of the uncertainty of that point estimate (the variance). We can obtain these estimations in a fraction of the time it would take to run the simulator. These properties make a GP emulator a vital tool in history matching, which we discuss in the next section.
+
+
+
+
+
+ 

@@ -1,0 +1,17 @@
+book_filename: "dissertation"
+language:
+  ui:
+    chapter_name: "Chapter "
+delete_merged_file: true
+
+rmd_files: ["index.Rmd",
+            "01-Introduction.Rmd",
+            "02-Background.Rmd",
+            "03-HistoryMatching.Rmd",
+            "04-GaussianProcessRegression.Rmd",
+            "05-PreliminaryAnalysis.Rmd",
+            "06-wave1_analysis.Rmd",
+            "07-SubsequentWaves.Rmd",
+            "08-Discussion.Rmd",
+            "09-Appendices.rmd",
+            "10-References.Rmd"]
