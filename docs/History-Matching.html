@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 History matching | dissertation.knit</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 History matching | dissertation.knit" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 History matching | dissertation.knit" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="Background.html"/>
+<link rel="next" href="GPR.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="History-Matching" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> History matching<a href="History-Matching.html#History-Matching" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="HM-Intro" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Introduction<a href="History-Matching.html#HM-Intro" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this section history matching is described and relevant notation is developed. A description is given of the various sources of uncertainty that need to be characterised in order to carry out the analysis. Finally the metrics used to help identify suitable values for active TALYS parameters are described.</p>
+</div>
+<div id="motivation" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Motivation<a href="History-Matching.html#motivation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The motivation for using history matching was to find a subset or subsets of TALYS’s 28-dimensional active parameter space which could give rise to acceptable matches between TALYS outputs, denoted <span class="math inline">\(f\)</span>, and the true cross-sections which it attempts to simulate, denoted <span class="math inline">\(y\)</span>. The term ‘acceptable’ here implies that an exact match is not expected. One reason for this is that <span class="math inline">\(y\)</span> cannot be measured perfectly, but there is a discrepancy between the measured cross-section, denoted <span class="math inline">\(z\)</span>, and <span class="math inline">\(y\)</span>. A second reason is that TALYS is not expected to perfectly simulate <span class="math inline">\(y\)</span>. At third reason is that history matching requires <span class="math inline">\(f\)</span> to be evaluated a large number of times and consequently a statistical emulator <span class="math inline">\(\hat{f}\)</span> is used to approximate <span class="math inline">\(f\)</span> (see Section <a href="GPR.html#GPR">4</a>) because it takes much less time to evaluate. The relationships between these four quantities are shown in Figure <a href="History-Matching.html#fig:uncertainty-sketch">3.1</a>. If the discrepancies between the quantities are well quantified (see Sections <a href="History-Matching.html#obs-unc">3.5</a>-<a href="History-Matching.html#em-var">3.7</a>), then there is enough information to compute some metric to decide if the match been TALYS and the true process is non-implausible (Section <a href="History-Matching.html#HM-Implausibility">3.9</a>) for some value of the active input parameters.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:uncertainty-sketch"></span>
+<img src="figures/uncertanties_bigger.png" alt="Both the experimental measurement $z$ and the simulator $f$ imperfectly capture the true process $y$. A further discrepancy occurs because the simulator itself must be imperfectly emulated by $f$." width="80%" />
+<p class="caption">
+Figure 3.1: Both the experimental measurement <span class="math inline">\(z\)</span> and the simulator <span class="math inline">\(f\)</span> imperfectly capture the true process <span class="math inline">\(y\)</span>. A further discrepancy occurs because the simulator itself must be imperfectly emulated by <span class="math inline">\(f\)</span>.
+</p>
+</div>
+<p>History matching works by iteratively discounting values of the active input parameters as implausible give measurements and relevant uncertainties. New sets of emulators are built which focus on predicting well in the non-implausible active parameter space, known as ‘refocussing’. In order to describe it in more detail, we now develop our mathematical notation further.</p>
+</div>
+<div id="Intro-notation" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Notation<a href="History-Matching.html#Intro-notation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In history matching there is a simulator with <span class="math inline">\(p\)</span> active input parameters, denoted by the p-vector <span class="math inline">\(\mathbf{x} = [x^{(1)}, x^{(2)},...,x^{(p)}]\)</span>. In this application <span class="math inline">\(p=28\)</span>. <span class="math inline">\(\mathbf{x}\)</span> can be any point in the 28-dimensional volume <span class="math inline">\(\mathcal{X}\)</span>, which could be the set of all <span class="math inline">\(\mathbf{x}\)</span> that the simulator accepts as inputs, or a smaller subset of feasible inputs dictated by physical constraints or expert knowledge. In this application, <span class="math inline">\(\mathcal{X}=[0.1,10]^{28}\)</span> as described in Section <a href="Background.html#Background:talys">2.3</a>. The simulator implements a mathematical model describing some physical process <span class="math inline">\(y\)</span>. The physical process is observed imperfectly through some measurement process <span class="math inline">\(z\)</span>. In general there is a vector of measurements, denoted by the n-vector <span class="math inline">\(\mathbf{z} = [z_1,z_2,...,z_n]\)</span>, and the individual measurements are indexed as <span class="math inline">\(z_i~i \in 1,2,...,n\)</span>. Each <span class="math inline">\(z_i\)</span> corresponds to a physical process <span class="math inline">\(y_i\)</span>, denoted collectively as <span class="math inline">\(\mathbf{y} = [y_1,y_2,...,y_n]\)</span>. In this application <span class="math inline">\(n=588\)</span> (see Section <a href="Background.html#Background:data">2.4</a>). The simulator simulates all of <span class="math inline">\(\mathbf{y}\)</span> in one code run at some value of <span class="math inline">\(\mathbf{x}\)</span>. The simulated output vector is denoted <span class="math inline">\(\mathbf{f}(\mathbf{x})= [f_1(\mathbf{x}), f_2(\mathbf{x}),...,f_n(\mathbf{x}) ]\)</span>. In the context of the discussion in Section <a href="Background.html#Background:data">2.4</a>, each element of <span class="math inline">\(\mathbf{f(x)}\)</span> corresponds to a cross-section for a given reaction at a given energy from a single code run.</p>
+<p>The imperfection of the experimental measurement process is represented by writing</p>
+<p><span class="math display">\[\begin{equation}
+z_i = y_i + \delta_i
+\label{eq:observation-uncertainty}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\delta_i\)</span> is a univariate Gaussian random variable with expectation 0 and variance <span class="math inline">\(V^{(obs)}_i\)</span> representing our belief about the uncertainty of <span class="math inline">\(y_i|z_i\)</span>.</p>
+<p>The imperfection of the simulator is represented by writing</p>
+<p><span class="math display">\[\begin{equation}
+f_i(\mathbf{x}) = y_i + \phi_i
+\label{eq:model_inadequacy}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\phi_i\)</span> is a zero-centred univariate Gaussian random variable with variance <span class="math inline">\(V_i^{(s)}\)</span> used to represent out belief about the uncertainty of <span class="math inline">\(y_i|f_i(\mathbf{x})\)</span>. It is assumed that <span class="math inline">\(\phi_i\)</span> is independent from <span class="math inline">\(\mathbf{x}\)</span>.</p>
+<p>The aim of history matching is to identify a subset or subsets of <span class="math inline">\(\mathcal{X}\)</span> for which the simulator could feasibly produce outputs consistent with the true process <span class="math inline">\(y\)</span>. This requires comparing the simulator output to observations for <span class="math inline">\(m\)</span> proposal inputs, <span class="math inline">\(\mathbf{x_1},\mathbf{x_2},...,\mathbf{x_m}\)</span>, indexed using <span class="math inline">\(j = 1,2,...,m\)</span>, where each of the <span class="math inline">\(\mathbf{x_j}\)</span> is a p-vector with a proposed scalar value for each of the <span class="math inline">\(p\)</span> active parameters. Theoretically, if the models in TALYS were a perfect representation of reality, there would exist a <span class="math inline">\(\mathbf{x_j}\)</span> such that <span class="math inline">\(f_i(\mathbf{x_j})= y_i~ \forall i\)</span>. All of the the elements of <span class="math inline">\(\mathbf{x}\)</span> are theoretically observable quantities, so in that context a perfect match would arise if they could all be set to their ‘correct’ value. A perfect match could also arise for some proposal <span class="math inline">\(\mathbf{x}\)</span> if TALYS were not a perfect representation of reality (getting the right answer for the wrong reasons). Regardless, a perfect match between <span class="math inline">\(f\)</span> and <span class="math inline">\(y\)</span> could not be detected, because <span class="math inline">\(y\)</span> is never observed directly.</p>
+<p>In order to well explore <span class="math inline">\(\mathcal{X}\)</span> it is required that <span class="math inline">\(m\)</span> be very large. It is often the case that one run of the simulator can take several hours to complete, and as such it is not possible to examine a very large number of proposal <span class="math inline">\(\mathbf{x_j}\)</span> directly. To address this, <span class="math inline">\(k&lt;&lt;m\)</span> training runs of the simulator are used to build <span class="math inline">\(n\)</span> emulators, <span class="math inline">\(\hat{f}_1(\cdot),\hat{f}_2(\cdot),...,\hat{f}_n(\cdot)\)</span> one for each of the <span class="math inline">\(f_1(\cdot),f_2(\cdot),...,f_n(\cdot)\)</span>. The <span class="math inline">\(\hat{f}_i\)</span> are all statistically independent. The set of <span class="math inline">\(k\)</span> training points used to train the emulators is denoted <span class="math inline">\(\mathcal{X}^*\)</span>.</p>
+<p>The <span class="math inline">\(\hat{f}_i\)</span> can then be used to predict the simulator outputs <span class="math inline">\(f_i\)</span> for many samples from <span class="math inline">\(\mathcal{X}\)</span>. The emulators will predict the simulator outputs at points from <span class="math inline">\(\mathcal{X}^*\)</span> exactly<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> but predictions at points not from <span class="math inline">\(\mathcal{X}^*\)</span> will be imprecise. In Chapter <a href="GPR.html#GPR">4</a> it will be seen that the <span class="math inline">\(\hat{f}_i\)</span> are Gaussian random variables whose means and variances depend on <span class="math inline">\(\mathbf{x}\)</span>.</p>
+<p>Our uncertainty about the simulator output at unobserved <span class="math inline">\(\mathbf{x_j}\)</span> is represented by writing</p>
+<p><span class="math display">\[\begin{equation}
+\label{eq:emulator-uncertainty}
+f_i(\mathbf{x_j}) \sim \N\left(\E[f_i(\mathbf{x_j})],\V[f_i(\mathbf{x_j})] \right)
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\E[f_i(\mathbf{x_j})]\)</span> and <span class="math inline">\(\V[f_i(\mathbf{x_j})]\)</span> are the mean and variance of emulator <span class="math inline">\(\hat{f}_i(\mathbf{x_j})\)</span>.</p>
+<p>A summary of the notation used hereafter is presented in Table <span class="math inline">\(\ref{tab:notation}\)</span>.</p>
+</div>
+<div id="workflow" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Workflow<a href="History-Matching.html#workflow" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this subsection an overview of the steps iterated over in history matching is given, following the schematic shown in Figure <a href="History-Matching.html#fig:hm-workflow">3.2</a>.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:hm-workflow"></span>
+<img src="figures/hm-workflow-vertical.png" alt="Schematic showing a typical history matching workflow. The process is iterative where each iteration is called a wave, and a wave ends either with refocussing the search space or stopping with the current set of non-implausible samples." width="80%" />
+<p class="caption">
+Figure 3.2: Schematic showing a typical history matching workflow. The process is iterative where each iteration is called a wave, and a wave ends either with refocussing the search space or stopping with the current set of non-implausible samples.
+</p>
+</div>
+<p>: It was required that a great many candidate <span class="math inline">\(\mathbf{x}\)</span> be examined, but the number of times that TALYS could be run to evaluate these inputs directly was relatively small. Consequently the limited runs available were used to build statistical emulators for TALYS. Initially, all samples from <span class="math inline">\(\mathcal{X}\)</span> were equally plausible, and hence emulators were required that well represent TALYS’s behaviour over all of <span class="math inline">\(\mathcal{X}\)</span>. To maximise the chance of achieving this, and to minimise the predictive variance of the emulators, a space-filling design was employed that provided coverage of <span class="math inline">\(\mathcal{X}\)</span> in some way that is optimised for the number of runs afforded. In this dissertation a Latin Hypercube (LH) design was used <span class="citation">(<a href="#ref-lhs_r" role="doc-biblioref">Carnell 2022</a>)</span> to choose the <span class="math inline">\(\mathcal{X}^*\)</span>. This is a high-dimensional extension of the Latin square experimental design.</p>
+<p>: TALYS was run at all points in <span class="math inline">\(\mathcal{X}^*\)</span> to obtain the <span class="math inline">\(\mathbf{x}\rightarrow f(\mathbf{x})\)</span> mappings needed to train the emulators. The results were consolidated and formatted to suit the input format of the Gaussian process software package used (see Section <a href="GPR.html#gp-software">4.8</a>). When training the first wave of emulators, some of them failed due to convergence problems in their numerical parameter estimation routines (see Section <a href="GPR.html#model-selection">4.3</a>). This may have been because the active parameter space was very large at this stage, and some outputs were hard to emulate initially. One advantage of history matching is that the analysis was not invalidated by simply dropping these emulators.</p>
+<p>: A small number of TALYS runs were carried out in order to test the out-of-sample predictive performance of the emulators. Any emulators not giving satisfactory out-of-sample performance were dropped. More details on the validation methodology used in this dissertation are given in Section <a href="results.html#wave1-methodology">5.2</a>.</p>
+<p> <span class="math inline">\(\mathbf{x}\)</span>: The validated emulators were used to predict the TALYS output many times for many <span class="math inline">\(\mathbf{x}\)</span> at a fraction of the cost of running the simulator. One TALYS runs took between 30 and 360 minutes to complete; contrastingly the emulators evaluated in a fraction of a second. Consequently a great many samples for <span class="math inline">\(\mathbf{x}\)</span> were generated and the emulators were used to generate predictions for each one.</p>
+<p>: As discussed in Section <a href="History-Matching.html#HM-Implausibility">3.9</a>, implausibility metrics were computed for each candidate <span class="math inline">\(\mathbf{x}\)</span> based on the emulator predictions, the corresponding measurements, and the uncertainties present in the system. This typically leads to a large reduction in the non-implausible parameter space <span class="citation">(<a href="#ref-jeremy_histmatch" role="doc-biblioref">Andrianakis et al. 2015</a>; <a href="#ref-bower2010galaxy" role="doc-biblioref">Bower, Goldstein, and Vernon 2010</a>)</span>, based on the implausibility metrics exceeding some acceptable threshold.</p>
+<p>: The reduction in non-implausible parameter space is know as refocussing, and resulted in one of two outcomes at the end of each wave. Either the non-implausible samples (or a subset of them) were used as the training points <span class="math inline">\(\mathcal{X}^*\)</span> for the next set of TALYS runs, with which new emulators were built. This has the advantage of focussing the emulators in areas which have been shown to give acceptable matches to observations, leading to more precise emulation in these regions. A second outcome is that the process was stopped, and the non-implausible samples were accepted as the outcome of the analysis. Stopping can occur because the computational budget for TALYS runs has been reached, or because the proportional reduction in parameter space that occurred in this wave is not significantly different than those in previous waves, indicating that there is little to be gained in continuing.</p>
+<p>History matching can be used as a way of helping to understand which parameter values are consistent with observations, which may be especially useful if the parameters represent observable quantities. It may also be used as a precursor to an uncertainty quantification study where, having found the values for the input parameters consistent with observations, it is desired to find the set of simulator outputs consistent with those input parameters.</p>
+<p>In order to decide if candidate <span class="math inline">\(\mathbf{x}\)</span> are implausible, the uncertainties that are present in the system needed to be modelled. This is discussed in the next sections.</p>
+</div>
+<div id="obs-unc" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> Observation uncertainty<a href="History-Matching.html#obs-unc" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The process of measurement resembles an aleatoric process, in that if one measurement <span class="math inline">\(z_i^{(1)}\)</span> of the process <span class="math inline">\(y_i\)</span> is taken, and then a second measurement <span class="math inline">\(z_i^{(2)}\)</span>, in general <span class="math inline">\(z_i^{(1)} \neq z_i^{(2)}\)</span>. The general assumption, though, is that the measurement process is imprecise, but not systematically wrong. This implies that if <span class="math inline">\(q\)</span> measurements <span class="math inline">\(z_i^{(1)},z_i^{(2)},...,z_i^{(q)}\)</span> were taken, as q gets larger <span class="math inline">\(\frac{1}{q}\sum_{j=1}^q z_i^{(j)} \rightarrow y_i\)</span> and that the variance of the estimator for <span class="math inline">\(y_i\)</span> is proportional to <span class="math inline">\(\frac{1}{\sqrt{q}}\)</span>. In most practical cases, it is only possible to take one measurement <span class="math inline">\(z_i\)</span> and the scientist must provide their own estimate of the observation uncertainty, based on their knowledge of the experimental process.</p>
+<p>The authors of <span class="citation">(<a href="#ref-Schnabel_2021" role="doc-biblioref">Schnabel et al. 2021</a>)</span> provided tools for extracting and contextualising the uncertainties that accompanied the experimental data used in this dissertation. However, the computational expense required to use the tools was too large to undertake. Consequently a simple approach was taken in order allow progress to be made, and it was decided that the observation uncertainty <span class="math inline">\(V_i^{(obs)}\)</span> from Equation <a href="#eq:observation-uncertainty">(<strong>??</strong>)</a> for <span class="math inline">\(y_i\)</span> should be <span class="math inline">\(0.1z_i\)</span>.</p>
+</div>
+<div id="sim-ad" class="section level2 hasAnchor" number="3.6">
+<h2><span class="header-section-number">3.6</span> Simulator inadequacy<a href="History-Matching.html#sim-ad" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A discrepancy between the TALYS output <span class="math inline">\(f\)</span> and the true process <span class="math inline">\(y\)</span>, is expected to arise in at least two ways. First, TALYS implements some mathematical model, which is assumed to be an imperfect representation of reality. Second, the simulator itself may implement the mathematical model imperfectly.</p>
+<p>The objective of history matching is not to find the ‘correct’ input parameters for a given simulation, and the method does not require the inputs to be physically meaningful. A consequence of this is that history matching can give the right answer for the wrong reasons. For example, the mathematical model may be imperfect, but for certain values of its parameters it might give a good match to observations. Consequently, simulator inadequacy is difficult to quantify, and even more difficult to characterise in terms of contributions from different sources. One approach would be to consult an SME or experts to attempt to elicit a probability distribution representing their belief about how great a discrepancy could arise between TALYS and reality. In this dissertation, in order to focus on the methodology, a very simple approach was taken to uncertainty quantification, equating it to the corresponding measurement uncertainty of the process being simulated. Consequently <span class="math inline">\(V_i^{(s)}=V_i^{(obs)}\)</span> and in particular, <span class="math inline">\(\phi_i\)</span> is independent of <span class="math inline">\(\mathbf{x}\)</span> in this model.</p>
+</div>
+<div id="em-var" class="section level2 hasAnchor" number="3.7">
+<h2><span class="header-section-number">3.7</span> Emulator variance<a href="History-Matching.html#em-var" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>As described in more detail in Section <a href="GPR.html#GPR">4</a>, an emulator <span class="math inline">\(\hat{f}\)</span> was used to predict the output of the simulator <span class="math inline">\(f\)</span> at unobserved <span class="math inline">\(\mathbf{x}\)</span> as it allowed more efficient exploration of <span class="math inline">\(\mathcal{X}\)</span>. The price for this efficiency was the introduction of another source of uncertainty. This uncertainty depends on <span class="math inline">\(\mathbf{x}\)</span>. More detail is given in Chapter <a href="GPR.html#GPR">4</a>.</p>
+</div>
+<div id="other-sources" class="section level2 hasAnchor" number="3.8">
+<h2><span class="header-section-number">3.8</span> Other sources of uncertainty<a href="History-Matching.html#other-sources" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this dissertation we considered uncertainties that arise from the imprecisions of the measurement process, the inability of TALYS to perfectly simulate cross-sections, and the imprecise predictions that arise from using an emulator to represent TALYS. In some applications, other sources of uncertainty may exist. For example, the application could required a simulator that uses Monte Carlo methods, and as such does not always give the same output when ran twice at the same input. This kind of uncertainty can be estimated from multiple simulator runs for the same <span class="math inline">\(\mathbf{x}\)</span>, and computing the sample variance over these runs. Once all sources of uncertainty have been quantified, they are used to compute implausibility metrics to help assess if the simulator <span class="math inline">\(f_i\)</span> could give non-implausible matches to the true process <span class="math inline">\(y_i\)</span>.</p>
+</div>
+<div id="HM-Implausibility" class="section level2 hasAnchor" number="3.9">
+<h2><span class="header-section-number">3.9</span> One-dimensional implausibility<a href="History-Matching.html#HM-Implausibility" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A good implausibility metric should be a function of <span class="math inline">\(\mathbf{x}\)</span> and give extreme values if <span class="math inline">\(f_i(\mathbf{x})\)</span> is unlikely to give an acceptable match to <span class="math inline">\(y_i\)</span>. Consequently the metric should be proportional to <span class="math inline">\(|f_i(\mathbf{x}) - y_i|\)</span>. It should also take into account uncertainties arising from measurement, simulation and emulation. The greater the combined uncertainties in the system, the less sure we can be in branding values of <span class="math inline">\(\mathbf{x}\)</span> implausible. Consequently the metric should be inversely proportional to the combined uncertainties. The standard approach to combining uncertainties <span class="citation">(<a href="#ref-jeremy_histmatch" role="doc-biblioref">Andrianakis et al. 2015</a>)</span> <span class="citation">(<a href="#ref-bower2010galaxy" role="doc-biblioref">Bower, Goldstein, and Vernon 2010</a>)</span> is to assume that they are independent, and consequently that the variances are additive. This is the approach taken here, where the one-dimensional implausibility metric for <span class="math inline">\(\mathbf{x_j}\)</span> for process <span class="math inline">\(y_i\)</span> is defined as</p>
+<p><span class="math display" id="eq:one-d-implausibility">\[\begin{equation}
+\tag{3.1}
+I_j^{(i)} = \frac{|\E[f_i(\mathbf{x_j})] - z_i|}{\sqrt{V_i^{(obs)} + V_i^{(sim)} + \V[f_i(\mathbf{x_j})]}}.
+\end{equation}\]</span></p>
+<p>Equation <a href="History-Matching.html#eq:one-d-implausibility">(3.1)</a> is proportional to the difference between the observed and simulated process, inversely proportional to the total uncertainty in the system, and depends on <span class="math inline">\(\mathbf{x_j}\)</span> as required. In order to decide what value of <span class="math inline">\(I_j\)</span> to use as the cut-off for deeming <span class="math inline">\(\mathbf{x_j}\)</span> plausible/ implausible, Pukelsheim’s <span class="math inline">\(3\sigma\)</span> rule is leveraged, which states that for any continuous unimodal distribution, 95% of its probability mass lies within 3 standard deviations of its mean <span class="citation">(<a href="#ref-three_sigma" role="doc-biblioref">Pukelsheim 1994</a>)</span>. One way to proceed would then be to reject all values of <span class="math inline">\(\mathbf{x_j}\)</span> for which <span class="math inline">\(I_j &gt; 3\)</span> as implausible. Assuming that <span class="math inline">\(|E[f_i(\mathbf{x})] - z_i|\)</span> meets Pukelsheim’s requirements, 95% of all non-implausible <span class="math inline">\(\mathbf{x_j}\)</span> should be retained on average, at the cost of losing 5% of non-implausible <span class="math inline">\(\mathbf{x_j}\)</span>. In practice, this boundary can be moved to allow a more suitable number of candidate <span class="math inline">\(\mathbf{x_j}\)</span> to be accepted as not implausible if required.</p>
+</div>
+<div id="hm-worked-example" class="section level2 hasAnchor" number="3.10">
+<h2><span class="header-section-number">3.10</span> Worked example<a href="History-Matching.html#hm-worked-example" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Suppose that the function <span class="math inline">\(f(x) = x^2-5x\)</span> represents a simulator with a single input <span class="math inline">\(x\)</span> and the interest lies in the output <span class="math inline">\(f\)</span>, which attempts to simulate some process <span class="math inline">\(y\)</span>. A measurement <span class="math inline">\(z\)</span> of <span class="math inline">\(y\)</span> has been made and found that <span class="math inline">\(z=100\)</span>, with some uncertainty associated with it. The simulator is run at five different values for <span class="math inline">\(x\)</span> and these runs are used to build an emulator for <span class="math inline">\(f\)</span>. The simulator output is then predicted at a great many points. Figure <a href="History-Matching.html#fig:impl-plot">3.3</a> illustrates the scenario. The dots are the design point, which are interpolated by the emulators mean predictions across the range [-10,10]. The emulator predictor variance has been summed with the observation uncertainty and simulator inadequacy variances and the corresponding 3<span class="math inline">\(\sigma\)</span> intervals are shown in the Figure as lines above and below the mean prediction.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:impl-plot"></span>
+<img src="dissertation_files/figure-html/impl-plot-1.png" alt="The simulator f is a function of one input x. The simulator has been run at the five points shown, and an emulator is built using these five points. Its predictions are shown interpolating the design points. An observation has been made of z=100, showns as the dashed horizontal line. The uncertanties arising due to the emulator, simulator and act of observation are combined and the 3 sigma uncertainty intervals are plotted above and below the mean predictions. If the 3 sigma cutoff is used for for the implausibility measure, only those values of x shown intersecting the rectangle are non-implausible." width="80%" />
+<p class="caption">
+Figure 3.3: The simulator f is a function of one input x. The simulator has been run at the five points shown, and an emulator is built using these five points. Its predictions are shown interpolating the design points. An observation has been made of z=100, showns as the dashed horizontal line. The uncertanties arising due to the emulator, simulator and act of observation are combined and the 3 sigma uncertainty intervals are plotted above and below the mean predictions. If the 3 sigma cutoff is used for for the implausibility measure, only those values of x shown intersecting the rectangle are non-implausible.
+</p>
+</div>
+<p>If the implausibility cut-off is set at 3 <span class="math inline">\(\sigma\)</span>, values for <span class="math inline">\(x\)</span> that intersect the rectangle in the plot are non-implausible; roughly the interval [-8.99,-6.97]. The correct value is around -7.81. If the simulator were then run at a point in that rectangular region, the emulator variance, would shrink to zero at that point, and greatly reducing the emulator variance at neighbouring points (see Section <a href="GPR.html#covariance">4.5</a>), reducing the width of the rectangle further. However, simulator inadequacy and observation uncertainty would still remain and so the ‘correct’ input could not be found precisely. It is also worth noting that the non-implausible region need not be continuous. From Figure <a href="History-Matching.html#fig:impl-plot">3.3</a> it could be imagined that were the domain of <span class="math inline">\(x\)</span> to extend to +15, the mean prediction would intersect <span class="math inline">\(f=100\)</span> again, and indeed a second, much wider interval in <span class="math inline">\(x\)</span> would be deemed non-implausible as the 3 <span class="math inline">\(\sigma\)</span> intervals grow wider as the emulator predicts further from the data. In subsequent runs, candidate <span class="math inline">\(x\)</span>’s from this interval would be evaluated using the simulator and used to build emulators that predict better in this region, consequently the non-implausible space would shrink.</p>
+<p>Equation <a href="History-Matching.html#eq:one-d-implausibility">(3.1)</a> is a one-dimensional implausibility metric, computed with respect to a single process <span class="math inline">\(y_i\)</span>. In this dissertation, 588 processes were examined simultaneously, and ideally the simulator can give non-implausible matches to them all for some value or values of <span class="math inline">\(\mathbf{x_j}\)</span>. Consequently the idea of the implausibility measure in Equation <a href="History-Matching.html#eq:one-d-implausibility">(3.1)</a> is extended to compute an implausibility measure for <span class="math inline">\(\mathbf{x_j}\)</span> with respect to multiple processes <span class="math inline">\(y_1,y_2,...,y_n\)</span>.</p>
+</div>
+<div id="HM-Multi-D" class="section level2 hasAnchor" number="3.11">
+<h2><span class="header-section-number">3.11</span> Multidimensional implausibility<a href="History-Matching.html#HM-Multi-D" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>588 outputs <span class="math inline">\(f_1(\mathbf{x_j}),f_2(\mathbf{x_j}),...,f_{588}(\mathbf{x_j})\)</span> were produced each time TALYS was run for some <span class="math inline">\(\mathbf{x_j}\)</span>. Each output <span class="math inline">\(f_i(\mathbf{x})\)</span> had a corresponding measurement <span class="math inline">\(z_i\)</span> of a true process <span class="math inline">\(y_i\)</span>. In the literature there exist some methods for emulating multivariate outputs and accounting for correlations <span class="citation">(<a href="#ref-jonty_efficient" role="doc-biblioref">Rougier 2008</a>; <a href="#ref-multivariate_gp" role="doc-biblioref">Fricker, Oakley, and Urban 2013</a>)</span> amongst the <span class="math inline">\(f\)</span>s. In this dissertation, the simple approach of emulating each of the <span class="math inline">\(f\)</span> independently was taken. As a consequence of this, there were up to 588 univariate implausibility measures for each input, and the criterion for labelling <span class="math inline">\(\mathbf{x_j}\)</span> plausible or non-implausible had to be modified. One approach was to take the maximum of the 588 measures as <span class="math inline">\(I_j\)</span> and to require that this be less than three for <span class="math inline">\(\mathbf{x_j}\)</span> to non-implausible. A common approach <span class="citation">(<a href="#ref-jeremy_histmatch" role="doc-biblioref">Andrianakis et al. 2015</a>; <a href="#ref-bower2010galaxy" role="doc-biblioref">Bower, Goldstein, and Vernon 2010</a>)</span> is to take the second or third largest <span class="math inline">\(I^{(i)}_j\)</span>. The choice is a pragmatic one and the sensitivity of the size of the non-implausible space to the choice of metric was examined in this dissertation, allowing a suitable choice can be made.</p>
+<p>A second multivariate implausibility metric is</p>
+<p><span class="math display" id="eq:chi-sq-impl">\[\begin{equation}
+\tag{3.2}
+I(\mathbf{x_j}) = (\mathbf{z} - \E[\mathbf{f(x_j)}])^T\left(\mathbf{V}_i^{(obs)} + \mathbf{V}_i^{(sim)} + \mathbf{V}[\mathbf{f(x_j)}]\right)(\mathbf{z} - \E[\mathbf{f(x_j})])
+\end{equation}\]</span></p>
+<p>in which the vector of observations <span class="math inline">\(\mathbf{z} = (z_1,z_2,...,z_n)\)</span> and the corresponding emulated quantities <span class="math inline">\(\mathbf{f(x_j)} = (f_1(\mathbf{x_j}),f_2(\mathbf{x_j}),...,f_n(\mathbf{x_j}))\)</span> are used and where <span class="math inline">\(\left(\mathbf{V}_i^{(obs)} + \mathbf{V}_i^{(sim)} + \mathbf{V}[f_i(\mathbf{x_j})]\right)\)</span> should now be a full <span class="math inline">\(n \times n\)</span> covariance matrix. Under suitable assumptions, <span class="math inline">\(I(\mathbf{x_j})\)</span> has an asymptotic <span class="math inline">\(\chi^2\)</span> distribution and consequently an appropriate percentile can be chosen from the <span class="math inline">\(\chi^2\)</span> distribution with <span class="math inline">\(n\)</span> degrees of freedom and use as the implausible/ non–implausible cut-off for <span class="math inline">\(\mathbf{x_j}\)</span>.</p>
+<p>One potential problem could arise in specifying the full covariance structure of <span class="math inline">\(\left(\mathbf{V}_i^{(obs)} + \mathbf{V}_i^{(sim)} + \mathbf{V}[\mathbf{f(x_j)}]\right)\)</span>. The simple approach was taken here to assume that all of the uncertainties were uncorrelated. In that case, all three covariance matrices are diagonal, with the <span class="math inline">\(i,i\)</span>th element equal to the sum of the univariate uncertainties for that process, and all other elements zero. Taking this approach, it can be see that the multivariate implausibility measure from Equation <a href="History-Matching.html#eq:chi-sq-impl">(3.2)</a> is just the sum of the squared univariate implausibility measures from Equation <a href="History-Matching.html#eq:one-d-implausibility">(3.1)</a>, <span class="math inline">\(I_j(\mathbf{x_j}) = \sum_{i=1}^n \left(I_j^{(i)}\right)^2\)</span></p>
+<p>Here, <span class="math inline">\(I_j^{(uv)}\)</span> is used to denote the univariate implausibility metric chosen for a given wave, and <span class="math inline">\(I_j^{(mv)}\)</span> for the multivariate measure, where it is hoped that the intended meaning should be clear from the superscript, and that these would not be mistaken for the <span class="math inline">\(uv\)</span>th or <span class="math inline">\(mv\)</span>th univariate implausibility metric for <span class="math inline">\(\mathbf{x_j}\)</span>.</p>
+</div>
+<div id="advantages-of-history-matching" class="section level2 hasAnchor" number="3.12">
+<h2><span class="header-section-number">3.12</span> Advantages of history matching<a href="History-Matching.html#advantages-of-history-matching" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>History matching provides an efficient, pragmatic alternative to common inference methods such as maximum likelihood (ML) or Markov chain Monte Carlo (MCMC), which seek to learn a full distributional description of the active TALYS inputs from the data. In ML, the joint density of the inputs is modelled with some common likelihood function, commonly Gaussian. An optimisation algorithm is used to maximise this likelihood of the data with respect to the statistical model parameters. The maximum likelihood model parameters and the assumptions of the models together are sufficient to give a full probabilistic description of the active inputs. This method relies on the validity of the modelling assumptions and the success of the parameter estimation routine. Gradient-based, local optimisation algorithms risk converging on local, non-global maxima when trying to maximise the likelihood function, and this risk grows with dimensionality of the search space. Global optimisation algorithms can grow computationally very expensive and have no guarantee of successfully finding a global maximum for a finite run-time. In MCMC, the posterior distribution of the active inputs is not constrained to belong to a particular model family, instead samples can be numerically generated from the posteriors once the chains have converged on their joint stationary distribution. However, this convergence often requires a great many more samples than ML, and the chains can get stuck in regions of search space, both problems which can become worse in high dimensions.</p>
+<p>Contrastingly, instead of searching for values of the active inputs that are most consistent with all of the observed data points, history matching identifies values of the active inputs that are inconsistent with one or more of the observed data points and discards them as implausible. This approach helps address some of the issues associated with high-dimensionality, and can rapidly reduce the non-implausible search space very quickly. The method is efficient because it is primarily concerned with simple functions of means and variances, which level of statistical detail is often appropriate given the performance of the simulators <span class="citation">(<a href="#ref-jeremy_histmatch" role="doc-biblioref">Andrianakis et al. 2015</a>)</span>. History matching does not require any likelihoods to be defined or any complex probabilistic calculations. The method is also efficient because the non-implausible search space is identified in iterations known as waves, where the search space shrinks each time. Because it is not a formal inference method, pragmatic decisions can be made on things such as implausibility cut-offs and how many samples to take.</p>
+</div>
+<div id="conclusion-1" class="section level2 hasAnchor" number="3.13">
+<h2><span class="header-section-number">3.13</span> Conclusion<a href="History-Matching.html#conclusion-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this section the process workflow of history matching was discussed, along with two of its important components, uncertainties and implausibility metrics. The idea of using a Gaussian process emulator as a fast approximation for TALYS was also discussed, enabling the active parameter space to be explored more efficiently, at the cost of introducing another source of uncertainty. Gaussian processes are discussed further in the next chapter.</p>
+
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-jeremy_histmatch" class="csl-entry">
+Andrianakis, Ioannis, Ian R Vernon, Nicky McCreesh, Trevelyan J McKinley, Jeremy E Oakley, Rebecca N Nsubuga, Michael Goldstein, and Richard G White. 2015. <span>“Bayesian History Matching of Complex Infectious Disease Models Using Emulation: A Tutorial and a Case Study on HIV in Uganda.”</span> <em>PLoS Computational Biology</em> 11 (1): e1003968.
+</div>
+<div id="ref-bower2010galaxy" class="csl-entry">
+Bower, Richard G, Michael Goldstein, and Ian Vernon. 2010. <span>“<span class="nocase">Galaxy formation: a Bayesian uncertainty analysis</span>.”</span> <em>Bayesian Analysis</em> 5 (4): 619–69.
+</div>
+<div id="ref-lhs_r" class="csl-entry">
+Carnell, Rob. 2022. <em>Lhs: Latin Hypercube Samples</em>. <a href="https://CRAN.R-project.org/package=lhs">https://CRAN.R-project.org/package=lhs</a>.
+</div>
+<div id="ref-multivariate_gp" class="csl-entry">
+Fricker, Thomas E, Jeremy E Oakley, and Nathan M Urban. 2013. <span>“Multivariate Gaussian Process Emulators with Nonseparable Covariance Structures.”</span> <em>Technometrics</em> 55 (1): 47–56.
+</div>
+<div id="ref-three_sigma" class="csl-entry">
+Pukelsheim, Friedrich. 1994. <span>“The Three Sigma Rule.”</span> <em>The American Statistician</em> 48: 88–91.
+</div>
+<div id="ref-jonty_efficient" class="csl-entry">
+Rougier, Jonathan. 2008. <span>“Efficient Emulators for Multivariate Deterministic Functions.”</span> <em>Journal of Computational and Graphical Statistics</em> 17 (4): 827–43.
+</div>
+<div id="ref-Schnabel_2021" class="csl-entry">
+Schnabel, G., H. Sjöstrand, J. Hansson, D. Rochman, A. Koning, and R. Capote. 2021. <span>“Conception and Software Implementation of a Nuclear Data Evaluation Pipeline.”</span> <em>Nuclear Data Sheets</em> 173 (March): 239–84. <a href="https://doi.org/10.1016/j.nds.2021.04.007">https://doi.org/10.1016/j.nds.2021.04.007</a>.
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="3">
+<li id="fn3"><p>In Section <a href="GPR.html#covariance">4.5</a> this idea is modified slightly, but the ideas discussed here still stand<a href="History-Matching.html#fnref3" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="Background.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="GPR.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/03-HistoryMatching.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["dissertation.pdf", "dissertation.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

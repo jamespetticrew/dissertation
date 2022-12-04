@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Nuclear data evaluation | dissertation.knit</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Nuclear data evaluation | dissertation.knit" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Nuclear data evaluation | dissertation.knit" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="Intro.html"/>
+<link rel="next" href="History-Matching.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="Background" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Nuclear data evaluation<a href="Background.html#Background" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="introduction-1" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Introduction<a href="Background.html#introduction-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this section is given a brief introduction to the concept of nuclear cross-sections, the software used in this dissertation to simulate them, and the data used to compare with the results of the simulator. The section ends with a brief discussion on nuclear data evaluation, intended to contextualise this work, and on some existing uses of Gaussian processes for nuclear data from the literature.</p>
+</div>
+<div id="Background:xs" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Nuclear cross-sections<a href="Background.html#Background:xs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Imagine a mono-energetic neutron beam of intensity <span class="math inline">\(I_0\)</span> neutrons/m<span class="math inline">\(^2\)</span> and energy <span class="math inline">\(E\)</span> Mega electron-volts (MeV) incident upon a slab of thickness <span class="math inline">\(r\)</span> metres, made up solely of isotope <span class="math inline">\(Z\)</span>, and with an isotope number density <span class="math inline">\(N\)</span> in units of isotopes/m<span class="math inline">\(^3\)</span> (see Figure <a href="Background.html#fig:xs-schematic">2.1</a>). If the intensity of the beam can be measured after it has passed through the slab <span class="math inline">\(I\)</span>, then the total cross-section <span class="math inline">\(\sigma_{tot}\)</span> can be computed from</p>
+<p><span class="math display">\[\begin{equation}
+\label{eq:total_xs}
+I = I_0 \exp\left(-rN \sigma_{tot}(Z,E)\right).
+\end{equation}\]</span></p>
+<p><span class="math inline">\(\sigma_{tot}(Z,E)\)</span> is the microscopic total neutron cross-section for isotope <span class="math inline">\(Z\)</span> for incident neutron energy <span class="math inline">\(E\)</span> and is proportional to the probability of any interaction occurring between a nucleus of isotope <span class="math inline">\(Z\)</span> and a neutron of that energy incident upon the nucleus. Cross-section units are m<span class="math inline">\(^2\)</span>, however one square metre is an enormous value for a cross-section to take, and consequently they are often measured in ‘barns’<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> where a barn is equal to <span class="math inline">\(10^{-28}\)</span>m<span class="math inline">\(^2\)</span>.</p>
+<p>There are a number of reactions can occur as a result of a collision between a neutron and an atomic nucleus. For example, the neutron can change its momentum (known as inelastic scatter) or the neutron can be captured by the nucleus and release more neutrons (and energy - known as fission) as a result. Each interaction type has its own associated cross-section proportional to the probability of that reaction occurring. The value of the cross-section depends on the energy of the incident particle, the type of incident particle and the type of target nucleus. In this dissertation the focus is on neutrons with energies between 5 and 10 MeV (<span class="math inline">\(5 \le E \le 10\)</span>) incident upon the Iron-56 isotope<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> (Z=Fe-56).</p>
+<p>The capacity for scientists to measure all interaction, energy, particle and isotope combinations is limited, and as such computer simulations, validated using experimental measurements, are used extensively to model cross-sections with suitable fidelity. In this work the nuclear reaction simulation code TALYS version 1.95 <span class="citation">(<a href="#ref-talys" role="doc-biblioref">A. J. Koning and Rochman 2012</a>)</span> was used, which is explained further in the next section.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:xs-schematic"></span>
+<img src="figures/xs_cropped.png" alt="Illustration to aid interpretation of microscopic neutron cross-section. The ratio of the outgoing to the incident beam intensity is proportional to microscopic total cross-section." width="80%" />
+<p class="caption">
+Figure 2.1: Illustration to aid interpretation of microscopic neutron cross-section. The ratio of the outgoing to the incident beam intensity is proportional to microscopic total cross-section.
+</p>
+</div>
+</div>
+<div id="Background:talys" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> TALYS nuclear reaction simulation code<a href="Background.html#Background:talys" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>TALYS is a computer simulation tool which implements a suite of mathematical models to predict nuclear reactions. It has some 340 input parameters <span class="citation">(<a href="#ref-talys" role="doc-biblioref">A. J. Koning and Rochman 2012</a>)</span> which can be specified by the user. Here a distinction is made between state and active parameters. State parameters do not change between runs of the code, and define the particular scenario being examined. Examples of state parameters include incident particle type, target isotope and incident particle energies. Active parameters are changed between code runs. These are parameters in the mathematical model(s) implemented by the simulator, the true values of which are unknown. Observational data can be compared to the outputs of the simulator for different choices of active parameter settings. The hope is that settings which produce simulator outputs consistent with observational data will also produce simulator outputs consistent with reality for unobserved quantities.</p>
+<p>In this dissertation 28 active parameters were examined, all part of the optical model potentials (OMP) implemented in TALYS (Appendix <a href="OMP-model-appendix.html#OMP-model-appendix">A</a>), or extensions thereof. Parameters in the mathematical models implemented in TALYS have a default setting which is used if a value is not specified for it in the input file. This allows calculations to be carried out without having to specify values for all 340 input parameters. The defaults are by no means a ‘best’ set; the appropriate setting for each parameter depends, amongst other things, on the incident particle and target isotope being modelled. There are thousands of potential combinations for these. The actual value specified for a parameter in the input file acts as a multiplier for this default. For example, if the default value for a parameter is 4 and the user inputs a value of 0.5, the calculations will be carried out with the parameter equal to 2. Hence, if a value for the multiplier is not specified in the input file, it is implicitly one. Each multiplier must be set to a value in the range <span class="math inline">\([0.1,10]\)</span>. Initially, it is assumed that every possible value for the active parameters was equally likely, which is not the same thing as the multipliers being equally likely. In this dissertation, when values for the active parameters are discussed, the intended meaning is values of the multipliers, rather than the parameters themselves. Multipliers can be though of as parameters in the model in Appendix <a href="OMP-model-appendix.html#OMP-model-appendix">A</a> if it is re-parametrised with the default values as constant coefficients of the multipliers.</p>
+</div>
+<div id="Background:data" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Experimental cross-section data<a href="Background.html#Background:data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Experimental nuclear reaction measurements have been recorded since the discovery of the neutron, and a comprehensive database of these exists in EXFOR <span class="citation">(<a href="#ref-exfor" role="doc-biblioref">Otuka et al. 2014</a>)</span>, maintained and developed by International Network of Nuclear Reaction Data Centres (NRDC), coordinated by the International Atomic Energy Authority (IAEA). The data are open source, and are technically freely available to all. However, successfully querying the EXFOR database is a difficult task, which was much simplified using the framework created by the nuclear data evaluation pipeline software described in <span class="citation">(<a href="#ref-Schnabel_2021" role="doc-biblioref">Schnabel et al. 2021</a>)</span>.</p>
+A total of 23183 data points pertaining to neutrons incident upon the Iron-56 isotope were pulled from the database. Each point is a measurement for a specific reaction at a specific incident neutron energy. It was decided to focus on incident neutrons with energies between 5 and 10 MeV, for which there were 1141 experimental observations. The data were then filtered further to include only measurements of reactions that TALYS could simulate directly; total cross-section (n,tot) - which is proportional to the probability of any reaction occurring, inelastic cross-section (n,n’) - which is proportional to the incident neutron experiencing a change of momentum (‘bouncing off’ the nucleus), proton cross-section (n,p) - which is proportional to the probability of the incident neutron being absorbed by the nucleus and ejecting a proton as result, and alpha cross-section (n,a) - which is proportional to the probability of the incident neutron being absorbed by the nucleus and ejecting an alpha particle (a Helium nucleus) as result. A summary of the relevant experimental data points is shown in Table <a href="#tab:exp-data-count"><strong>??</strong></a>.
+<p>The data are dominated by total cross-section measurements, which are the sums of the cross-sections for all possible reactions at a given energy. This is because total cross-sections are much easier to measure, (using the attenuation method briefly described in Section <a href="Background.html#Background:xs">2.2</a>) whereas it is much more difficult to measure, for example, the (n,p) reactions, where a proton is released from the nucleus, as it requires a specific ejectile to be detected. The experimental data covered a range of incident neutron energies, which can be set as state parameters (Section <a href="Background.html#Background:talys">2.3</a>) in the TALYS input file. The run time of the simulator is proportional to the number of incident neutron energies it is required to simulate. Consequently, it was decided to only use half of the (n,tot) data points, both to reduce TALYS run time and to slightly reduce the dominance of (n,tot). The energies were filtered by ordering them and picking every second energy. Consequently 608 relevant data points were used in the analysis. Once duplicates were accounted for, there were 588 processes that needed to be computed for each TALYS run, where a ‘process’ in this context means a cross-section for a given reaction at a given (incident neutron) energy.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:exp-data-plot"></span>
+<img src="dissertation_files/figure-html/exp-data-plot-1.png" alt="Plots of relevant Iron-56 neutron cross-section data extracted from the EXFOR database. Each panel shows data for a different reaction cross-section. 1065 (n,tot) data points are plotted, it was decided to only use half of them in the analysis." width="400px" />
+<p class="caption">
+Figure 2.2: Plots of relevant Iron-56 neutron cross-section data extracted from the EXFOR database. Each panel shows data for a different reaction cross-section. 1065 (n,tot) data points are plotted, it was decided to only use half of them in the analysis.
+</p>
+</div>
+</div>
+<div id="Background:evaluation" class="section level2 hasAnchor" number="2.5">
+<h2><span class="header-section-number">2.5</span> Nuclear data evalution<a href="Background.html#Background:evaluation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A single run of TALYS is capable of producing cross-sections for a number of reactions over a range of user defined incident particle energies. The aim of nuclear data evaluation is to produce the set of cross-sections believed to be most consistent with experiments and subject matter expert (SME) knowledge. When using a simulation tool such as TALYS in evaluation, part of this process must consist of deciding at what value, or values of the active parameters at which to run the simulator. This is the aspect of nuclear data evaluation that was focussed on in this dissertation. In Bayesian history matching large regions of the space of possible active parameter values are iteratively discarded with the aid of Gaussian process regression. Evaluation is a huge task, and there are several prominent cross-section libraries that are created using different evaluation philosophies <span class="citation">(<a href="#ref-endf" role="doc-biblioref">Brown et al. 2018</a>; <a href="#ref-jendl" role="doc-biblioref">Shibata et al. 2011</a>; <a href="#ref-tendl" role="doc-biblioref">A. Koning et al. 2019</a>)</span>, and with different priorities. The methodology described in this dissertation represents a reasonably uncomplicated pragmatic way of generating simulator results that are consistent with empirical observations.</p>
+</div>
+<div id="Background:previousgps" class="section level2 hasAnchor" number="2.6">
+<h2><span class="header-section-number">2.6</span> Previous uses of Gaussian processes in nuclear data<a href="Background.html#Background:previousgps" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The use of Gaussian processes in nuclear data is not novel. In <span class="citation">(<a href="#ref-Schnabel_2021" role="doc-biblioref">Schnabel et al. 2021</a>)</span> and <span class="citation">(<a href="#ref-HELGESSON_2018" role="doc-biblioref">Helgesson and Sjöstrand 2018</a>)</span> the authors used Gaussian processes to describe the relationship between systematic errors and incident particle energies, and in <span class="citation">(<a href="#ref-gp_interpolator" role="doc-biblioref">Iwamoto 2020</a>)</span> there is a demonstration of how to generate cross-sections from experimental data only. Another iterative Bayesian approach to evaluation can be found in <span class="citation">(<a href="#ref-Bayesian_ML" role="doc-biblioref">Alhassan et al. 2022</a>)</span>.</p>
+</div>
+<div id="conclusion" class="section level2 hasAnchor" number="2.7">
+<h2><span class="header-section-number">2.7</span> Conclusion<a href="Background.html#conclusion" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this section was given a brief overview of nuclear cross-sections. The two main sources of data used in the dissertation were described; simulated cross-sections from TALYS and measured cross-sections from the EXFOR database, and some context was given for the application. The data described here was used in a process known as history matching, where we try to find values for the active parameters such that the simulated cross-sections produced by TALYS give good matches to the measured cross-sections extracted from the EXFOR database. We describe the history matching process in the next chapter.</p>
+
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Bayesian_ML" class="csl-entry">
+Alhassan, Erwin, Dimitri Rochman, Alexander Vasiliev, Mathieu Hursin, Arjan J Koning, and Hakim Ferroukhi. 2022. <span>“<span class="nocase">Iterative Bayesian Monte Carlo for nuclear data evaluation</span>.”</span> <em>Nuclear Science and Techiques</em> 30 (50).
+</div>
+<div id="ref-endf" class="csl-entry">
+Brown, David A, MB Chadwick, R Capote, AC Kahler, A Trkov, MW Herman, AA Sonzogni, et al. 2018. <span>“ENDF/b-VIII. 0: The 8th Major Release of the Nuclear Reaction Data Library with CIELO-Project Cross Sections, New Standards and Thermal Scattering Data.”</span> <em>Nuclear Data Sheets</em> 148: 1–142.
+</div>
+<div id="ref-HELGESSON_2018" class="csl-entry">
+Helgesson, P., and H. Sjöstrand. 2018. <span>“Treating Model Defects by Fitting Smoothly Varying Model Parameters: Energy Dependence in Nuclear Data Evaluation.”</span> <em>Annals of Nuclear Energy</em> 120: 35–47. https://doi.org/<a href="https://doi.org/10.1016/j.anucene.2018.05.026">https://doi.org/10.1016/j.anucene.2018.05.026</a>.
+</div>
+<div id="ref-gp_interpolator" class="csl-entry">
+Iwamoto, Hiroki. 2020. <span>“<span class="nocase">Generation of nuclear data using Gaussian process regression</span>.”</span> <em>Journal of Nuclear Science and Technology</em> 57 (8): 932–38. <a href="https://doi.org/10.1080/00223131.2020.1736202">https://doi.org/10.1080/00223131.2020.1736202</a>.
+</div>
+<div id="ref-talys" class="csl-entry">
+Koning, A. J., and D. Rochman. 2012. <span>“Modern Nuclear Data Evaluation with the TALYS Code System.”</span> <em>Nuclear Data Sheets</em> 113 (12): 2841–2934. https://doi.org/<a href="https://doi.org/10.1016/j.nds.2012.11.002">https://doi.org/10.1016/j.nds.2012.11.002</a>.
+</div>
+<div id="ref-tendl" class="csl-entry">
+Koning, AJ, D Rochman, J-Ch Sublet, N Dzysiuk, M Fleming, and S Van der Marck. 2019. <span>“TENDL: Complete Nuclear Data Library for Innovative Nuclear Science and Technology.”</span> <em>Nuclear Data Sheets</em> 155: 1–55.
+</div>
+<div id="ref-exfor" class="csl-entry">
+Otuka, N., E. Dupont, V. Semkova, B. Pritychenko, A. I. Blokhin, M. Aikawa, S. Babykina, et al. 2014. <span>“Towards a More Complete and Accurate Experimental Nuclear Reaction Data Library (EXFOR): International Collaboration Between Nuclear Reaction Data Centres (NRDC).”</span> <em>Nuclear Data Sheets</em> 120: 272–76. https://doi.org/<a href="https://doi.org/10.1016/j.nds.2014.07.065">https://doi.org/10.1016/j.nds.2014.07.065</a>.
+</div>
+<div id="ref-Schnabel_2021" class="csl-entry">
+Schnabel, G., H. Sjöstrand, J. Hansson, D. Rochman, A. Koning, and R. Capote. 2021. <span>“Conception and Software Implementation of a Nuclear Data Evaluation Pipeline.”</span> <em>Nuclear Data Sheets</em> 173 (March): 239–84. <a href="https://doi.org/10.1016/j.nds.2021.04.007">https://doi.org/10.1016/j.nds.2021.04.007</a>.
+</div>
+<div id="ref-jendl" class="csl-entry">
+Shibata, Keiichi, Osamu Iwamoto, Tsuneo Nakagawa, Nobuyuki Iwamoto, Akira Ichihara, Satoshi Kunieda, Satoshi Chiba, et al. 2011. <span>“JENDL-4.0: A New Library for Nuclear Science and Engineering.”</span> <em>Journal of Nuclear Science and Technology</em> 48 (1): 1–30.
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>From the phrase ‘as wide as a barn door’.<a href="Background.html#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>An Iron atom with 26 protons and 30 neutrons in its nucleus. All Iron atoms have 26 protons in their nucleus but different isotopes have different numbers of neutrons. Iron-56 is the most common naturally occurring isotope of Iron.<a href="Background.html#fnref2" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="Intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="History-Matching.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/02-Background.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["dissertation.pdf", "dissertation.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

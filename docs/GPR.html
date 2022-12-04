@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Gaussian process regression | dissertation.knit</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Gaussian process regression | dissertation.knit" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Gaussian process regression | dissertation.knit" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="History-Matching.html"/>
+<link rel="next" href="results.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="GPR" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Gaussian process regression<a href="GPR.html#GPR" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="introduction-2" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Introduction<a href="GPR.html#introduction-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this section some of the key ideas in Gaussian process regression (GPR) are discussed. Section <a href="GPR.html#GPR:GPR">4.2</a> gives a brief introductions to GPR and Section <a href="GPR.html#model-selection">4.3</a> discusses how parameters are estimated. This is followed by content on two key components of GPR: the covariance kernel and mean function. The chapter finishes with a discussion on the software packages with which some of the modelling in this dissertation was attempted, highlighting some of the key features that made them suitable or otherwise for the work.</p>
+</div>
+<div id="GPR:GPR" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Gaussian process regression<a href="GPR.html#GPR:GPR" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this section a single output of TALYS <span class="math inline">\(f_i\)</span> is reasoned about. No loss of generality is incurred by proceeding in this way, as all of the TALYS outputs were modelled independently, and the same reasoning applies to all of them equally, so the <span class="math inline">\(i\)</span> subscript is dropped for convenience.</p>
+<p>A GPR model was used as an emulator for TALYS in order to predict, with associated uncertainty estimates, the simulator output <span class="math inline">\(f\)</span> at unobserved inputs <span class="math inline">\(\mathbf{x}^\dagger \in \mathcal{X}^\dagger\)</span>. If TALYS is run twice for some <span class="math inline">\(\mathbf{x}\)</span>, the two outputs <span class="math inline">\(f^{(1)}(\mathbf{x})\)</span> and <span class="math inline">\(f^{(2)}(\mathbf{x})\)</span> will be the same. Because TALYS is deterministic, <span class="math inline">\(f^{(1)}(\mathbf{x}) = f^{(2)}(\mathbf{x})~ \forall~ \mathbf{x}\)</span>. Consequently the uncertainty around <span class="math inline">\(f(\mathbf{x})\)</span> reduces to zero once it has been observed<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>. However, for <span class="math inline">\(f(\mathbf{x}^\dagger)\)</span> where the output has not been observed (the simulator has not been run at <span class="math inline">\(\mathbf{x^\dagger}\)</span>), there is uncertainty about its output due to incomplete knowledge about the process. The models and their implementation are understood, but not well enough that it is known what they will predict for a given <span class="math inline">\(\mathbf{x}\)</span> without running the simulator. This uncertainty is often described as epistemic, and in the Bayesian framework, statistical models are used to describe our belief about unobserved quantities, and the uncertainty associated with that belief. Consequently, the outputs <span class="math inline">\(f(\mathcal{X^\dagger})\)</span> are modelled as random variables. It is assume that <span class="math inline">\(f\)</span> is the sum of a deterministic trend function, <span class="math inline">\(\mu(\mathbf{\cdot})\)</span> and a zero mean Gaussian process, <span class="math inline">\(Z(\mathbf{\cdot})\)</span> <span class="citation">(<a href="#ref-dicekriging" role="doc-biblioref">Roustant, Ginsbourger, and Deville 2012</a>)</span>:</p>
+<p><span class="math display" id="eq:process">\[\begin{equation}
+\tag{4.1}
+f(\mathbf{x}) = \mu(\mathbf{x}) + Z(\mathbf{x}).
+\end{equation}\]</span></p>
+<p>A Gaussian process (GP) is an infinite collection of random variables, any finite number of which has a multivariate Gaussian distribution <span class="citation">(<a href="#ref-gp4ml" role="doc-biblioref">Williams and Rasmussen 2006</a>)</span>. In practice the interest lies with two subsets of all possible <span class="math inline">\(f(\mathbf{x})\)</span>, the observed simulator outputs <span class="math inline">\(f(\mathcal{X^*})\)</span>, and the outputs we wish to predict <span class="math inline">\(f(\mathcal{X^\dagger})\)</span>. Before any simulator outputs are observed, our belief about the joint distribution of the observed and unobserved outputs is modelled as</p>
+<p><span class="math display" id="eq:joint-distro">\[\begin{equation}
+\tag{4.2}
+\begin{bmatrix} \mathbf{f(\mathcal{X}^*)} \\
+\mathbf{f(\mathcal{X}^\dagger)}
+\end{bmatrix}
+\sim MVN\left( \begin{bmatrix} \mu(\mathcal{X^*})\\
+\mu(\mathcal{X^\dagger}) \end{bmatrix},
+\begin{bmatrix} \mathbf{\Sigma^*} &amp; \mathbf{\Sigma^{*\dagger}}\\
+\mathbf{\Sigma^{\dagger*}} &amp; \mathbf{\Sigma^{ \dagger}} \end{bmatrix} \right)
+\end{equation}\]</span></p>
+<p>For some mean function <span class="math inline">\(\mu(\cdot)\)</span> and some covariance matrices <span class="math inline">\(\mathbf{\Sigma^*}, \mathbf{\Sigma^\dagger}\)</span>, which are functions of the <span class="math inline">\(\mathcal{X^*}\)</span> and <span class="math inline">\(\mathcal{X^\dagger}\)</span> respectively, and <span class="math inline">\(\mathbf{\Sigma^{*\dagger}} = (\mathbf{\Sigma^{ \dagger *}})^{-1}\)</span>, which are functions of both <span class="math inline">\(\mathcal{X^*}\)</span> and <span class="math inline">\(\mathcal{X^\dagger}\)</span>.</p>
+<p>The function <span class="math inline">\(Z(\cdot)\)</span> is constrained to have specific properties in order to qualify as a GP, as the <span class="math inline">\(\Sigma\)</span> must have the similar fundamental properties as the covariance matrix of a multivariate normal distribution (Section <a href="GPR.html#covariance">4.5</a>). The function <span class="math inline">\(\mu(\cdot)\)</span> can be any normal linear regression function (Section <a href="GPR.html#mean">4.6</a>).</p>
+<p>Both <span class="math inline">\(\mu(\cdot)\)</span> and <span class="math inline">\(Z(\cdot)\)</span> are functions with parameters that must be learn about from the <span class="math inline">\((\mathcal{X^*}, f(\mathcal{X^*}))\)</span>. Parameter estimation methods vary between software implementations (Section <a href="GPR.html#gp-software">4.8</a>). After learning the parameters, the distribution in Equation <a href="GPR.html#eq:joint-distro">(4.2)</a> is fully characterised for a given <span class="math inline">\(\mathcal{X^\dagger}\)</span>, and the outputs at these unknown points are emulated as the joint conditional distribution <span class="math inline">\(\mathbf{f}(\mathcal{X^\dagger})|\mathbf{f}(\mathcal{X^*})\)</span>.</p>
+</div>
+<div id="model-selection" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Parameter estimation<a href="GPR.html#model-selection" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The mean function in a GP takes the form of a linear model</p>
+<p><span class="math display" id="eq:mean-function">\[\begin{equation}
+\tag{4.3}
+\mu(\mathbf{x}) = \sum_{i=1}^b h_b(\mathbf{x})^T \mathbf{\beta}_b
+\end{equation}\]</span></p>
+<p>Where <span class="math inline">\(b\)</span> is the number of basis functions in the model. These basis functions are chosen by the user. Although any linear combination of basis functions is permissible, some software implementations offer more flexibility than others (Section <a href="GPR.html#gp-software">4.8</a>). The <span class="math inline">\(\mathbf{\beta}_b\)</span> must be learned from the data.</p>
+<p>Each element of the covariance matrix in Equation <a href="GPR.html#eq:joint-distro">(4.2)</a> is computed by using some function <span class="math inline">\(c(\mathbf{x}, \mathbf{x&#39;})=\sigma^2 r(\mathbf{x}, \mathbf{x&#39;})\)</span>, where <span class="math inline">\(r\)</span> is a correlation function that depends on <span class="math inline">\(|\mathbf{x} - \mathbf{x&#39;}|\)</span> where <span class="math inline">\(\mathbf{x}\)</span> and <span class="math inline">\(\mathbf{x&#39;}\)</span> are two points from <span class="math inline">\(\mathcal{X}\)</span>. So the covariance between two of the <span class="math inline">\(f\)</span>s depends in some way on the distance between their <span class="math inline">\(\mathbf{x}\)</span>-coordinates. The function <span class="math inline">\(r\)</span> has <span class="math inline">\(p\)</span> hyperparameters <span class="math inline">\(\mathbf{\gamma}_1,\mathbf{\gamma}_2,...,\mathbf{\gamma}_p\)</span>, one for each element of <span class="math inline">\(\mathbf{x}\)</span>, which must be learned from the observed data, along with the variance parameter <span class="math inline">\(\theta\)</span>. An optional noise parameter, sometimes called a nugget, can be learned (see Section <a href="GPR.html#covariance">4.5</a> for more on the <span class="math inline">\(\mathbf{\gamma}\)</span> and the noise parameter). The vector of model parameters is denoted <span class="math inline">\(\mathbf{\theta}\)</span>.</p>
+<p>The mean function can simply be <span class="math inline">\(\mu(\mathbf{x})=0~\forall~\mathbf{x}\)</span> and as such the minimum amount of parameters that must be learned from the data for a function with a <span class="math inline">\(p-\)</span>dimensional input is <span class="math inline">\(p+1\)</span>, <span class="math inline">\(p\)</span> <span class="math inline">\(\gamma\)</span>s and one <span class="math inline">\(\sigma\)</span>. In a Bayesian context an expression proportional to the joint posterior distribution of the the parameters <span class="math inline">\(\mathbf{\theta}\)</span> given the observed data<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> <span class="math inline">\(f(\mathcal{X^*})\)</span> is derived <span class="math inline">\(\pi(\mathbf{\theta}|f(\mathcal{X^*}))\)</span> using the product of the likelihood of the data given the parameters <span class="math inline">\(L(f(\mathcal{X^*})| \mathbf{\theta})\)</span> and the priors for the parameters <span class="math inline">\(\pi(\mathbf{\theta})\)</span>. One approach is to then use MCMC to generate samples from <span class="math inline">\(\pi(\mathbf{\theta}|f(\mathbf{\mathbf{x^*}}))\)</span>. However this requires a great many proposal samples from the posterior to be generated. Consequently if it is computationally expensive to generate one proposal sample, this method becomes impractical, and an alternative approach is required. A common compromise is to find the mode of the posterior distributions and use these modal values as point estimates for the parameters in the model.</p>
+<p>In this dissertation the Dice Kriging <span class="citation">(<a href="#ref-dicekriging" role="doc-biblioref">Roustant, Ginsbourger, and Deville 2012</a>)</span> software package was used, which implements improper uniform priors <span class="citation">(<a href="#ref-dicekriging" role="doc-biblioref">Roustant, Ginsbourger, and Deville 2012</a>)</span> for the <span class="math inline">\(\mathbf{\theta}\)</span> and as a result <span class="math inline">\(\pi(\mathbf{\theta}|f(\mathcal{X^*})) \propto L(f(\mathcal{X^*})| \mathbf{\theta})\)</span>. Consequently ML estimation was used to learn the <span class="math inline">\(\mathbf{\theta}\)</span>, which is equivalent to finding the maximum posterior mode in the uniform prior case, provided the domain of the likelihood is the same as, or a subset of, the domain of the priors. The training points <span class="math inline">\(f(\mathcal{X^*})\)</span> are assumed to have a joint Gaussian distribution with mean <span class="math inline">\(\mu(\mathcal{X^*})=\mathbf{h(\mathcal{X^*})\mathbf{\beta}}\)</span> and covariance <span class="math inline">\(\mathbf{\Sigma^*}=\mathbf{C} = \sigma^2 \mathbf{R}\)</span>, where <span class="math inline">\(\mathbf{R}\)</span> is a <span class="math inline">\(k \times k\)</span> covariance matrix with the <span class="math inline">\(i,j\)</span>-th element equal to <span class="math inline">\(r(\mathbf{x_i}, \mathbf{x_j})\)</span> and where <span class="math inline">\(k\)</span> is the number of training points and<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> <span class="math inline">\(i \in 1,2,...,k\)</span>, <span class="math inline">\(j \in 1,2,...,k\)</span>. Hence the likelihood function that is maximised is</p>
+<p><span class="math display" id="eq:likelihood">\[\begin{equation}
+\tag{4.4}
+L(f(\mathcal{X^*})| \mathbf{\theta}) = \frac{1}{(2\pi)^{k/2} |\sigma^2 \mathbf{R}|^{1/2}} \exp \left( - \frac{1}{2} \left( f(\mathcal{X^*}) - \mathbf{H}^T\mathbf{\beta}\right)^T \left(\sigma^2 \mathbf{R} \right)^{-1} \left( f(\mathcal{X^*}) - \mathbf{H}^T\mathbf{\beta}\right) \right)
+\end{equation}\]</span></p>
+<p>Where <span class="math inline">\(\mathbf{H}\)</span> is the <span class="math inline">\(k \times p\)</span> matrix with each row <span class="math inline">\(\mu(\mathbf{\mathbf{x}})\)</span> for one of the <span class="math inline">\(k\)</span> training points and each column one of the <span class="math inline">\(p\)</span> parameters. Each time the likelihood is evaluated, the matrix <span class="math inline">\(\mathbf{R}\)</span> needs to be inverted, which requires <span class="math inline">\(\mathcal{O}(k^3)\)</span> computation<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a> <span class="citation">(<a href="#ref-gelman2013bayesian" role="doc-biblioref">Gelman et al. 2013</a>)</span>, which means the computational expense can become prohibitively large if the likelihood has to be evaluated a great many times and/ or for a great many training points. This, and numerical issues that can arise from inverting <span class="math inline">\(\mathbf{R}\)</span> (see Section <a href="GPR.html#covariance">4.5</a>) are the two main hurdles that motivate the use of posterior mode/ ML point estimates of the model parameters, as opposed to ‘full Bayesian’ distributions, which usually requires the likelihood to be evaluated many more times.</p>
+<p>Equation <a href="GPR.html#eq:likelihood">(4.4)</a> is maximised with respect to the <span class="math inline">\(\mathbf{\beta}, \sigma\)</span> and <span class="math inline">\(\mathbf{\gamma}\)</span>. Analytic expressions for ML estimators for <span class="math inline">\(\mathbf{\beta}\)</span> and <span class="math inline">\(\sigma\)</span> can be found in terms of <span class="math inline">\(\mathbf{R}\)</span> and the data:</p>
+<p><span class="math display" id="eq:beta-hat">\[\begin{equation}
+\tag{4.5}
+\mathbf{\hat{\beta}} = \left( \mathbf{H}^T\mathbf{R}^{-1}\mathbf{H} \right)^{-1}\mathbf{H}^T \mathbf{R}f(\mathcal{X^*})
+\end{equation}\]</span></p>
+<p>and</p>
+<p><span class="math display" id="eq:sigma-hat">\[\begin{equation}
+\tag{4.6}
+\hat{\sigma}^2 = \frac{1}{k} \left( f(\mathcal{X^*}) - \mathbf{H}^T\mathbf{\hat{\beta}}\right)^T \mathbf{R} ^{-1}\left( f(\mathcal{X^*}) - \mathbf{H}^T\mathbf{\hat{\beta}}\right)
+\end{equation}\]</span></p>
+<p>which look similar to the predictors for the similar terms in ordinary linear model theory, except for the presence of <span class="math inline">\(\mathbf{R}\)</span> which accounts for correlation in the residuals. With this re-parametrisation, the likelihood need only be maximised with respect to the <span class="math inline">\(\mathbf{\gamma}\)</span>, a slightly easier numerical task. The maximum of the likelihood is then found using a gradient-based numerical optimisation algorithm, with multiple starting points to combat possible multi-modality in the likelihood <span class="citation">(<a href="#ref-dicekriging" role="doc-biblioref">Roustant, Ginsbourger, and Deville 2012</a>)</span>. Once the parameter estimates are obtained the joint distribution of <span class="math inline">\(f(\mathcal{X^*})\)</span> and <span class="math inline">\(f(\mathcal{X^\dagger})\)</span> is fully characterised. Consequently the joint conditional distribution <span class="math inline">\(f(\mathcal{X^\dagger})|f(\mathcal{X^*}), \mathbf{\theta}\)</span> can be found, which is used to emulate the simulator at unobserved <span class="math inline">\(\mathbf{x}\)</span>.</p>
+</div>
+<div id="conditioning-on-the-data" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Conditioning on the data<a href="GPR.html#conditioning-on-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Assume that <span class="math inline">\(f(\mathcal{X^*})\)</span> and <span class="math inline">\(f(\mathcal{X^\dagger})\)</span> in Equation <a href="GPR.html#eq:joint-distro">(4.2)</a> each have length one. Once estimates for the parameters <span class="math inline">\(\mathbf{\hat{\theta}}\)</span> have been computed, their joint distribution would look something like Figure <a href="GPR.html#fig:conditioning">4.1</a>, which shows a bivariate Gaussian distribution where the ovals are lines of constant probability density. There is some positive correlation between these two simulator outputs; perhaps because their <span class="math inline">\(\mathbf{x}\)</span>-coordinates are close together. The left hand plot represents our prior belief about <span class="math inline">\(f\)</span> evaluated for any two active parameter vectors <span class="math inline">\(\mathbf{x_1}\)</span> and <span class="math inline">\(\mathbf{x_2}\)</span> before the simulator is run at thes points, and can be founding by plugging <span class="math inline">\(\mathbf{x_1}\)</span> and <span class="math inline">\(\mathbf{x_2}\)</span> into the mean and covariance functions discussed in Sections <a href="GPR.html#covariance">4.5</a> and <a href="GPR.html#mean">4.6</a>. The right hand plot shows what happens when the simulator output at <span class="math inline">\(f(\mathbf{x_1})\)</span> is observed. Our belief about the simulator output at <span class="math inline">\(\mathbf{x_2}\)</span> changes. The joint bivariate density is three-dimensional, and one can imagine slicing it with the plane at <span class="math inline">\(f(\mathbf{x_1}) =f(\mathbf{x^*_1})\)</span> and observing the exposed surface, whose two dimensions are the <span class="math inline">\(f(\mathbf{x_2})\)</span> axis and a univariate Gaussian density. This is the conditional density of <span class="math inline">\(f(\mathbf{x_2})|f(\mathbf{x^*_1})\)</span>. For a single unevaluated simulator output at <span class="math inline">\(\mathbf{x^\dagger}\)</span> with observed simulator outputs <span class="math inline">\(f(\mathcal{X^*})\)</span> the conditional mean, <span class="math inline">\(E[f(\mathbf{x^\dagger})]\)</span> and variance, <span class="math inline">\(V[f(\mathbf{x^\dagger})]\)</span> are given by</p>
+<p><span class="math display" id="eq:pred-mean">\[\begin{equation}
+\tag{4.7}
+E[f(\mathbf{x^\dagger})]= \mathbf{h}(\mathbf{x^\dagger})^T \hat{\mathbf{\beta}} + \mathbf{c}(\mathbf{x}^\dagger) \mathbf{C}^{-1} \left( f(\mathcal{X^*}) - \mathbf{h}(\mathbf{x})^T \hat{\mathbf{\beta}} \right)
+\end{equation}\]</span></p>
+<p>and</p>
+<p><span class="math display" id="eq:pred-var">\[\begin{align}
+\tag{4.8}
+V[f(\mathbf{x^\dagger})] = c(\mathbf{x^*}, \mathbf{x^*}) - c^T(\mathbf{x^*})\mathbf{C}^{-1} c(\mathbf{x^*}) +\\ \nonumber
+\left( \mathbf{h}(\mathbf{x^\dagger}) - \mathbf{h}^T(\mathbf{x^*}) \mathbf{C}^{-1} \mathbf{c}(\mathbf{x^\dagger}) \right)^T \left( \mathbf{h}^T(\mathbf{\mathbf{x^*}}) \mathbf{C}^{-1} \mathbf{h}(\mathbf{x^*}) \right)^{-1} \left( \mathbf{h}(\mathbf{x^\dagger}) - \mathbf{h}^T \mathbf(x^\dagger) \mathbf{C}^{-1} \mathbf{c}(\mathbf{x^\dagger}) \right)
+\end{align}\]</span></p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:conditioning"></span>
+<img src="figures/conditioning_thicker.png" alt="Projection of the joint distribution of a simulator output for two active parameter settings onto a plane. The ovals are lines of constant probability density. Once one of the outputs is observed, the other has a univariate Gaussian distribution, conditional on the observation." width="80%" />
+<p class="caption">
+Figure 4.1: Projection of the joint distribution of a simulator output for two active parameter settings onto a plane. The ovals are lines of constant probability density. Once one of the outputs is observed, the other has a univariate Gaussian distribution, conditional on the observation.
+</p>
+</div>
+<p>where <span class="math inline">\(\mathbf{c}(\mathbf{x^\dagger})\)</span> denotes the vector <span class="math inline">\(\left( c(\mathbf{x^\dagger}, \mathbf{x_1^*}),c(\mathbf{x^\dagger}, \mathbf{x_1^*}),...,c(\mathbf{x^\dagger}, \mathbf{x_k^*}) \right)\)</span> where <span class="math inline">\(k\)</span> is the number of observed training points. So <span class="math inline">\(c(\mathbf{x^\dagger})\)</span> is the vector of covariances between <span class="math inline">\(\mathbf{x^\dagger}\)</span> and each of the <span class="math inline">\(k\)</span> observed points. Chapter 2 of <span class="citation">(<a href="#ref-jeothesis" role="doc-biblioref">Oakley 1999</a>)</span> shows how these equations arise from properties of multivariate normal distributions.</p>
+<p>If Equations <a href="GPR.html#eq:pred-mean">(4.7)</a> and <a href="GPR.html#eq:pred-var">(4.8)</a> are used to predict the simulator output at an observed point <span class="math inline">\(\mathbf{x^*_d}\)</span> (<span class="math inline">\(d \in 1,2,...,k\)</span>) from one of the training runs then <span class="math inline">\(\mathbf{c}^T(\mathbf{x_d}) \mathbf{C}^{(-1)} = \mathbf{C}^{(-1)} \mathbf{c}(\mathbf{x_d}) = \mathbf{e_d}\)</span> where <span class="math inline">\(\mathbf{e_d}\)</span> is the k-vector where the d-th element is one and all the other elements are zero. This arises from properties of the covarince function described in Section <a href="GPR.html#covariance">4.5</a>. Consequently</p>
+<p><span class="math display" id="eq:pred-design-1">\[\begin{align}
+\tag{4.9}
+E[f(\mathbf{x^*_d})] &amp;= \mathbf{h}(\mathbf{x^*_d})^T \hat{\mathbf{\beta}} + f(\mathbf{x^*_d}) - \mathbf{h}(\mathbf{x^^*_d})^T \hat{\mathbf{\beta}} \\ \nonumber
+&amp;= f(\mathbf{x^*_d})
+\end{align}\]</span></p>
+<p>and</p>
+<p><span class="math display" id="eq:pred-design-2">\[\begin{align}
+\tag{4.10}
+V[f(\mathbf{x^*_d})]  &amp;= c(\mathbf{x_j}, \mathbf{x_j}) - c(\mathbf{x_j}, \mathbf{x^*_d}) + \left( \mathbf{h}(\mathbf{x^*}) - \mathbf{h}(\mathbf{x^*}) \right)\mathbf{h}(\mathbf{x^*})\left( \mathbf{h}(\mathbf{x^*}) - \mathbf{h}(\mathbf{x^*}) \right)\\ \nonumber
+&amp;= 0
+\end{align}\]</span></p>
+<p>and as such the observed <span class="math inline">\(f(\mathcal{X^*})\)</span> are interpolated exactly with zero uncertainty. This is desirable in cases where the data are observed with no error, as is the case with a deterministic computer simulation. Intuitively we would expect this to be true as Equations <a href="GPR.html#eq:pred-mean">(4.7)</a> and <a href="GPR.html#eq:pred-var">(4.8)</a> define the conditional distribution of <span class="math inline">\(f(\mathbf{x}^\dagger)|f(\mathcal{X^*})\)</span>, and if <span class="math inline">\(f(\mathbf{x}^\dagger)=f(\mathbf{x*})\)</span> then the distribution of <span class="math inline">\(f(\mathbf{x^*})|f(\mathcal{X^*})\)</span> is just <span class="math inline">\(f(\mathbf{x*})\)</span>. Stochastic behaviour in the function being emulated can also be encapsulated by estimating a ‘nugget’ parameter form the data, which is discussed next, along with other properties of the covariance function.</p>
+</div>
+<div id="covariance" class="section level2 hasAnchor" number="4.5">
+<h2><span class="header-section-number">4.5</span> Covariance function<a href="GPR.html#covariance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The covariance between <span class="math inline">\(f(\mathbf{x})\)</span> and <span class="math inline">\(f(\mathbf{x&#39;})\)</span> is computed from the parameter vectors <span class="math inline">\(\mathbf{x}\)</span> and <span class="math inline">\(\mathbf{x&#39;}\)</span>. A key assumption of Gaussian processes is that points that are close together in <span class="math inline">\(\mathbf{x}\)</span>-space should be close together in <span class="math inline">\(f(\mathbf{x})\)</span>-space, and that when predicting <span class="math inline">\(f(\mathbf{x^\dagger})\)</span>, then observed points close to <span class="math inline">\(\mathbf{x^\dagger}\)</span> more strongly influence the prediction than those that are far away. The presence of the <span class="math inline">\(\mathbf{x}-\mathbf{x}&#39;\)</span> term in correlation functions encapsulates this idea. Another key assumption is that some elements of <span class="math inline">\(\mathbf{x}\)</span> bear more influence on neighbouring points than others. and that information on this can be found from the data. The hyperparameters <span class="math inline">\(\mathbf{\gamma}\)</span> of the function <span class="math inline">\(c(\cdot, \cdot)\)</span> encapsulate this idea. The function <span class="math inline">\(c(\cdot, \cdot)\)</span> must
+produce covariances matrices for <span class="math inline">\(f\)</span> that have several properties:</p>
+<ul>
+<li>Covariance matrices are symmetric in that for matrix <span class="math inline">\(\mathbf{A}\)</span>, <span class="math inline">\(\mathbf{A}=\mathbf{A}^{-1}\)</span>. Consequently the covariance function <span class="math inline">\(c(\cdot, \cdot)\)</span> must also be symmetric in that <span class="math inline">\(c(\mathbf{x}, \mathbf{x&#39;}) = \cdot(\mathbf{x&#39;}, \mathbf{x})\)</span>.</li>
+<li>Covariance matrices are positive semidefinite (PSD), which means they have no negative eigenvalues. Hence <span class="math inline">\(c(\cdot,\cdot)\)</span> must produce covariance matrices which are PSD.</li>
+<li>A covariance function that is a function of <span class="math inline">\(\mathbf{x} - \mathbf{x&#39;}\)</span> is stationary, in that the covariance between two points does not depend on where they are in <span class="math inline">\(\mathcal{X}\)</span> but only the distance between them.</li>
+<li>Furthermore a covariance function that is a function of <span class="math inline">\(|\mathbf{x} - \mathbf{x&#39;}|\)</span> is isotropic.</li>
+</ul>
+<p>If a covariance function is stationary, then it can be expressed as a product of a correlation matrix <span class="math inline">\(\mathbf{R}\)</span> and a constant variance <span class="math inline">\(\sigma^2\)</span>. Table <a href="#tab:kernels"><strong>??</strong></a> shows the univariate version of the covariance functions available in DiceKriging <span class="citation">(<a href="#ref-dicekriging" role="doc-biblioref">Roustant, Ginsbourger, and Deville 2012</a>)</span>, or more appropriately correlation functions, as each is multiplied by <span class="math inline">\(\sigma\)</span> to get the required covariance. All of the covariance functions in Table <a href="#tab:kernels"><strong>??</strong></a> produce symmetric, PSD matrices, and they are all stationary and isotropic.</p>
+<p>The Matérn correlation function with parameter <span class="math inline">\(\nu = \frac{5}{2}\)</span> is a popular choice and is the default option in both the DiceKriging and RobustGaSP <span class="citation">(<a href="#ref-rgasp_manual" role="doc-biblioref">Gu, Palomo, and Berger 2022</a>)</span> software packages. The <span class="math inline">\(\nu\)</span> parameter in the Matérn family controls the smoothness of the function. As <span class="math inline">\(\nu \rightarrow \infty\)</span>, the Matérn function begins to look more like the Gaussian covariance function, which is infinitely differentiable and can hence be unrealistically smooth. For <span class="math inline">\(\nu = \frac{5}{2}\)</span>, the process is mean square twice differentiable, which guarantees the existence of first and second moments, and hence predictive means and variances, which is desirable. Achieving the same level of smoothness with the squared exponential kernel would come at the price of correlations quickly going to zero as <span class="math inline">\(|\mathbf{x} - \mathbf{x&#39;}|\)</span> increases <span class="citation">(<a href="#ref-rgasp_manual" role="doc-biblioref">Gu, Palomo, and Berger 2022</a>)</span>, which may be unrealistic, and cause numerical issues in the parameter estimation routine. In this dissertation, the Matérn <span class="math inline">\(\frac{5}{2}\)</span> correlation function is used.</p>
+<p>The correlation functions <span class="math inline">\(r(\cdot, \cdot)\)</span> in Table <a href="#tab:kernels"><strong>??</strong></a> take two scalar inputs and return a single scalar output<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a>. To extend this to compute correlations for multivariate <span class="math inline">\(\mathbf{x}\)</span> the most common approach is to take the product of the univariate correlations:</p>
+<p><span class="math display" id="eq:mv-correlation">\[\begin{equation}
+\tag{4.11}
+\mathbf{c}(\mathbf{\mathbf{x}, \mathbf{x&#39;}}) = \sigma^2 \prod_{i=1}^p c(x_i, x&#39;_i)
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(p\)</span> is the number of elements of <span class="math inline">\(\mathbf{x}\)</span>. For each of element of <span class="math inline">\(\mathbf{x}\)</span> a separate <span class="math inline">\(\gamma\)</span> is learned, and that controls how influential that input parameter is on determining the value and the precision of the emulator prediction at other points, by inflating or shrinking the effective distance between the points in the relevant <span class="math inline">\(\mathbf{x}\)</span>-component. The <span class="math inline">\(\mathbf{\gamma}\)</span> are often called length-scale parameters. For predictions at points in <span class="math inline">\(\mathcal{X}\)</span> further away from the observed <span class="math inline">\(\mathbf{x^*}\)</span>, the predictive variance will tend to <span class="math inline">\(\sigma^2\)</span>, as the <span class="math inline">\((x-x&#39;)\)</span> terms in the correlation functions go to infinity, and as such the exponential terms in Table <a href="#tab:kernels"><strong>??</strong></a> tend to one. If <span class="math inline">\(\gamma\)</span> is changed from 1 to 0.5 for one of the components of <span class="math inline">\(\mathbf{x}\)</span>, the average amount of variation observed in a fixed interval along the component axis would double. Their is an interplay between the <span class="math inline">\(\mathbf{\gamma}\)</span> and <span class="math inline">\(\sigma\)</span>, The smaller the <span class="math inline">\(\mathbf{\gamma}\)</span> are the more the variation arises due to the function, and hence <span class="math inline">\(\sigma^2\)</span> would be smaller, as large fluctuations in <span class="math inline">\(f\)</span> can be explained by function variation rather than noise. Higher values for <span class="math inline">\(\mathbf{\gamma}\)</span> are associated with higher values for <span class="math inline">\(\sigma^2\)</span> and imply a constant function with a lot noise. Lower values for <span class="math inline">\(\mathbf{\gamma}\)</span> are associated with lower values for <span class="math inline">\(\sigma^2\)</span> and imply a white-noise process <span class="citation">(<a href="#ref-gp4ml" role="doc-biblioref">Williams and Rasmussen 2006</a>)</span>.</p>
+<p>Often the function being emulated is non-deterministic. In this case, it is possible to learn another parameter from that data, called the ‘nugget’, which is the variance of a zero-centred Gaussian distribution. The univariate nugget is added to the diagonal elements of the covariance matrix for the observed data and the emulator is no longer constrained to interpolate the observed <span class="math inline">\(f(\mathcal{X^*})\)</span>. The nugget can also be used to address problems with inverting <span class="math inline">\(\mathbf{R}\)</span> in Equation <a href="GPR.html#eq:likelihood">(4.4)</a> which can arise when its elements are very close to 0 or 1. In this dissertation a nugget parameter was used when training emulators to help with likelihood estimation.</p>
+<p>There is a lot of flexibility in choosing covariance functions and they can be customised to reflect prior knowledge of the function being emulated. In particular, any sum or product of valid covariance functions is also a valid covariance function
+<span class="citation">(<a href="#ref-gp4ml" role="doc-biblioref">Williams and Rasmussen 2006</a>)</span>. The covariance function is the defining element of a GP, but emulation is often boosted by the inclusion of a mean function, which is illustrates with a simple example, along with some other properties of the GP discussed in this section.</p>
+</div>
+<div id="mean" class="section level2 hasAnchor" number="4.6">
+<h2><span class="header-section-number">4.6</span> Mean function<a href="GPR.html#mean" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A GP models our belief about how far a true process might deviate from some given regression function. Any variation in the true process not captured by the regression function needs to be captured by the GP, which can often lead to less precision in emulator predictions. The following example gives an illustration of this.</p>
+<p>Assume the simulator <span class="math inline">\(f(x)=x^2 - 5x\)</span> from Section <a href="History-Matching.html#hm-worked-example">3.10</a> and shown in Figure <a href="GPR.html#fig:function-plot">4.2</a> is to be emulated using a GP and that the simulator can only be run at the five points shown. There is a region with no observed points, roughly between -9 and 0 on the x-axis. The emulator will have to interpolate in this region. There are no observations in the region above about 6 on the x-axis, the emulator will have to extrapolate in this region. There is a good amount of data around the point of inflection at <span class="math inline">\(x=2.5\)</span>. This is where the function varies the most.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:function-plot"></span>
+<img src="dissertation_files/figure-html/function-plot-1.png" alt="A simple function to be emulated, with the five points used to build the emulator shown. There is a region with no training data from approximately x=-9 to x=0." width="80%" />
+<p class="caption">
+Figure 4.2: A simple function to be emulated, with the five points used to build the emulator shown. There is a region with no training data from approximately x=-9 to x=0.
+</p>
+</div>
+<p>First a zero-mean GP emulator is built with a Matérn <span class="math inline">\(\frac{5}{2}\)</span> correlation function, without a ‘nugget’. The emulator is then used to predict, with 95% posterior predictive intervals, the value of the function at many points between x = -10 and 10. A second emulator is built using a simple first-order<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a> mean function, which requires two more parameters to be estimated from the data. The results are shown in Figure <a href="GPR.html#fig:predictors">4.3</a>. The predictive means of both emulators do a good job of reproducing the function and both emulators have larger predictive intervals further away from the data. However, the constant-mean emulator (right pane) shows greater precision in predictions, because some part of the function variation is encapsulated by the mean function.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:predictors"></span>
+<img src="dissertation_files/figure-html/predictors-1.png" alt="Predictions using a zero-mean (left) and first-order mean (right) GP emulator trained on the five points shown for the function, with 95 percent predictive intervals shown. The emulators predict the training points exactly, and the width of the predictive intervals increases further from the data. The first-order mean emulator is able to interpolate and extrapolate with greater precision." width="80%" />
+<p class="caption">
+Figure 4.3: Predictions using a zero-mean (left) and first-order mean (right) GP emulator trained on the five points shown for the function, with 95 percent predictive intervals shown. The emulators predict the training points exactly, and the width of the predictive intervals increases further from the data. The first-order mean emulator is able to interpolate and extrapolate with greater precision.
+</p>
+</div>
+<p>As the emulator tries to predict at points further away from the training data, the influence of the training data on the predictions drops off, and the emulator reverts to the mean function, as show in Figure <a href="GPR.html#fig:predict-long">4.4</a>, where the zero-mean emulator on the left tends to zero with larger x, and the constant-mean emulator on the right tends to the mean function, albeit both with such wide posterior predictive intervals as to render the results quite useless.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:predict-long"></span>
+<img src="dissertation_files/figure-html/predict-long-1.png" alt="Behaviour of the emulator as it predicts further from the training data. Both the zero-mean (left) and first-order mean (right) emulators tend to their respective mean functions as the distance from the observed data grows larger." width="80%" />
+<p class="caption">
+Figure 4.4: Behaviour of the emulator as it predicts further from the training data. Both the zero-mean (left) and first-order mean (right) emulators tend to their respective mean functions as the distance from the observed data grows larger.
+</p>
+</div>
+<p>Theoretically, the mean function can be any linear (in the coefficients) function of the inputs <span class="math inline">\(\mathbf{x}\)</span>. Some sources <span class="citation">(<a href="#ref-gp_comparison" role="doc-biblioref">Erickson, Ankenman, and Sanchez 2018</a>)</span> favour a first order-only model, describing the estimation of coefficients for higher order polynomials as possibly extraneous. Prior knowledge of the process to be emulated can be useful in choosing a suitable mean function. In this dissertation, where, 28 input parameters were being varied, and knowledge of the relationship between them and the simulator output was limited, a mean function of the kind</p>
+<p><span class="math display" id="eq:simple-mean-function">\[\begin{equation}
+\tag{4.12}
+\mu(\mathbf{x}) = \beta_0 + \sum_{i=1}^{28} \beta_i x_i
+\end{equation}\]</span></p>
+<p>was used, which meant that 29 parameters needed to be learned for the mean function. This was a practical choice - each emulator was trained using several hundred runs. Introducing second order terms may have required many more simulator runs to get good reliable estimates for the <span class="math inline">\(\mathbf{\beta}\)</span>, and the computational resource required for this was not available.
+The choice of mean function, and other modelling choices, can also be a function of the software package used, and we discuss the choice of software implementation in the next section.</p>
+</div>
+<div id="model-complexity-and-the-predictive-distribution" class="section level2 hasAnchor" number="4.7">
+<h2><span class="header-section-number">4.7</span> Model complexity and the predictive distribution<a href="GPR.html#model-complexity-and-the-predictive-distribution" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The denominator in Equation <a href="GPR.html#eq:sigma-hat">(4.6)</a> should be <span class="math inline">\(k-p\)</span>, where <span class="math inline">\(p\)</span> is the number of parameters in the GP mean function (Section <a href="GPR.html#mean">4.6</a>), and consequently the predictive distribution of the GP emulator is a Student-t with <span class="math inline">\(k-p\)</span> degrees of freedom. Often in practice, as is the case with the software used in this dissertation, it is assumed that <span class="math inline">\(k&gt;&gt;p\)</span> and as such the number of degrees of freedom is large enough that the predictive distribution is approximately Normal. In what follows it is assumed that the predictive distributions of the emulators are Gaussian, as the number of simulator runs used to train the emulators numbered in the hundreds, and the number of parameters was in the tens. Care must be taken with model complexity, if <span class="math inline">\(k\)</span> is not much greater than <span class="math inline">\(p\)</span>, an assumption of Gaussian predictions may not be valid, and the predictive intervals significantly wider than assumed.</p>
+</div>
+<div id="gp-software" class="section level2 hasAnchor" number="4.8">
+<h2><span class="header-section-number">4.8</span> Software implementations<a href="GPR.html#gp-software" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Three software packages were trialled for the GP emulation in this dissertation, the R package RobustGaSP <span class="citation">(<a href="#ref-rgasp_manual" role="doc-biblioref">Gu, Palomo, and Berger 2022</a>)</span>, the Python module scikit-learn <span class="citation">(<a href="#ref-scikit" role="doc-biblioref">Pedregosa et al. 2011</a>)</span> GaussianProcessRegressor, and the R package DiceKriging <span class="citation">(<a href="#ref-dicekriging" role="doc-biblioref">Roustant, Ginsbourger, and Deville 2012</a>)</span>.</p>
+<p>RobustGaSP package distinguishes itself from the other two by implementing a non-uniform prior for the GP parameters and finding their maximum posterior modes as point estimates. This approach is supposed to protect against some of the numerical issues arising from parameter estimation (discussed briefly in Section <a href="GPR.html#model-selection">4.3</a>). However, this software package was very slow to run, and as such it was impractical for training 588 emulators using hundreds of data points at a time. Crucially, it did not expose a public method for generating a predictive covariance matrix, which was required for model validation, as discussed in Section <a href="results.html#wave1-methodology">5.2</a>.</p>
+<p>GaussianProcessRegressor from scikit-learn was the only Python module examined. It was very quick, and appeared to offer the greatest flexibility in building custom covariance functions. However, it failed very often in parameter estimation, and it only offered two mean function options: zero-mean or constant (equal to the mean of the training data), which may have been the cause of its problem in parameter estimation.</p>
+<p>In this dissertation, 588 emulators were trained in batches for processes with unknown behaviours. As such, it was impractical to have to wait a long time for parameters to be estimated, or to spend much time examining the impacts of different covariance functions across hundreds off models. The preferred method was to build the emulators with sensible defaults, and to conservatively filter out models with poor generalisation performance. It was also crucial to be able to easily generate predictive covariance matrices. Consequently, the DiceKriging package was used, as it was relatively fast, and could compute covariance matrices using its ‘predict’ method.</p>
+<p>The order of the information presented in this chapter was not indicative of the modelling process workflow, so the chapter finishes with a summary of GP modelling considerations, and a reminder of the purpose of GPs in this dissertation.</p>
+</div>
+<div id="conclusion-2" class="section level2 hasAnchor" number="4.9">
+<h2><span class="header-section-number">4.9</span> Conclusion<a href="GPR.html#conclusion-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this chapter some of the theory and the main building blocks of GPs were presented. In summary, assuming adequate training data has been collected on the function to emulate:</p>
+<ol style="list-style-type: decimal">
+<li>Choose a structure for the mean and covariance function,</li>
+<li>Compute the parameters for the emulator by maximising the likelihood of the data with respect to the parameters,</li>
+<li>This gives a model for the joint distribution of the unobserved and observed points, from which the conditional distribution of the unobserved points is derived. It is this conditional distribution that is used to predict at the unobserved points.</li>
+</ol>
+<p>The simulator output an unobserved <span class="math inline">\(\mathbf{x}\)</span> is a Gaussian random variable, which implies a point estimate for the function evaluated at that <span class="math inline">\(\mathbf{x}\)</span> (the mean) and a quantification of the uncertainty of that point estimate (the variance). These estimates are obtained in a fraction of the time it would take to run the simulator. These properties make GP emulation a vital tool in history matching, which is discussed in the next section.</p>
+
+
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-gp_comparison" class="csl-entry">
+Erickson, Collin B, Bruce E Ankenman, and Susan M Sanchez. 2018. <span>“<span class="nocase">Comparison of Gaussian process modeling software</span>.”</span> <em>European Journal of Operational Research</em> 266 (1): 179–92.
+</div>
+<div id="ref-gelman2013bayesian" class="csl-entry">
+Gelman, A., J. B. Carlin, H. S. Stern, D. B. Dunson, A. Vehtari, and D. B. Rubin. 2013. <em>Bayesian Data Analysis, Third Edition</em>. Chapman &amp; Hall/CRC Texts in Statistical Science. Taylor &amp; Francis.
+</div>
+<div id="ref-rgasp_manual" class="csl-entry">
+Gu, Mengyang, Jesus Palomo, and James Berger. 2022. <em>RobustGaSP: Robust Gaussian Stochastic Process Emulation</em>. <a href="https://CRAN.R-project.org/package=RobustGaSP">https://CRAN.R-project.org/package=RobustGaSP</a>.
+</div>
+<div id="ref-jeothesis" class="csl-entry">
+Oakley, Jeremy. 1999. <span>“Bayesian Uncertainty Analysis for Complex Computer Codes.”</span> PhD thesis, The University of Sheffield.
+</div>
+<div id="ref-scikit" class="csl-entry">
+Pedregosa, Fabian, Gaël Varoquaux, Alexandre Gramfort, Vincent Michel, Bertrand Thirion, Olivier Grisel, Mathieu Blondel, et al. 2011. <span>“Scikit-Learn: Machine Learning in Python.”</span> <em>Journal of Machine Learning Research</em> 12 (Oct): 2825–30.
+</div>
+<div id="ref-dicekriging" class="csl-entry">
+Roustant, Olivier, David Ginsbourger, and Yves Deville. 2012. <span>“<span class="nocase">DiceKriging, DiceOptim: Two R packages for the analysis of computer experiments by kriging-based metamodeling and optimization</span>.”</span> <em>Journal of Statistical Software</em> 51: 1–55.
+</div>
+<div id="ref-gp4ml" class="csl-entry">
+Williams, Christopher KI, and Carl Edward Rasmussen. 2006. <em>Gaussian Processes for Machine Learning</em>. Vol. 2. 3. MIT press Cambridge, MA.
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="4">
+<li id="fn4"><p>provided that, as is the case with TALYS, the simulator is deterministic and consequently there is no uncertainty due to random behaviour, often called aleatoric uncertainty, associated with the process <span class="math inline">\(f\)</span>.<a href="GPR.html#fnref4" class="footnote-back">↩︎</a></p></li>
+<li id="fn5"><p>The observed data includes both the outputs <span class="math inline">\(f(\mathcal{X^*})\)</span> and the inputs <span class="math inline">\(\mathcal{X}^*\)</span> but the inputs are omitted here for brevity.<a href="GPR.html#fnref5" class="footnote-back">↩︎</a></p></li>
+<li id="fn6"><p>Indices <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> are borrowed here and not again; elsewhere i indexes over processes/measurements/emulator outputs and j indexes over proposal points from <span class="math inline">\(\mathcal{X}\)</span>.<a href="GPR.html#fnref6" class="footnote-back">↩︎</a></p></li>
+<li id="fn7"><p>The computational expense is proportional to <span class="math inline">\(n^3\)</span><a href="GPR.html#fnref7" class="footnote-back">↩︎</a></p></li>
+<li id="fn8"><p>A function that does this is called a kernel, and hence the <span class="math inline">\(r(\cdot, \cdot)\)</span> are sometimes called kernels.<a href="GPR.html#fnref8" class="footnote-back">↩︎</a></p></li>
+<li id="fn9"><p>as in <span class="math inline">\(y=mx+c\)</span><a href="GPR.html#fnref9" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="History-Matching.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="results.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/04-GaussianProcessRegression.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["dissertation.pdf", "dissertation.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
