@@ -15,3 +15,5 @@ rmd_files: ["index.Rmd",
             "08-Discussion.Rmd",
             "09-Appendices.rmd",
             "10-References.Rmd"]
+
+output_dir: "docs"            
