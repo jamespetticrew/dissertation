@@ -15,3 +15,6 @@ bookdown::pdf_book:
   citation_package: natbib
   keep_tex: yes
 bookdown::epub_book: default
+bookdown::pdf_document2:
+  citation_package: none
+  pandoc_args: [ "--csl", "ieee.csl" ]

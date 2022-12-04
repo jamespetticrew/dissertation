@@ -127,12 +127,10 @@ optical_depth_plot <- function(v1,v2,df){
     ggplot2::scale_fill_viridis_c(direction=-1,
                                   option="C") +
     ggplot2::labs(fill= "Optical\nDepth",
-                  x = v1, y=v2)
-  
-}
+                  x = v1, y=v2)}
 ```
 
-# Research Ethics Approval
+# Research Ethics Approval {#ethics-approval}
 
 The research ethics approval process for the work described in this dissertation was completed in April 2020, before any work using data commenced. Upon completion of the required online ethics declaration form, it was decided that it was not necessary to gain formal research ethics approval for the dissertation, owing to the lack of data involving human subjects. A scan of a student declaration form saying as much, and signed by both the student and the supervisor, is included below.
 

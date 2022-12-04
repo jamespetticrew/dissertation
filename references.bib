@@ -1,13 +1,17 @@
-@InProceedings{talys,
-title = {TALYS-1.0},
-author = {A.J. Koning and S. Hilaire and M.C. Duijvestijn},
-booktitle = {Proceedings of the International Conference on Nuclear Data for Science and Technology},
-year = {2008},
-editor = {O. Bersillon and F. Gunsing and E. Bauge and R. Jacqmin and S. Leray},
-pages = {211-214},
-month = April,
-organization = {EDP Sciences} }
-
+@article{talys,
+title = {Modern Nuclear Data Evaluation with the TALYS Code System},
+journal = {Nuclear Data Sheets},
+volume = {113},
+number = {12},
+pages = {2841-2934},
+year = {2012},
+note = {Special Issue on Nuclear Reaction Data},
+issn = {0090-3752},
+doi = {https://doi.org/10.1016/j.nds.2012.11.002},
+url = {https://www.sciencedirect.com/science/article/pii/S0090375212000889},
+author = {A.J. Koning and D. Rochman},
+abstract = {This paper presents a general overview of nuclear data evaluation and its applications as developed at NRG, Petten. Based on concepts such as robustness, reproducibility and automation, modern calculation tools are exploited to produce original nuclear data libraries that meet the current demands on quality and completeness. This requires a system which comprises differential measurements, theory development, nuclear model codes, resonance analysis, evaluation, ENDF formatting, data processing and integral validation in one integrated approach. Software, built around the TALYS code, will be presented in which all these essential nuclear data components are seamlessly integrated. Besides the quality of the basic data and its extensive format testing, a second goal lies in the diversity of processing for different type of users. The implications of this scheme are unprecedented. The most important are: 1. Complete ENDF-6 nuclear data files, in the form of the TENDL library, including covariance matrices, for many isotopes, particles, energies, reaction channels and derived quantities. All isotopic data files are mutually consistent and are supposed to rival those of the major world libraries. 2. More exact uncertainty propagation from basic nuclear physics to applied (reactor) calculations based on a Monte Carlo approach: “Total” Monte Carlo (TMC), using random nuclear data libraries. 3. Automatic optimization in the form of systematic feedback from integral measurements back to the basic data. This method of work also opens a new way of approaching the analysis of nuclear applications, with consequences in both applied nuclear physics and safety of nuclear installations, and several examples are given here. This applied experience and feedback is integrated in a final step to improve the quality of the nuclear data, to change the users vision and finally to orchestrate their integration into simulation codes.}
+}
 
 @article{exfor,
 title = {Towards a More Complete and Accurate Experimental Nuclear Reaction Data Library (EXFOR): International Collaboration Between Nuclear Reaction Data Centres (NRDC)},
@@ -51,7 +55,7 @@ keywords = {Model fitting, Model defects, Covariances, Gaussian processes, Uncer
 
 @article{gp_interpolator,
 author = {Hiroki Iwamoto},
-title = {Generation of nuclear data using Gaussian process regression},
+title = {{Generation of nuclear data using Gaussian process regression}},
 journal = {Journal of Nuclear Science and Technology},
 volume = {57},
 number = {8},
@@ -65,7 +69,7 @@ eprint = { https://doi.org/10.1080/00223131.2020.1736202}
 
 
 @article{Bayesian_ML,
-title = {Iterative Bayesian Monte Carlo for nuclear data evaluation},
+title = {{Iterative Bayesian Monte Carlo for nuclear data evaluation}},
 author = {Erwin Alhassan and Dimitri Rochman and Alexander Vasiliev and Mathieu Hursin and Arjan J Koning and Hakim Ferroukhi},
 year = 2022,
 journal = {Nuclear Science and Techiques},
@@ -85,7 +89,7 @@ number = 50
 }  
   
   @article{bower2010galaxy,
-  title={Galaxy formation: a Bayesian uncertainty analysis},
+  title={{Galaxy formation: a Bayesian uncertainty analysis}},
   author={Bower, Richard G and Goldstein, Michael and Vernon, Ian},
   journal={Bayesian analysis},
   volume={5},
@@ -98,7 +102,7 @@ number = 50
 
 
 @article{dicekriging,
-  title={DiceKriging, DiceOptim: Two R packages for the analysis of computer experiments by kriging-based metamodeling and optimization},
+  title={{DiceKriging, DiceOptim: Two R packages for the analysis of computer experiments by kriging-based metamodeling and optimization}},
   author={Roustant, Olivier and Ginsbourger, David and Deville, Yves},
   journal={Journal of statistical software},
   volume={51},
@@ -138,7 +142,7 @@ year={1999},
 
   
 @Manual{rgasp_manual,
-    title = {RobustGaSP: Robust Gaussian Stochastic Process Emulation},
+    title = {{RobustGaSP: Robust Gaussian Stochastic Process Emulation}},
     author = {Mengyang Gu and Jesus Palomo and James Berger},
     year = {2022},
     note = {R package version 0.6.4},
@@ -158,7 +162,7 @@ year={1999},
 
 
 @article{gp_comparison,
-  title={Comparison of Gaussian process modeling software},
+  title={{Comparison of Gaussian process modeling software}},
   author={Erickson, Collin B and Ankenman, Bruce E and Sanchez, Susan M},
   journal={European Journal of Operational Research},
   volume={266},
@@ -240,5 +244,34 @@ year={1999},
   url = {https://CRAN.R-project.org/package=mvtnorm},
 }
 
+@article{lhs_ref,
+  title={Large sample properties of simulations using Latin hypercube sampling},
+  author={Stein, Michael},
+  journal={Technometrics},
+  volume={29},
+  number={2},
+  pages={143--151},
+  year={1987},
+  publisher={Taylor \& Francis}
+}
 
+  @Manual{lhs_r,
+    title = {lhs: Latin Hypercube Samples},
+    author = {Rob Carnell},
+    year = {2022},
+    note = {R package version 1.1.5},
+    url = {https://CRAN.R-project.org/package=lhs},
+  }
+  
+  
+  @article{gp_diagnostics,
+  title={Diagnostics for Gaussian process emulators},
+  author={Bastos, Leonardo S and O’Hagan, Anthony},
+  journal={Technometrics},
+  volume={51},
+  number={4},
+  pages={425--438},
+  year={2009},
+  publisher={Taylor \& Francis}
+}
 
