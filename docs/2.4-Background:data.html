@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Lay Summary of the Dissertation | dissertation.knit" />
+<meta property="og:title" content="2.4 Experimental cross-section data | dissertation.knit" />
 <meta property="og:type" content="book" />
 
 <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
@@ -22,7 +22,7 @@ MathJax.Hub.Config({
 
 <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
 
-<title>Lay Summary of the Dissertation | dissertation.knit</title>
+<title>2.4 Experimental cross-section data | dissertation.knit</title>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -175,15 +175,30 @@ details > summary {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="lay-summary-of-the-dissertation" class="section level1 unnumbered">
-<h1>Lay Summary of the Dissertation</h1>
-<p>In nuclear physics applications, cross-sections are used to quantify the probabilities of interactions between radiation and matter across energy states. They are commonly modelled using computer simulation tools as it is impossible to measure them comprehensively enough across energy fidelities and interaction scenarios. However the capacity of these tools to produce accurate results is limited, partially due to incomplete knowledge of the physical processes they try to model, and partially because the simulator takes a set of user-defined input parameters, the correct values of which are not known.</p>
-<p>One way to learn more about these parameters is through history matching. In this dissertation, history matching was used to efficiently identify and discard values of the parameters that were unlikely to result in the simulator giving good match to experiments once the inadequacy of the simulator and experimental imprecision were accounted for. Gaussian process (GP) statistical models were used to emulate the relationships between the input parameters and the simulator outputs. This greatly sped up computation at the expense of adding another source of uncertainty, which had to be considered when assessing the inputs. GP emulators were built using a small number of simulator runs at carefully chosen values of the input parameters. Emulators that displayed good out-of-sample predictive performance were then used to identify parameters settings that could plausibly result in the the simulator well matching experiments, and further emulators were built for using simulator runs at those parameter settings. Iterating over this process, known as refocussing, was shown to greatly reduce the space of plausible values for the 28 input parameters considered, at the cost of only several hundred simulator runs.</p>
-
+<div id="Background:data" class="section level2" number="2.4">
+<h2><span class="header-section-number">2.4</span> Experimental cross-section data</h2>
+<p>Experimental nuclear reaction measurements have been recorded since the discovery of the neutron, and a comprehensive database of these exists in EXFOR <span class="citation">(<a href="#ref-exfor" role="doc-biblioref">Otuka et al. 2014</a>)</span>, maintained and developed by International Network of Nuclear Reaction Data Centres (NRDC), coordinated by the International Atomic Energy Authority (IAEA). The data are open source, and are technically freely available to all. However, successfully querying the EXFOR database is a difficult task, which was much simplified using the framework created by the nuclear data evaluation pipeline software described in <span class="citation">(<a href="#ref-Schnabel_2021" role="doc-biblioref">Schnabel et al. 2021</a>)</span>.</p>
+A total of 23183 data points pertaining to neutrons incident upon the Iron-56 isotope were pulled from the database. Each point is a measurement for a specific reaction at a specific incident neutron energy. It was decided to focus on incident neutrons with energies between 5 and 10 MeV, for which there were 1141 experimental observations. The data were then filtered further to include only measurements of reactions that TALYS could simulate directly; total cross-section (n,tot) - which is proportional to the probability of any reaction occurring, inelastic cross-section (n,n’) - which is proportional to the incident neutron experiencing a change of momentum (‘bouncing off’ the nucleus), proton cross-section (n,p) - which is proportional to the probability of the incident neutron being absorbed by the nucleus and ejecting a proton as result, and alpha cross-section (n,a) - which is proportional to the probability of the incident neutron being absorbed by the nucleus and ejecting an alpha particle (a Helium nucleus) as result. A summary of the relevant experimental data points is shown in Table <a href="#tab:exp-data-count"><strong>??</strong></a>.
+<p>The data are dominated by total cross-section measurements, which are the sums of the cross-sections for all possible reactions at a given energy. This is because total cross-sections are much easier to measure, (using the attenuation method briefly described in Section <a href="2.2-Background:xs.html#Background:xs">2.2</a>) whereas it is much more difficult to measure, for example, the (n,p) reactions, where a proton is released from the nucleus, as it requires a specific ejectile to be detected. The experimental data covered a range of incident neutron energies, which can be set as state parameters (Section <a href="2.3-Background:talys.html#Background:talys">2.3</a>) in the TALYS input file. The run time of the simulator is proportional to the number of incident neutron energies it is required to simulate. Consequently, it was decided to only use half of the (n,tot) data points, both to reduce TALYS run time and to slightly reduce the dominance of (n,tot). The energies were filtered by ordering them and picking every second energy. Consequently 608 relevant data points were used in the analysis. Once duplicates were accounted for, there were 588 processes that needed to be computed for each TALYS run, where a ‘process’ in this context means a cross-section for a given reaction at a given (incident neutron) energy.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:exp-data-plot"></span>
+<img src="dissertation_files/figure-html/exp-data-plot-1.png" alt="Plots of relevant Iron-56 neutron cross-section data extracted from the EXFOR database. Each panel shows data for a different reaction cross-section. 1065 (n,tot) data points are plotted, it was decided to only use half of them in the analysis." width="400px" />
+<p class="caption">
+Figure 2.2: Plots of relevant Iron-56 neutron cross-section data extracted from the EXFOR database. Each panel shows data for a different reaction cross-section. 1065 (n,tot) data points are plotted, it was decided to only use half of them in the analysis.
+</p>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-exfor" class="csl-entry">
+Otuka, N., E. Dupont, V. Semkova, B. Pritychenko, A. I. Blokhin, M. Aikawa, S. Babykina, et al. 2014. <span>“Towards a More Complete and Accurate Experimental Nuclear Reaction Data Library (EXFOR): International Collaboration Between Nuclear Reaction Data Centres (NRDC).”</span> <em>Nuclear Data Sheets</em> 120: 272–76. https://doi.org/<a href="https://doi.org/10.1016/j.nds.2014.07.065">https://doi.org/10.1016/j.nds.2014.07.065</a>.
+</div>
+<div id="ref-Schnabel_2021" class="csl-entry">
+Schnabel, G., H. Sjöstrand, J. Hansson, D. Rochman, A. Koning, and R. Capote. 2021. <span>“Conception and Software Implementation of a Nuclear Data Evaluation Pipeline.”</span> <em>Nuclear Data Sheets</em> 173 (March): 239–84. <a href="https://doi.org/10.1016/j.nds.2021.04.007">https://doi.org/10.1016/j.nds.2021.04.007</a>.
+</div>
 </div>
 <p style="text-align: center;">
-<a href="index.html"><button class="btn btn-default">Previous</button></a>
-<a href="1-Intro.html"><button class="btn btn-default">Next</button></a>
+<a href="2.3-Background:talys.html"><button class="btn btn-default">Previous</button></a>
+<a href="2.5-Background:evaluation.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

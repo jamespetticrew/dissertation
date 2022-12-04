@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="4.4 Conditioning on the data | dissertation.knit" />
+<meta property="og:type" content="book" />
+
+<meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
+
+<title>4.4 Conditioning on the data | dissertation.knit</title>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+/* show arrow before summary tag as in bootstrap
+TODO: remove if boostrap in updated in html_document (rmarkdown#1485) */
+details > summary {
+  display: list-item;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<div class="row">
+<div class="col-sm-12">
+<!--bookdown:toc:end-->
+<!--bookdown:toc:start-->
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div id="conditioning-on-the-data" class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> Conditioning on the data</h2>
+<p>Assume that <span class="math inline">\(f(\mathcal{X^*})\)</span> and <span class="math inline">\(f(\mathcal{X^\dagger})\)</span> in Equation <a href="4.2-GPR:GPR.html#eq:joint-distro">(4.2)</a> each have length one. Once estimates for the parameters <span class="math inline">\(\mathbf{\hat{\theta}}\)</span> have been computed, their joint distribution would look something like Figure <a href="4.4-conditioning-on-the-data.html#fig:conditioning">4.1</a>, which shows a bivariate Gaussian distribution where the ovals are lines of constant probability density. There is some positive correlation between these two simulator outputs; perhaps because their <span class="math inline">\(\mathbf{x}\)</span>-coordinates are close together. The left hand plot represents our prior belief about <span class="math inline">\(f\)</span> evaluated for any two active parameter vectors <span class="math inline">\(\mathbf{x_1}\)</span> and <span class="math inline">\(\mathbf{x_2}\)</span> before the simulator is run at thes points, and can be founding by plugging <span class="math inline">\(\mathbf{x_1}\)</span> and <span class="math inline">\(\mathbf{x_2}\)</span> into the mean and covariance functions discussed in Sections <a href="4.5-covariance.html#covariance">4.5</a> and <a href="4.6-mean.html#mean">4.6</a>. The right hand plot shows what happens when the simulator output at <span class="math inline">\(f(\mathbf{x_1})\)</span> is observed. Our belief about the simulator output at <span class="math inline">\(\mathbf{x_2}\)</span> changes. The joint bivariate density is three-dimensional, and one can imagine slicing it with the plane at <span class="math inline">\(f(\mathbf{x_1}) =f(\mathbf{x^*_1})\)</span> and observing the exposed surface, whose two dimensions are the <span class="math inline">\(f(\mathbf{x_2})\)</span> axis and a univariate Gaussian density. This is the conditional density of <span class="math inline">\(f(\mathbf{x_2})|f(\mathbf{x^*_1})\)</span>. For a single unevaluated simulator output at <span class="math inline">\(\mathbf{x^\dagger}\)</span> with observed simulator outputs <span class="math inline">\(f(\mathcal{X^*})\)</span> the conditional mean, <span class="math inline">\(E[f(\mathbf{x^\dagger})]\)</span> and variance, <span class="math inline">\(V[f(\mathbf{x^\dagger})]\)</span> are given by</p>
+<p><span class="math display" id="eq:pred-mean">\[\begin{equation}
+\tag{4.7}
+E[f(\mathbf{x^\dagger})]= \mathbf{h}(\mathbf{x^\dagger})^T \hat{\mathbf{\beta}} + \mathbf{c}(\mathbf{x}^\dagger) \mathbf{C}^{-1} \left( f(\mathcal{X^*}) - \mathbf{h}(\mathbf{x})^T \hat{\mathbf{\beta}} \right)
+\end{equation}\]</span></p>
+<p>and</p>
+<p><span class="math display" id="eq:pred-var">\[\begin{align}
+\tag{4.8}
+V[f(\mathbf{x^\dagger})] = c(\mathbf{x^*}, \mathbf{x^*}) - c^T(\mathbf{x^*})\mathbf{C}^{-1} c(\mathbf{x^*}) +\\ \nonumber
+\left( \mathbf{h}(\mathbf{x^\dagger}) - \mathbf{h}^T(\mathbf{x^*}) \mathbf{C}^{-1} \mathbf{c}(\mathbf{x^\dagger}) \right)^T \left( \mathbf{h}^T(\mathbf{\mathbf{x^*}}) \mathbf{C}^{-1} \mathbf{h}(\mathbf{x^*}) \right)^{-1} \left( \mathbf{h}(\mathbf{x^\dagger}) - \mathbf{h}^T \mathbf(x^\dagger) \mathbf{C}^{-1} \mathbf{c}(\mathbf{x^\dagger}) \right)
+\end{align}\]</span></p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:conditioning"></span>
+<img src="figures/conditioning_thicker.png" alt="Projection of the joint distribution of a simulator output for two active parameter settings onto a plane. The ovals are lines of constant probability density. Once one of the outputs is observed, the other has a univariate Gaussian distribution, conditional on the observation." width="80%" />
+<p class="caption">
+Figure 4.1: Projection of the joint distribution of a simulator output for two active parameter settings onto a plane. The ovals are lines of constant probability density. Once one of the outputs is observed, the other has a univariate Gaussian distribution, conditional on the observation.
+</p>
+</div>
+<p>where <span class="math inline">\(\mathbf{c}(\mathbf{x^\dagger})\)</span> denotes the vector <span class="math inline">\(\left( c(\mathbf{x^\dagger}, \mathbf{x_1^*}),c(\mathbf{x^\dagger}, \mathbf{x_1^*}),...,c(\mathbf{x^\dagger}, \mathbf{x_k^*}) \right)\)</span> where <span class="math inline">\(k\)</span> is the number of observed training points. So <span class="math inline">\(c(\mathbf{x^\dagger})\)</span> is the vector of covariances between <span class="math inline">\(\mathbf{x^\dagger}\)</span> and each of the <span class="math inline">\(k\)</span> observed points. Chapter 2 of <span class="citation">(<a href="#ref-jeothesis" role="doc-biblioref">Oakley 1999</a>)</span> shows how these equations arise from properties of multivariate normal distributions.</p>
+<p>If Equations <a href="4.4-conditioning-on-the-data.html#eq:pred-mean">(4.7)</a> and <a href="4.4-conditioning-on-the-data.html#eq:pred-var">(4.8)</a> are used to predict the simulator output at an observed point <span class="math inline">\(\mathbf{x^*_d}\)</span> (<span class="math inline">\(d \in 1,2,...,k\)</span>) from one of the training runs then <span class="math inline">\(\mathbf{c}^T(\mathbf{x_d}) \mathbf{C}^{(-1)} = \mathbf{C}^{(-1)} \mathbf{c}(\mathbf{x_d}) = \mathbf{e_d}\)</span> where <span class="math inline">\(\mathbf{e_d}\)</span> is the k-vector where the d-th element is one and all the other elements are zero. This arises from properties of the covarince function described in Section <a href="4.5-covariance.html#covariance">4.5</a>. Consequently</p>
+<p><span class="math display" id="eq:pred-design-1">\[\begin{align}
+\tag{4.9}
+E[f(\mathbf{x^*_d})] &amp;= \mathbf{h}(\mathbf{x^*_d})^T \hat{\mathbf{\beta}} + f(\mathbf{x^*_d}) - \mathbf{h}(\mathbf{x^^*_d})^T \hat{\mathbf{\beta}} \\ \nonumber
+&amp;= f(\mathbf{x^*_d})
+\end{align}\]</span></p>
+<p>and</p>
+<p><span class="math display" id="eq:pred-design-2">\[\begin{align}
+\tag{4.10}
+V[f(\mathbf{x^*_d})]  &amp;= c(\mathbf{x_j}, \mathbf{x_j}) - c(\mathbf{x_j}, \mathbf{x^*_d}) + \left( \mathbf{h}(\mathbf{x^*}) - \mathbf{h}(\mathbf{x^*}) \right)\mathbf{h}(\mathbf{x^*})\left( \mathbf{h}(\mathbf{x^*}) - \mathbf{h}(\mathbf{x^*}) \right)\\ \nonumber
+&amp;= 0
+\end{align}\]</span></p>
+<p>and as such the observed <span class="math inline">\(f(\mathcal{X^*})\)</span> are interpolated exactly with zero uncertainty. This is desirable in cases where the data are observed with no error, as is the case with a deterministic computer simulation. Intuitively we would expect this to be true as Equations <a href="4.4-conditioning-on-the-data.html#eq:pred-mean">(4.7)</a> and <a href="4.4-conditioning-on-the-data.html#eq:pred-var">(4.8)</a> define the conditional distribution of <span class="math inline">\(f(\mathbf{x}^\dagger)|f(\mathcal{X^*})\)</span>, and if <span class="math inline">\(f(\mathbf{x}^\dagger)=f(\mathbf{x*})\)</span> then the distribution of <span class="math inline">\(f(\mathbf{x^*})|f(\mathcal{X^*})\)</span> is just <span class="math inline">\(f(\mathbf{x*})\)</span>. Stochastic behaviour in the function being emulated can also be encapsulated by estimating a ‘nugget’ parameter form the data, which is discussed next, along with other properties of the covariance function.</p>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-jeothesis" class="csl-entry">
+Oakley, Jeremy. 1999. <span>“Bayesian Uncertainty Analysis for Complex Computer Codes.”</span> PhD thesis, The University of Sheffield.
+</div>
+</div>
+<p style="text-align: center;">
+<a href="4.3-model-selection.html"><button class="btn btn-default">Previous</button></a>
+<a href="4.5-covariance.html"><button class="btn btn-default">Next</button></a>
+</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+</body>
+</html>

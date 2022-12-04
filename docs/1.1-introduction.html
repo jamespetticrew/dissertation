@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Lay Summary of the Dissertation | dissertation.knit" />
+<meta property="og:title" content="1.1 Introduction | dissertation.knit" />
 <meta property="og:type" content="book" />
 
 <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
@@ -22,7 +22,7 @@ MathJax.Hub.Config({
 
 <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
 
-<title>Lay Summary of the Dissertation | dissertation.knit</title>
+<title>1.1 Introduction | dissertation.knit</title>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -175,15 +175,24 @@ details > summary {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="lay-summary-of-the-dissertation" class="section level1 unnumbered">
-<h1>Lay Summary of the Dissertation</h1>
-<p>In nuclear physics applications, cross-sections are used to quantify the probabilities of interactions between radiation and matter across energy states. They are commonly modelled using computer simulation tools as it is impossible to measure them comprehensively enough across energy fidelities and interaction scenarios. However the capacity of these tools to produce accurate results is limited, partially due to incomplete knowledge of the physical processes they try to model, and partially because the simulator takes a set of user-defined input parameters, the correct values of which are not known.</p>
-<p>One way to learn more about these parameters is through history matching. In this dissertation, history matching was used to efficiently identify and discard values of the parameters that were unlikely to result in the simulator giving good match to experiments once the inadequacy of the simulator and experimental imprecision were accounted for. Gaussian process (GP) statistical models were used to emulate the relationships between the input parameters and the simulator outputs. This greatly sped up computation at the expense of adding another source of uncertainty, which had to be considered when assessing the inputs. GP emulators were built using a small number of simulator runs at carefully chosen values of the input parameters. Emulators that displayed good out-of-sample predictive performance were then used to identify parameters settings that could plausibly result in the the simulator well matching experiments, and further emulators were built for using simulator runs at those parameter settings. Iterating over this process, known as refocussing, was shown to greatly reduce the space of plausible values for the 28 input parameters considered, at the cost of only several hundred simulator runs.</p>
-
+<div id="introduction" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Introduction</h2>
+<p>Nuclear cross-sections are fundamental material properties describing the interactions of radiation with matter. Accurate characterisations of cross-sections are essential for computer simulations of radiation effects, which are used extensively in applications such as medical technology, energy and defence. Detailed energy-dependent cross-section spectra are commonly generated using a synthesis of computer simulation and experimental observations, in a process known as evaluation. Part of this process consist of deciding at what values of the simulator input parameters to run it at. This aspect of evaluation is the focus of this work.</p>
+<p>In this dissertation Bayesian history matching <span class="citation">(<a href="#ref-jeremy_histmatch" role="doc-biblioref">Andrianakis et al. 2015</a>; <a href="#ref-bower2010galaxy" role="doc-biblioref">Bower, Goldstein, and Vernon 2010</a>)</span> was examined as a tool for nuclear data evaluation. This involves identifying values of input parameters for computer simulators which give non-implausible outputs given relevant observations and all sources of uncertainty, such as the imprecision of the experimental measurement process, or the inability of the simulator to exactly reproduce the physical process it is intended to model. To do the analysis it is required that the simulator output is examined for many different values of the input parameters. It is often not feasible to run the simulator enough times to do this, even for simulators with moderate run-times. Consequently a statistical emulator must be used to model the relationship between the simulator’s input parameters and its outputs. This introduces another source of uncertainty, which is fully characterised using the emulator.</p>
+<p>This work was carried out in compliance with the research ethics approval process of Sheffield University as described in Appendix <a href="C-ethics-approval.html#ethics-approval">C</a>.</p>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-jeremy_histmatch" class="csl-entry">
+Andrianakis, Ioannis, Ian R Vernon, Nicky McCreesh, Trevelyan J McKinley, Jeremy E Oakley, Rebecca N Nsubuga, Michael Goldstein, and Richard G White. 2015. <span>“Bayesian History Matching of Complex Infectious Disease Models Using Emulation: A Tutorial and a Case Study on HIV in Uganda.”</span> <em>PLoS Computational Biology</em> 11 (1): e1003968.
+</div>
+<div id="ref-bower2010galaxy" class="csl-entry">
+Bower, Richard G, Michael Goldstein, and Ian Vernon. 2010. <span>“<span class="nocase">Galaxy formation: a Bayesian uncertainty analysis</span>.”</span> <em>Bayesian Analysis</em> 5 (4): 619–69.
+</div>
 </div>
 <p style="text-align: center;">
-<a href="index.html"><button class="btn btn-default">Previous</button></a>
-<a href="1-Intro.html"><button class="btn btn-default">Next</button></a>
+<a href="1-Intro.html"><button class="btn btn-default">Previous</button></a>
+<a href="1.2-Background:aim.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

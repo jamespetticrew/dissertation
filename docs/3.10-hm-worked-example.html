@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Lay Summary of the Dissertation | dissertation.knit" />
+<meta property="og:title" content="3.10 Worked example | dissertation.knit" />
 <meta property="og:type" content="book" />
 
 <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
@@ -22,7 +22,7 @@ MathJax.Hub.Config({
 
 <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
 
-<title>Lay Summary of the Dissertation | dissertation.knit</title>
+<title>3.10 Worked example | dissertation.knit</title>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -175,15 +175,21 @@ details > summary {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="lay-summary-of-the-dissertation" class="section level1 unnumbered">
-<h1>Lay Summary of the Dissertation</h1>
-<p>In nuclear physics applications, cross-sections are used to quantify the probabilities of interactions between radiation and matter across energy states. They are commonly modelled using computer simulation tools as it is impossible to measure them comprehensively enough across energy fidelities and interaction scenarios. However the capacity of these tools to produce accurate results is limited, partially due to incomplete knowledge of the physical processes they try to model, and partially because the simulator takes a set of user-defined input parameters, the correct values of which are not known.</p>
-<p>One way to learn more about these parameters is through history matching. In this dissertation, history matching was used to efficiently identify and discard values of the parameters that were unlikely to result in the simulator giving good match to experiments once the inadequacy of the simulator and experimental imprecision were accounted for. Gaussian process (GP) statistical models were used to emulate the relationships between the input parameters and the simulator outputs. This greatly sped up computation at the expense of adding another source of uncertainty, which had to be considered when assessing the inputs. GP emulators were built using a small number of simulator runs at carefully chosen values of the input parameters. Emulators that displayed good out-of-sample predictive performance were then used to identify parameters settings that could plausibly result in the the simulator well matching experiments, and further emulators were built for using simulator runs at those parameter settings. Iterating over this process, known as refocussing, was shown to greatly reduce the space of plausible values for the 28 input parameters considered, at the cost of only several hundred simulator runs.</p>
-
+<div id="hm-worked-example" class="section level2" number="3.10">
+<h2><span class="header-section-number">3.10</span> Worked example</h2>
+<p>Suppose that the function <span class="math inline">\(f(x) = x^2-5x\)</span> represents a simulator with a single input <span class="math inline">\(x\)</span> and the interest lies in the output <span class="math inline">\(f\)</span>, which attempts to simulate some process <span class="math inline">\(y\)</span>. A measurement <span class="math inline">\(z\)</span> of <span class="math inline">\(y\)</span> has been made and found that <span class="math inline">\(z=100\)</span>, with some uncertainty associated with it. The simulator is run at five different values for <span class="math inline">\(x\)</span> and these runs are used to build an emulator for <span class="math inline">\(f\)</span>. The simulator output is then predicted at a great many points. Figure <a href="3.10-hm-worked-example.html#fig:impl-plot">3.3</a> illustrates the scenario. The dots are the design point, which are interpolated by the emulators mean predictions across the range [-10,10]. The emulator predictor variance has been summed with the observation uncertainty and simulator inadequacy variances and the corresponding 3<span class="math inline">\(\sigma\)</span> intervals are shown in the Figure as lines above and below the mean prediction.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:impl-plot"></span>
+<img src="dissertation_files/figure-html/impl-plot-1.png" alt="The simulator f is a function of one input x. The simulator has been run at the five points shown, and an emulator is built using these five points. Its predictions are shown interpolating the design points. An observation has been made of z=100, showns as the dashed horizontal line. The uncertanties arising due to the emulator, simulator and act of observation are combined and the 3 sigma uncertainty intervals are plotted above and below the mean predictions. If the 3 sigma cutoff is used for for the implausibility measure, only those values of x shown intersecting the rectangle are non-implausible." width="80%" />
+<p class="caption">
+Figure 3.3: The simulator f is a function of one input x. The simulator has been run at the five points shown, and an emulator is built using these five points. Its predictions are shown interpolating the design points. An observation has been made of z=100, showns as the dashed horizontal line. The uncertanties arising due to the emulator, simulator and act of observation are combined and the 3 sigma uncertainty intervals are plotted above and below the mean predictions. If the 3 sigma cutoff is used for for the implausibility measure, only those values of x shown intersecting the rectangle are non-implausible.
+</p>
+</div>
+<p>If the implausibility cut-off is set at 3 <span class="math inline">\(\sigma\)</span>, values for <span class="math inline">\(x\)</span> that intersect the rectangle in the plot are non-implausible; roughly the interval [-8.99,-6.97]. The correct value is around -7.81. If the simulator were then run at a point in that rectangular region, the emulator variance, would shrink to zero at that point, and greatly reducing the emulator variance at neighbouring points (see Section <a href="4.5-covariance.html#covariance">4.5</a>), reducing the width of the rectangle further. However, simulator inadequacy and observation uncertainty would still remain and so the ‘correct’ input could not be found precisely. It is also worth noting that the non-implausible region need not be continuous. From Figure <a href="3.10-hm-worked-example.html#fig:impl-plot">3.3</a> it could be imagined that were the domain of <span class="math inline">\(x\)</span> to extend to +15, the mean prediction would intersect <span class="math inline">\(f=100\)</span> again, and indeed a second, much wider interval in <span class="math inline">\(x\)</span> would be deemed non-implausible as the 3 <span class="math inline">\(\sigma\)</span> intervals grow wider as the emulator predicts further from the data. In subsequent runs, candidate <span class="math inline">\(x\)</span>’s from this interval would be evaluated using the simulator and used to build emulators that predict better in this region, consequently the non-implausible space would shrink.</p>
+<p>Equation <a href="3.9-HM-Implausibility.html#eq:one-d-implausibility">(3.1)</a> is a one-dimensional implausibility metric, computed with respect to a single process <span class="math inline">\(y_i\)</span>. In this dissertation, 588 processes were examined simultaneously, and ideally the simulator can give non-implausible matches to them all for some value or values of <span class="math inline">\(\mathbf{x_j}\)</span>. Consequently the idea of the implausibility measure in Equation <a href="3.9-HM-Implausibility.html#eq:one-d-implausibility">(3.1)</a> is extended to compute an implausibility measure for <span class="math inline">\(\mathbf{x_j}\)</span> with respect to multiple processes <span class="math inline">\(y_1,y_2,...,y_n\)</span>.</p>
 </div>
 <p style="text-align: center;">
-<a href="index.html"><button class="btn btn-default">Previous</button></a>
-<a href="1-Intro.html"><button class="btn btn-default">Next</button></a>
+<a href="3.9-HM-Implausibility.html"><button class="btn btn-default">Previous</button></a>
+<a href="3.11-HM-Multi-D.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

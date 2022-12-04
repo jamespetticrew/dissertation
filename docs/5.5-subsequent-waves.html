@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Lay Summary of the Dissertation | dissertation.knit" />
+<meta property="og:title" content="5.5 Subsequent waves | dissertation.knit" />
 <meta property="og:type" content="book" />
 
 <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
@@ -22,7 +22,7 @@ MathJax.Hub.Config({
 
 <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
 
-<title>Lay Summary of the Dissertation | dissertation.knit</title>
+<title>5.5 Subsequent waves | dissertation.knit</title>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -175,15 +175,16 @@ details > summary {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="lay-summary-of-the-dissertation" class="section level1 unnumbered">
-<h1>Lay Summary of the Dissertation</h1>
-<p>In nuclear physics applications, cross-sections are used to quantify the probabilities of interactions between radiation and matter across energy states. They are commonly modelled using computer simulation tools as it is impossible to measure them comprehensively enough across energy fidelities and interaction scenarios. However the capacity of these tools to produce accurate results is limited, partially due to incomplete knowledge of the physical processes they try to model, and partially because the simulator takes a set of user-defined input parameters, the correct values of which are not known.</p>
-<p>One way to learn more about these parameters is through history matching. In this dissertation, history matching was used to efficiently identify and discard values of the parameters that were unlikely to result in the simulator giving good match to experiments once the inadequacy of the simulator and experimental imprecision were accounted for. Gaussian process (GP) statistical models were used to emulate the relationships between the input parameters and the simulator outputs. This greatly sped up computation at the expense of adding another source of uncertainty, which had to be considered when assessing the inputs. GP emulators were built using a small number of simulator runs at carefully chosen values of the input parameters. Emulators that displayed good out-of-sample predictive performance were then used to identify parameters settings that could plausibly result in the the simulator well matching experiments, and further emulators were built for using simulator runs at those parameter settings. Iterating over this process, known as refocussing, was shown to greatly reduce the space of plausible values for the 28 input parameters considered, at the cost of only several hundred simulator runs.</p>
-
+<div id="subsequent-waves" class="section level2" number="5.5">
+<h2><span class="header-section-number">5.5</span> Subsequent waves</h2>
+<p>The 276 non-implausible inputs chosen in Section <a href="5.3-wave1-analysis.html#wave1-analysis">5.3</a> were used as the design for the training runs in wave two. A new set of 588 emulators were built. A further set of test runs of the simulator were carried out. The active input parameter values for these test runs were chosen by generating a large number of proposal samples and evaluating their implausibility using the wave one emulators. The wave two emulators were then validated in the same way as described in Section <a href="5.2-wave1-methodology.html#wave1-methodology">5.2</a>. 163 were invalidated, leaving 425 emulator-measurement pairs with which to carry out implausibility analysis for wave 2. Less computational resource was available at the time of the wave two implausibility analysis, and consequently only 35715 proposal points were examined. Of these, 18043 were accepted as non-implausible, which is just over 50%. The cut-offs used for the implausibility measures were the same as those used in Section <a href="5.3-wave1-analysis.html#wave1-analysis">5.3</a>, although the relevant <span class="math inline">\(\chi^2\)</span> distribution from which the 99th percentile was taken was different, due to their being a different number of validated model between the waves (see Section <a href="3.11-HM-Multi-D.html#HM-Multi-D">3.11</a>).</p>
+<p>Having such a large number of non-implausible points for wave two presented a new challenge, as it was impossible to run TALYS for all 18043 non-implausible inputs in an acceptable time interval. Consequently a subset of the inputs had to be selected. It was decided to run the simulator at 600 training points for wave three (plus 60 test points). Instead of randomly sampling 600 of the 18043 non-implausible proposals, an attempt was made to find an optimal set of points by maximising the minimum distance between 28 input coordinates. This was carried out by first choosing a random sample of 600 points and computing their distance matrix (using the R function ‘dist’). The minimum value in the matrix was extracted. This process was repeated for <span class="math inline">\(10^5\)</span> random samples of 600. The sample that had the maximum minimum distance was used as the design for wave three, which was a way of attempting to select a set of design points that were as spread out across the non-implausible volume as possible.</p>
+<p>The same workflow for building and validating the emulators was carried out for Wave 3, in which 440 emulators were assessed as valid. In wave three, different cut-offs were used for the implausibility measures, as the ability of the emulators to refocus with the wave one and two cut-offs was diminished. Table <a href="#tab:hm-summary"><strong>??</strong></a> shows a summary of the number of training runs and the values of the cut-offs used in each wave. The table also shows the proportion of the original input space evaluated as non-implausible after each run. This is computed as the proportion of proposal samples evaluated as non-implausible in the run multiplied by the proportion of the original space deemed non implausible in the previous run. For example, in wave teo, 18043/35715 = 0.505 of the runs were evaluated as non implausible. The proportion of non-implausible space from wave one was 0.19. The product of these proportions is 0.09. Implicitly, the proportion of the input space that is plausible before wave one (wave zero) is 1. From Table <a href="#tab:hm-summary"><strong>??</strong></a> it can be seen that it was possible to go from a state of complete ignorance about the values of the state parameters to a subset of values 0.03% the size of the original volume for the price of about 1300 TALYS runs.</p>
+<p>In the third wave, 3572 proposal inputs were examined, and 1115 were evaluated as non-implausible, about 31%. This was the final wave, and consequently the 1115 were the final non-implausible inputs. These samples contained useful information about the relationship between the active parameters and the TALYS outputs and could also be used to allow sampling from the posterior distribution of the active parameters (conditional on the data), as discussed in the next Section.</p>
 </div>
 <p style="text-align: center;">
-<a href="index.html"><button class="btn btn-default">Previous</button></a>
-<a href="1-Intro.html"><button class="btn btn-default">Next</button></a>
+<a href="5.4-impl-optical-depth.html"><button class="btn btn-default">Previous</button></a>
+<a href="5.6-posterior-sampling.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

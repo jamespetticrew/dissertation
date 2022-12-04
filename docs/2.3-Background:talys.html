@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Lay Summary of the Dissertation | dissertation.knit" />
+<meta property="og:title" content="2.3 TALYS nuclear reaction simulation code | dissertation.knit" />
 <meta property="og:type" content="book" />
 
 <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
@@ -22,7 +22,7 @@ MathJax.Hub.Config({
 
 <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
 
-<title>Lay Summary of the Dissertation | dissertation.knit</title>
+<title>2.3 TALYS nuclear reaction simulation code | dissertation.knit</title>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -175,15 +175,20 @@ details > summary {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="lay-summary-of-the-dissertation" class="section level1 unnumbered">
-<h1>Lay Summary of the Dissertation</h1>
-<p>In nuclear physics applications, cross-sections are used to quantify the probabilities of interactions between radiation and matter across energy states. They are commonly modelled using computer simulation tools as it is impossible to measure them comprehensively enough across energy fidelities and interaction scenarios. However the capacity of these tools to produce accurate results is limited, partially due to incomplete knowledge of the physical processes they try to model, and partially because the simulator takes a set of user-defined input parameters, the correct values of which are not known.</p>
-<p>One way to learn more about these parameters is through history matching. In this dissertation, history matching was used to efficiently identify and discard values of the parameters that were unlikely to result in the simulator giving good match to experiments once the inadequacy of the simulator and experimental imprecision were accounted for. Gaussian process (GP) statistical models were used to emulate the relationships between the input parameters and the simulator outputs. This greatly sped up computation at the expense of adding another source of uncertainty, which had to be considered when assessing the inputs. GP emulators were built using a small number of simulator runs at carefully chosen values of the input parameters. Emulators that displayed good out-of-sample predictive performance were then used to identify parameters settings that could plausibly result in the the simulator well matching experiments, and further emulators were built for using simulator runs at those parameter settings. Iterating over this process, known as refocussing, was shown to greatly reduce the space of plausible values for the 28 input parameters considered, at the cost of only several hundred simulator runs.</p>
-
+<div id="Background:talys" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> TALYS nuclear reaction simulation code</h2>
+<p>TALYS is a computer simulation tool which implements a suite of mathematical models to predict nuclear reactions. It has some 340 input parameters <span class="citation">(<a href="#ref-talys" role="doc-biblioref">A. J. Koning and Rochman 2012</a>)</span> which can be specified by the user. Here a distinction is made between state and active parameters. State parameters do not change between runs of the code, and define the particular scenario being examined. Examples of state parameters include incident particle type, target isotope and incident particle energies. Active parameters are changed between code runs. These are parameters in the mathematical model(s) implemented by the simulator, the true values of which are unknown. Observational data can be compared to the outputs of the simulator for different choices of active parameter settings. The hope is that settings which produce simulator outputs consistent with observational data will also produce simulator outputs consistent with reality for unobserved quantities.</p>
+<p>In this dissertation 28 active parameters were examined, all part of the optical model potentials (OMP) implemented in TALYS (Appendix <a href="A-OMP-model-appendix.html#OMP-model-appendix">A</a>), or extensions thereof. Parameters in the mathematical models implemented in TALYS have a default setting which is used if a value is not specified for it in the input file. This allows calculations to be carried out without having to specify values for all 340 input parameters. The defaults are by no means a ‘best’ set; the appropriate setting for each parameter depends, amongst other things, on the incident particle and target isotope being modelled. There are thousands of potential combinations for these. The actual value specified for a parameter in the input file acts as a multiplier for this default. For example, if the default value for a parameter is 4 and the user inputs a value of 0.5, the calculations will be carried out with the parameter equal to 2. Hence, if a value for the multiplier is not specified in the input file, it is implicitly one. Each multiplier must be set to a value in the range <span class="math inline">\([0.1,10]\)</span>. Initially, it is assumed that every possible value for the active parameters was equally likely, which is not the same thing as the multipliers being equally likely. In this dissertation, when values for the active parameters are discussed, the intended meaning is values of the multipliers, rather than the parameters themselves. Multipliers can be though of as parameters in the model in Appendix <a href="A-OMP-model-appendix.html#OMP-model-appendix">A</a> if it is re-parametrised with the default values as constant coefficients of the multipliers.</p>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-talys" class="csl-entry">
+Koning, A. J., and D. Rochman. 2012. <span>“Modern Nuclear Data Evaluation with the TALYS Code System.”</span> <em>Nuclear Data Sheets</em> 113 (12): 2841–2934. https://doi.org/<a href="https://doi.org/10.1016/j.nds.2012.11.002">https://doi.org/10.1016/j.nds.2012.11.002</a>.
+</div>
 </div>
 <p style="text-align: center;">
-<a href="index.html"><button class="btn btn-default">Previous</button></a>
-<a href="1-Intro.html"><button class="btn btn-default">Next</button></a>
+<a href="2.2-Background:xs.html"><button class="btn btn-default">Previous</button></a>
+<a href="2.4-Background:data.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

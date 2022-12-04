@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="References | dissertation.knit" />
+<meta property="og:title" content="3.4 Workflow | dissertation.knit" />
 <meta property="og:type" content="book" />
 
 <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
@@ -22,7 +22,7 @@ MathJax.Hub.Config({
 
 <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
 
-<title>References | dissertation.knit</title>
+<title>3.4 Workflow | dissertation.knit</title>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -175,100 +175,39 @@ details > summary {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="references" class="section level1 unnumbered">
-<h1>References</h1>
-
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div class="csl-entry">
-Alhassan, Erwin, Dimitri Rochman, Alexander Vasiliev, Mathieu Hursin, Arjan J Koning, and Hakim Ferroukhi. 2022. <span>“<span class="nocase">Iterative Bayesian Monte Carlo for nuclear data evaluation</span>.”</span> <em>Nuclear Science and Techiques</em> 30 (50).
+<div id="workflow" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Workflow</h2>
+<p>In this subsection an overview of the steps iterated over in history matching is given, following the schematic shown in Figure <a href="3.4-workflow.html#fig:hm-workflow">3.2</a>.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:hm-workflow"></span>
+<img src="figures/hm-workflow-vertical.png" alt="Schematic showing a typical history matching workflow. The process is iterative where each iteration is called a wave, and a wave ends either with refocussing the search space or stopping with the current set of non-implausible samples." width="80%" />
+<p class="caption">
+Figure 3.2: Schematic showing a typical history matching workflow. The process is iterative where each iteration is called a wave, and a wave ends either with refocussing the search space or stopping with the current set of non-implausible samples.
+</p>
 </div>
-<div class="csl-entry">
+<p>: It was required that a great many candidate <span class="math inline">\(\mathbf{x}\)</span> be examined, but the number of times that TALYS could be run to evaluate these inputs directly was relatively small. Consequently the limited runs available were used to build statistical emulators for TALYS. Initially, all samples from <span class="math inline">\(\mathcal{X}\)</span> were equally plausible, and hence emulators were required that well represent TALYS’s behaviour over all of <span class="math inline">\(\mathcal{X}\)</span>. To maximise the chance of achieving this, and to minimise the predictive variance of the emulators, a space-filling design was employed that provided coverage of <span class="math inline">\(\mathcal{X}\)</span> in some way that is optimised for the number of runs afforded. In this dissertation a Latin Hypercube (LH) design was used <span class="citation">(<a href="#ref-lhs_r" role="doc-biblioref">Carnell 2022</a>)</span> to choose the <span class="math inline">\(\mathcal{X}^*\)</span>. This is a high-dimensional extension of the Latin square experimental design.</p>
+<p>: TALYS was run at all points in <span class="math inline">\(\mathcal{X}^*\)</span> to obtain the <span class="math inline">\(\mathbf{x}\rightarrow f(\mathbf{x})\)</span> mappings needed to train the emulators. The results were consolidated and formatted to suit the input format of the Gaussian process software package used (see Section <a href="4.8-gp-software.html#gp-software">4.8</a>). When training the first wave of emulators, some of them failed due to convergence problems in their numerical parameter estimation routines (see Section <a href="4.3-model-selection.html#model-selection">4.3</a>). This may have been because the active parameter space was very large at this stage, and some outputs were hard to emulate initially. One advantage of history matching is that the analysis was not invalidated by simply dropping these emulators.</p>
+<p>: A small number of TALYS runs were carried out in order to test the out-of-sample predictive performance of the emulators. Any emulators not giving satisfactory out-of-sample performance were dropped. More details on the validation methodology used in this dissertation are given in Section <a href="5.2-wave1-methodology.html#wave1-methodology">5.2</a>.</p>
+<p> <span class="math inline">\(\mathbf{x}\)</span>: The validated emulators were used to predict the TALYS output many times for many <span class="math inline">\(\mathbf{x}\)</span> at a fraction of the cost of running the simulator. One TALYS runs took between 30 and 360 minutes to complete; contrastingly the emulators evaluated in a fraction of a second. Consequently a great many samples for <span class="math inline">\(\mathbf{x}\)</span> were generated and the emulators were used to generate predictions for each one.</p>
+<p>: As discussed in Section <a href="3.9-HM-Implausibility.html#HM-Implausibility">3.9</a>, implausibility metrics were computed for each candidate <span class="math inline">\(\mathbf{x}\)</span> based on the emulator predictions, the corresponding measurements, and the uncertainties present in the system. This typically leads to a large reduction in the non-implausible parameter space <span class="citation">(<a href="#ref-jeremy_histmatch" role="doc-biblioref">Andrianakis et al. 2015</a>; <a href="#ref-bower2010galaxy" role="doc-biblioref">Bower, Goldstein, and Vernon 2010</a>)</span>, based on the implausibility metrics exceeding some acceptable threshold.</p>
+<p>: The reduction in non-implausible parameter space is know as refocussing, and resulted in one of two outcomes at the end of each wave. Either the non-implausible samples (or a subset of them) were used as the training points <span class="math inline">\(\mathcal{X}^*\)</span> for the next set of TALYS runs, with which new emulators were built. This has the advantage of focussing the emulators in areas which have been shown to give acceptable matches to observations, leading to more precise emulation in these regions. A second outcome is that the process was stopped, and the non-implausible samples were accepted as the outcome of the analysis. Stopping can occur because the computational budget for TALYS runs has been reached, or because the proportional reduction in parameter space that occurred in this wave is not significantly different than those in previous waves, indicating that there is little to be gained in continuing.</p>
+<p>History matching can be used as a way of helping to understand which parameter values are consistent with observations, which may be especially useful if the parameters represent observable quantities. It may also be used as a precursor to an uncertainty quantification study where, having found the values for the input parameters consistent with observations, it is desired to find the set of simulator outputs consistent with those input parameters.</p>
+<p>In order to decide if candidate <span class="math inline">\(\mathbf{x}\)</span> are implausible, the uncertainties that are present in the system needed to be modelled. This is discussed in the next sections.</p>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-jeremy_histmatch" class="csl-entry">
 Andrianakis, Ioannis, Ian R Vernon, Nicky McCreesh, Trevelyan J McKinley, Jeremy E Oakley, Rebecca N Nsubuga, Michael Goldstein, and Richard G White. 2015. <span>“Bayesian History Matching of Complex Infectious Disease Models Using Emulation: A Tutorial and a Case Study on HIV in Uganda.”</span> <em>PLoS Computational Biology</em> 11 (1): e1003968.
 </div>
-<div class="csl-entry">
-Bastos, Leonardo S, and Anthony O’Hagan. 2009. <span>“Diagnostics for Gaussian Process Emulators.”</span> <em>Technometrics</em> 51 (4): 425–38.
-</div>
-<div class="csl-entry">
+<div id="ref-bower2010galaxy" class="csl-entry">
 Bower, Richard G, Michael Goldstein, and Ian Vernon. 2010. <span>“<span class="nocase">Galaxy formation: a Bayesian uncertainty analysis</span>.”</span> <em>Bayesian Analysis</em> 5 (4): 619–69.
 </div>
-<div class="csl-entry">
-Brown, David A, MB Chadwick, R Capote, AC Kahler, A Trkov, MW Herman, AA Sonzogni, et al. 2018. <span>“ENDF/b-VIII. 0: The 8th Major Release of the Nuclear Reaction Data Library with CIELO-Project Cross Sections, New Standards and Thermal Scattering Data.”</span> <em>Nuclear Data Sheets</em> 148: 1–142.
-</div>
-<div class="csl-entry">
+<div id="ref-lhs_r" class="csl-entry">
 Carnell, Rob. 2022. <em>Lhs: Latin Hypercube Samples</em>. <a href="https://CRAN.R-project.org/package=lhs">https://CRAN.R-project.org/package=lhs</a>.
 </div>
-<div class="csl-entry">
-Erickson, Collin B, Bruce E Ankenman, and Susan M Sanchez. 2018. <span>“<span class="nocase">Comparison of Gaussian process modeling software</span>.”</span> <em>European Journal of Operational Research</em> 266 (1): 179–92.
 </div>
-<div class="csl-entry">
-Fricker, Thomas E, Jeremy E Oakley, and Nathan M Urban. 2013. <span>“Multivariate Gaussian Process Emulators with Nonseparable Covariance Structures.”</span> <em>Technometrics</em> 55 (1): 47–56.
-</div>
-<div class="csl-entry">
-Gelman, A., J. B. Carlin, H. S. Stern, D. B. Dunson, A. Vehtari, and D. B. Rubin. 2013. <em>Bayesian Data Analysis, Third Edition</em>. Chapman &amp; Hall/CRC Texts in Statistical Science. Taylor &amp; Francis.
-</div>
-<div class="csl-entry">
-Genz, Alan, Frank Bretz, Tetsuhisa Miwa, Xuefei Mi, Friedrich Leisch, Fabian Scheipl, and Torsten Hothorn. 2021. <em><span class="nocase">mvtnorm</span>: Multivariate Normal and t Distributions</em>. <a href="https://CRAN.R-project.org/package=mvtnorm">https://CRAN.R-project.org/package=mvtnorm</a>.
-</div>
-<div class="csl-entry">
-Gu, Mengyang, Jesus Palomo, and James Berger. 2022. <em>RobustGaSP: Robust Gaussian Stochastic Process Emulation</em>. <a href="https://CRAN.R-project.org/package=RobustGaSP">https://CRAN.R-project.org/package=RobustGaSP</a>.
-</div>
-<div class="csl-entry">
-Helgesson, P., and H. Sjöstrand. 2018. <span>“Treating Model Defects by Fitting Smoothly Varying Model Parameters: Energy Dependence in Nuclear Data Evaluation.”</span> <em>Annals of Nuclear Energy</em> 120: 35–47. https://doi.org/<a href="https://doi.org/10.1016/j.anucene.2018.05.026">https://doi.org/10.1016/j.anucene.2018.05.026</a>.
-</div>
-<div class="csl-entry">
-Iwamoto, Hiroki. 2020. <span>“<span class="nocase">Generation of nuclear data using Gaussian process regression</span>.”</span> <em>Journal of Nuclear Science and Technology</em> 57 (8): 932–38. <a href="https://doi.org/10.1080/00223131.2020.1736202">https://doi.org/10.1080/00223131.2020.1736202</a>.
-</div>
-<div class="csl-entry">
-Koning, A. J., and D. Rochman. 2012. <span>“Modern Nuclear Data Evaluation with the TALYS Code System.”</span> <em>Nuclear Data Sheets</em> 113 (12): 2841–2934. https://doi.org/<a href="https://doi.org/10.1016/j.nds.2012.11.002">https://doi.org/10.1016/j.nds.2012.11.002</a>.
-</div>
-<div class="csl-entry">
-Koning, AJ, D Rochman, J-Ch Sublet, N Dzysiuk, M Fleming, and S Van der Marck. 2019. <span>“TENDL: Complete Nuclear Data Library for Innovative Nuclear Science and Technology.”</span> <em>Nuclear Data Sheets</em> 155: 1–55.
-</div>
-<div class="csl-entry">
-Oakley, Jeremy. 1999. <span>“Bayesian Uncertainty Analysis for Complex Computer Codes.”</span> PhD thesis, The University of Sheffield.
-</div>
-<div class="csl-entry">
-Otuka, N., E. Dupont, V. Semkova, B. Pritychenko, A. I. Blokhin, M. Aikawa, S. Babykina, et al. 2014. <span>“Towards a More Complete and Accurate Experimental Nuclear Reaction Data Library (EXFOR): International Collaboration Between Nuclear Reaction Data Centres (NRDC).”</span> <em>Nuclear Data Sheets</em> 120: 272–76. https://doi.org/<a href="https://doi.org/10.1016/j.nds.2014.07.065">https://doi.org/10.1016/j.nds.2014.07.065</a>.
-</div>
-<div class="csl-entry">
-Pedregosa, Fabian, Gaël Varoquaux, Alexandre Gramfort, Vincent Michel, Bertrand Thirion, Olivier Grisel, Mathieu Blondel, et al. 2011. <span>“Scikit-Learn: Machine Learning in Python.”</span> <em>Journal of Machine Learning Research</em> 12 (Oct): 2825–30.
-</div>
-<div class="csl-entry">
-Pukelsheim, Friedrich. 1994. <span>“The Three Sigma Rule.”</span> <em>The American Statistician</em> 48: 88–91.
-</div>
-<div class="csl-entry">
-Rougier, Jonathan. 2008. <span>“Efficient Emulators for Multivariate Deterministic Functions.”</span> <em>Journal of Computational and Graphical Statistics</em> 17 (4): 827–43.
-</div>
-<div class="csl-entry">
-Roustant, Olivier, David Ginsbourger, and Yves Deville. 2012. <span>“<span class="nocase">DiceKriging, DiceOptim: Two R packages for the analysis of computer experiments by kriging-based metamodeling and optimization</span>.”</span> <em>Journal of Statistical Software</em> 51: 1–55.
-</div>
-<div class="csl-entry">
-Schnabel, G., H. Sjöstrand, J. Hansson, D. Rochman, A. Koning, and R. Capote. 2021. <span>“Conception and Software Implementation of a Nuclear Data Evaluation Pipeline.”</span> <em>Nuclear Data Sheets</em> 173 (March): 239–84. <a href="https://doi.org/10.1016/j.nds.2021.04.007">https://doi.org/10.1016/j.nds.2021.04.007</a>.
-</div>
-<div class="csl-entry">
-Shibata, Keiichi, Osamu Iwamoto, Tsuneo Nakagawa, Nobuyuki Iwamoto, Akira Ichihara, Satoshi Kunieda, Satoshi Chiba, et al. 2011. <span>“JENDL-4.0: A New Library for Nuclear Science and Engineering.”</span> <em>Journal of Nuclear Science and Technology</em> 48 (1): 1–30.
-</div>
-<div class="csl-entry">
-Williams, Christopher KI, and Carl Edward Rasmussen. 2006. <em>Gaussian Processes for Machine Learning</em>. Vol. 2. 3. MIT press Cambridge, MA.
-</div>
-</div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <p style="text-align: center;">
-<a href="C-ethics-approval.html"><button class="btn btn-default">Previous</button></a>
+<a href="3.3-Intro-notation.html"><button class="btn btn-default">Previous</button></a>
+<a href="3.5-obs-unc.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

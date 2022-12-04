@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Lay Summary of the Dissertation | dissertation.knit" />
+<meta property="og:title" content="2.2 Nuclear cross-sections | dissertation.knit" />
 <meta property="og:type" content="book" />
 
 <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
@@ -22,7 +22,7 @@ MathJax.Hub.Config({
 
 <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
 
-<title>Lay Summary of the Dissertation | dissertation.knit</title>
+<title>2.2 Nuclear cross-sections | dissertation.knit</title>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -175,15 +175,39 @@ details > summary {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="lay-summary-of-the-dissertation" class="section level1 unnumbered">
-<h1>Lay Summary of the Dissertation</h1>
-<p>In nuclear physics applications, cross-sections are used to quantify the probabilities of interactions between radiation and matter across energy states. They are commonly modelled using computer simulation tools as it is impossible to measure them comprehensively enough across energy fidelities and interaction scenarios. However the capacity of these tools to produce accurate results is limited, partially due to incomplete knowledge of the physical processes they try to model, and partially because the simulator takes a set of user-defined input parameters, the correct values of which are not known.</p>
-<p>One way to learn more about these parameters is through history matching. In this dissertation, history matching was used to efficiently identify and discard values of the parameters that were unlikely to result in the simulator giving good match to experiments once the inadequacy of the simulator and experimental imprecision were accounted for. Gaussian process (GP) statistical models were used to emulate the relationships between the input parameters and the simulator outputs. This greatly sped up computation at the expense of adding another source of uncertainty, which had to be considered when assessing the inputs. GP emulators were built using a small number of simulator runs at carefully chosen values of the input parameters. Emulators that displayed good out-of-sample predictive performance were then used to identify parameters settings that could plausibly result in the the simulator well matching experiments, and further emulators were built for using simulator runs at those parameter settings. Iterating over this process, known as refocussing, was shown to greatly reduce the space of plausible values for the 28 input parameters considered, at the cost of only several hundred simulator runs.</p>
-
+<div id="Background:xs" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Nuclear cross-sections</h2>
+<p>Imagine a mono-energetic neutron beam of intensity <span class="math inline">\(I_0\)</span> neutrons/m<span class="math inline">\(^2\)</span> and energy <span class="math inline">\(E\)</span> Mega electron-volts (MeV) incident upon a slab of thickness <span class="math inline">\(r\)</span> metres, made up solely of isotope <span class="math inline">\(Z\)</span>, and with an isotope number density <span class="math inline">\(N\)</span> in units of isotopes/m<span class="math inline">\(^3\)</span> (see Figure <a href="2.2-Background:xs.html#fig:xs-schematic">2.1</a>). If the intensity of the beam can be measured after it has passed through the slab <span class="math inline">\(I\)</span>, then the total cross-section <span class="math inline">\(\sigma_{tot}\)</span> can be computed from</p>
+<p><span class="math display">\[\begin{equation}
+\label{eq:total_xs}
+I = I_0 \exp\left(-rN \sigma_{tot}(Z,E)\right).
+\end{equation}\]</span></p>
+<p><span class="math inline">\(\sigma_{tot}(Z,E)\)</span> is the microscopic total neutron cross-section for isotope <span class="math inline">\(Z\)</span> for incident neutron energy <span class="math inline">\(E\)</span> and is proportional to the probability of any interaction occurring between a nucleus of isotope <span class="math inline">\(Z\)</span> and a neutron of that energy incident upon the nucleus. Cross-section units are m<span class="math inline">\(^2\)</span>, however one square metre is an enormous value for a cross-section to take, and consequently they are often measured in ‘barns’<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> where a barn is equal to <span class="math inline">\(10^{-28}\)</span>m<span class="math inline">\(^2\)</span>.</p>
+<p>There are a number of reactions can occur as a result of a collision between a neutron and an atomic nucleus. For example, the neutron can change its momentum (known as inelastic scatter) or the neutron can be captured by the nucleus and release more neutrons (and energy - known as fission) as a result. Each interaction type has its own associated cross-section proportional to the probability of that reaction occurring. The value of the cross-section depends on the energy of the incident particle, the type of incident particle and the type of target nucleus. In this dissertation the focus is on neutrons with energies between 5 and 10 MeV (<span class="math inline">\(5 \le E \le 10\)</span>) incident upon the Iron-56 isotope<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> (Z=Fe-56).</p>
+<p>The capacity for scientists to measure all interaction, energy, particle and isotope combinations is limited, and as such computer simulations, validated using experimental measurements, are used extensively to model cross-sections with suitable fidelity. In this work the nuclear reaction simulation code TALYS version 1.95 <span class="citation">(<a href="#ref-talys" role="doc-biblioref">A. J. Koning and Rochman 2012</a>)</span> was used, which is explained further in the next section.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:xs-schematic"></span>
+<img src="figures/xs_cropped.png" alt="Illustration to aid interpretation of microscopic neutron cross-section. The ratio of the outgoing to the incident beam intensity is proportional to microscopic total cross-section." width="80%" />
+<p class="caption">
+Figure 2.1: Illustration to aid interpretation of microscopic neutron cross-section. The ratio of the outgoing to the incident beam intensity is proportional to microscopic total cross-section.
+</p>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-talys" class="csl-entry">
+Koning, A. J., and D. Rochman. 2012. <span>“Modern Nuclear Data Evaluation with the TALYS Code System.”</span> <em>Nuclear Data Sheets</em> 113 (12): 2841–2934. https://doi.org/<a href="https://doi.org/10.1016/j.nds.2012.11.002">https://doi.org/10.1016/j.nds.2012.11.002</a>.
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>From the phrase ‘as wide as a barn door’.<a href="2.2-Background:xs.html#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>An Iron atom with 26 protons and 30 neutrons in its nucleus. All Iron atoms have 26 protons in their nucleus but different isotopes have different numbers of neutrons. Iron-56 is the most common naturally occurring isotope of Iron.<a href="2.2-Background:xs.html#fnref2" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
 <p style="text-align: center;">
-<a href="index.html"><button class="btn btn-default">Previous</button></a>
-<a href="1-Intro.html"><button class="btn btn-default">Next</button></a>
+<a href="2.1-introduction-1.html"><button class="btn btn-default">Previous</button></a>
+<a href="2.3-Background:talys.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

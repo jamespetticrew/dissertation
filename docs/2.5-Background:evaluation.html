@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Lay Summary of the Dissertation | dissertation.knit" />
+<meta property="og:title" content="2.5 Nuclear data evalution | dissertation.knit" />
 <meta property="og:type" content="book" />
 
 <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
@@ -22,7 +22,7 @@ MathJax.Hub.Config({
 
 <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
 
-<title>Lay Summary of the Dissertation | dissertation.knit</title>
+<title>2.5 Nuclear data evalution | dissertation.knit</title>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -175,15 +175,25 @@ details > summary {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="lay-summary-of-the-dissertation" class="section level1 unnumbered">
-<h1>Lay Summary of the Dissertation</h1>
-<p>In nuclear physics applications, cross-sections are used to quantify the probabilities of interactions between radiation and matter across energy states. They are commonly modelled using computer simulation tools as it is impossible to measure them comprehensively enough across energy fidelities and interaction scenarios. However the capacity of these tools to produce accurate results is limited, partially due to incomplete knowledge of the physical processes they try to model, and partially because the simulator takes a set of user-defined input parameters, the correct values of which are not known.</p>
-<p>One way to learn more about these parameters is through history matching. In this dissertation, history matching was used to efficiently identify and discard values of the parameters that were unlikely to result in the simulator giving good match to experiments once the inadequacy of the simulator and experimental imprecision were accounted for. Gaussian process (GP) statistical models were used to emulate the relationships between the input parameters and the simulator outputs. This greatly sped up computation at the expense of adding another source of uncertainty, which had to be considered when assessing the inputs. GP emulators were built using a small number of simulator runs at carefully chosen values of the input parameters. Emulators that displayed good out-of-sample predictive performance were then used to identify parameters settings that could plausibly result in the the simulator well matching experiments, and further emulators were built for using simulator runs at those parameter settings. Iterating over this process, known as refocussing, was shown to greatly reduce the space of plausible values for the 28 input parameters considered, at the cost of only several hundred simulator runs.</p>
-
+<div id="Background:evaluation" class="section level2" number="2.5">
+<h2><span class="header-section-number">2.5</span> Nuclear data evalution</h2>
+<p>A single run of TALYS is capable of producing cross-sections for a number of reactions over a range of user defined incident particle energies. The aim of nuclear data evaluation is to produce the set of cross-sections believed to be most consistent with experiments and subject matter expert (SME) knowledge. When using a simulation tool such as TALYS in evaluation, part of this process must consist of deciding at what value, or values of the active parameters at which to run the simulator. This is the aspect of nuclear data evaluation that was focussed on in this dissertation. In Bayesian history matching large regions of the space of possible active parameter values are iteratively discarded with the aid of Gaussian process regression. Evaluation is a huge task, and there are several prominent cross-section libraries that are created using different evaluation philosophies <span class="citation">(<a href="#ref-endf" role="doc-biblioref">Brown et al. 2018</a>; <a href="#ref-jendl" role="doc-biblioref">Shibata et al. 2011</a>; <a href="#ref-tendl" role="doc-biblioref">A. Koning et al. 2019</a>)</span>, and with different priorities. The methodology described in this dissertation represents a reasonably uncomplicated pragmatic way of generating simulator results that are consistent with empirical observations.</p>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-endf" class="csl-entry">
+Brown, David A, MB Chadwick, R Capote, AC Kahler, A Trkov, MW Herman, AA Sonzogni, et al. 2018. <span>“ENDF/b-VIII. 0: The 8th Major Release of the Nuclear Reaction Data Library with CIELO-Project Cross Sections, New Standards and Thermal Scattering Data.”</span> <em>Nuclear Data Sheets</em> 148: 1–142.
+</div>
+<div id="ref-tendl" class="csl-entry">
+Koning, AJ, D Rochman, J-Ch Sublet, N Dzysiuk, M Fleming, and S Van der Marck. 2019. <span>“TENDL: Complete Nuclear Data Library for Innovative Nuclear Science and Technology.”</span> <em>Nuclear Data Sheets</em> 155: 1–55.
+</div>
+<div id="ref-jendl" class="csl-entry">
+Shibata, Keiichi, Osamu Iwamoto, Tsuneo Nakagawa, Nobuyuki Iwamoto, Akira Ichihara, Satoshi Kunieda, Satoshi Chiba, et al. 2011. <span>“JENDL-4.0: A New Library for Nuclear Science and Engineering.”</span> <em>Journal of Nuclear Science and Technology</em> 48 (1): 1–30.
+</div>
 </div>
 <p style="text-align: center;">
-<a href="index.html"><button class="btn btn-default">Previous</button></a>
-<a href="1-Intro.html"><button class="btn btn-default">Next</button></a>
+<a href="2.4-Background:data.html"><button class="btn btn-default">Previous</button></a>
+<a href="2.6-Background:previousgps.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

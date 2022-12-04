@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Lay Summary of the Dissertation | dissertation.knit" />
+<meta property="og:title" content="3.6 Simulator inadequacy | dissertation.knit" />
 <meta property="og:type" content="book" />
 
 <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
@@ -22,7 +22,7 @@ MathJax.Hub.Config({
 
 <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
 
-<title>Lay Summary of the Dissertation | dissertation.knit</title>
+<title>3.6 Simulator inadequacy | dissertation.knit</title>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -175,15 +175,14 @@ details > summary {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="lay-summary-of-the-dissertation" class="section level1 unnumbered">
-<h1>Lay Summary of the Dissertation</h1>
-<p>In nuclear physics applications, cross-sections are used to quantify the probabilities of interactions between radiation and matter across energy states. They are commonly modelled using computer simulation tools as it is impossible to measure them comprehensively enough across energy fidelities and interaction scenarios. However the capacity of these tools to produce accurate results is limited, partially due to incomplete knowledge of the physical processes they try to model, and partially because the simulator takes a set of user-defined input parameters, the correct values of which are not known.</p>
-<p>One way to learn more about these parameters is through history matching. In this dissertation, history matching was used to efficiently identify and discard values of the parameters that were unlikely to result in the simulator giving good match to experiments once the inadequacy of the simulator and experimental imprecision were accounted for. Gaussian process (GP) statistical models were used to emulate the relationships between the input parameters and the simulator outputs. This greatly sped up computation at the expense of adding another source of uncertainty, which had to be considered when assessing the inputs. GP emulators were built using a small number of simulator runs at carefully chosen values of the input parameters. Emulators that displayed good out-of-sample predictive performance were then used to identify parameters settings that could plausibly result in the the simulator well matching experiments, and further emulators were built for using simulator runs at those parameter settings. Iterating over this process, known as refocussing, was shown to greatly reduce the space of plausible values for the 28 input parameters considered, at the cost of only several hundred simulator runs.</p>
-
+<div id="sim-ad" class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> Simulator inadequacy</h2>
+<p>A discrepancy between the TALYS output <span class="math inline">\(f\)</span> and the true process <span class="math inline">\(y\)</span>, is expected to arise in at least two ways. First, TALYS implements some mathematical model, which is assumed to be an imperfect representation of reality. Second, the simulator itself may implement the mathematical model imperfectly.</p>
+<p>The objective of history matching is not to find the ‘correct’ input parameters for a given simulation, and the method does not require the inputs to be physically meaningful. A consequence of this is that history matching can give the right answer for the wrong reasons. For example, the mathematical model may be imperfect, but for certain values of its parameters it might give a good match to observations. Consequently, simulator inadequacy is difficult to quantify, and even more difficult to characterise in terms of contributions from different sources. One approach would be to consult an SME or experts to attempt to elicit a probability distribution representing their belief about how great a discrepancy could arise between TALYS and reality. In this dissertation, in order to focus on the methodology, a very simple approach was taken to uncertainty quantification, equating it to the corresponding measurement uncertainty of the process being simulated. Consequently <span class="math inline">\(V_i^{(s)}=V_i^{(obs)}\)</span> and in particular, <span class="math inline">\(\phi_i\)</span> is independent of <span class="math inline">\(\mathbf{x}\)</span> in this model.</p>
 </div>
 <p style="text-align: center;">
-<a href="index.html"><button class="btn btn-default">Previous</button></a>
-<a href="1-Intro.html"><button class="btn btn-default">Next</button></a>
+<a href="3.5-obs-unc.html"><button class="btn btn-default">Previous</button></a>
+<a href="3.7-em-var.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

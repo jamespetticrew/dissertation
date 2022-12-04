@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Lay Summary of the Dissertation | dissertation.knit" />
+<meta property="og:title" content="3.9 One-dimensional implausibility | dissertation.knit" />
 <meta property="og:type" content="book" />
 
 <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
@@ -22,7 +22,7 @@ MathJax.Hub.Config({
 
 <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
 
-<title>Lay Summary of the Dissertation | dissertation.knit</title>
+<title>3.9 One-dimensional implausibility | dissertation.knit</title>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -175,15 +175,30 @@ details > summary {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="lay-summary-of-the-dissertation" class="section level1 unnumbered">
-<h1>Lay Summary of the Dissertation</h1>
-<p>In nuclear physics applications, cross-sections are used to quantify the probabilities of interactions between radiation and matter across energy states. They are commonly modelled using computer simulation tools as it is impossible to measure them comprehensively enough across energy fidelities and interaction scenarios. However the capacity of these tools to produce accurate results is limited, partially due to incomplete knowledge of the physical processes they try to model, and partially because the simulator takes a set of user-defined input parameters, the correct values of which are not known.</p>
-<p>One way to learn more about these parameters is through history matching. In this dissertation, history matching was used to efficiently identify and discard values of the parameters that were unlikely to result in the simulator giving good match to experiments once the inadequacy of the simulator and experimental imprecision were accounted for. Gaussian process (GP) statistical models were used to emulate the relationships between the input parameters and the simulator outputs. This greatly sped up computation at the expense of adding another source of uncertainty, which had to be considered when assessing the inputs. GP emulators were built using a small number of simulator runs at carefully chosen values of the input parameters. Emulators that displayed good out-of-sample predictive performance were then used to identify parameters settings that could plausibly result in the the simulator well matching experiments, and further emulators were built for using simulator runs at those parameter settings. Iterating over this process, known as refocussing, was shown to greatly reduce the space of plausible values for the 28 input parameters considered, at the cost of only several hundred simulator runs.</p>
-
+<div id="HM-Implausibility" class="section level2" number="3.9">
+<h2><span class="header-section-number">3.9</span> One-dimensional implausibility</h2>
+<p>A good implausibility metric should be a function of <span class="math inline">\(\mathbf{x}\)</span> and give extreme values if <span class="math inline">\(f_i(\mathbf{x})\)</span> is unlikely to give an acceptable match to <span class="math inline">\(y_i\)</span>. Consequently the metric should be proportional to <span class="math inline">\(|f_i(\mathbf{x}) - y_i|\)</span>. It should also take into account uncertainties arising from measurement, simulation and emulation. The greater the combined uncertainties in the system, the less sure we can be in branding values of <span class="math inline">\(\mathbf{x}\)</span> implausible. Consequently the metric should be inversely proportional to the combined uncertainties. The standard approach to combining uncertainties <span class="citation">(<a href="#ref-jeremy_histmatch" role="doc-biblioref">Andrianakis et al. 2015</a>)</span> <span class="citation">(<a href="#ref-bower2010galaxy" role="doc-biblioref">Bower, Goldstein, and Vernon 2010</a>)</span> is to assume that they are independent, and consequently that the variances are additive. This is the approach taken here, where the one-dimensional implausibility metric for <span class="math inline">\(\mathbf{x_j}\)</span> for process <span class="math inline">\(y_i\)</span> is defined as</p>
+<p><span class="math display" id="eq:one-d-implausibility">\[\begin{equation}
+\tag{3.1}
+I_j^{(i)} = \frac{|\E[f_i(\mathbf{x_j})] - z_i|}{\sqrt{V_i^{(obs)} + V_i^{(sim)} + \V[f_i(\mathbf{x_j})]}}.
+\end{equation}\]</span></p>
+<p>Equation <a href="3.9-HM-Implausibility.html#eq:one-d-implausibility">(3.1)</a> is proportional to the difference between the observed and simulated process, inversely proportional to the total uncertainty in the system, and depends on <span class="math inline">\(\mathbf{x_j}\)</span> as required. In order to decide what value of <span class="math inline">\(I_j\)</span> to use as the cut-off for deeming <span class="math inline">\(\mathbf{x_j}\)</span> plausible/ implausible, Pukelsheim’s <span class="math inline">\(3\sigma\)</span> rule is leveraged, which states that for any continuous unimodal distribution, 95% of its probability mass lies within 3 standard deviations of its mean <span class="citation">(<a href="#ref-three_sigma" role="doc-biblioref">Pukelsheim 1994</a>)</span>. One way to proceed would then be to reject all values of <span class="math inline">\(\mathbf{x_j}\)</span> for which <span class="math inline">\(I_j &gt; 3\)</span> as implausible. Assuming that <span class="math inline">\(|E[f_i(\mathbf{x})] - z_i|\)</span> meets Pukelsheim’s requirements, 95% of all non-implausible <span class="math inline">\(\mathbf{x_j}\)</span> should be retained on average, at the cost of losing 5% of non-implausible <span class="math inline">\(\mathbf{x_j}\)</span>. In practice, this boundary can be moved to allow a more suitable number of candidate <span class="math inline">\(\mathbf{x_j}\)</span> to be accepted as not implausible if required.</p>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-jeremy_histmatch" class="csl-entry">
+Andrianakis, Ioannis, Ian R Vernon, Nicky McCreesh, Trevelyan J McKinley, Jeremy E Oakley, Rebecca N Nsubuga, Michael Goldstein, and Richard G White. 2015. <span>“Bayesian History Matching of Complex Infectious Disease Models Using Emulation: A Tutorial and a Case Study on HIV in Uganda.”</span> <em>PLoS Computational Biology</em> 11 (1): e1003968.
+</div>
+<div id="ref-bower2010galaxy" class="csl-entry">
+Bower, Richard G, Michael Goldstein, and Ian Vernon. 2010. <span>“<span class="nocase">Galaxy formation: a Bayesian uncertainty analysis</span>.”</span> <em>Bayesian Analysis</em> 5 (4): 619–69.
+</div>
+<div id="ref-three_sigma" class="csl-entry">
+Pukelsheim, Friedrich. 1994. <span>“The Three Sigma Rule.”</span> <em>The American Statistician</em> 48: 88–91.
+</div>
 </div>
 <p style="text-align: center;">
-<a href="index.html"><button class="btn btn-default">Previous</button></a>
-<a href="1-Intro.html"><button class="btn btn-default">Next</button></a>
+<a href="3.8-other-sources.html"><button class="btn btn-default">Previous</button></a>
+<a href="3.10-hm-worked-example.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

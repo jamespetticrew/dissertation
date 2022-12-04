@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="3.3 Notation | dissertation.knit" />
+<meta property="og:type" content="book" />
+
+<meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
+
+<title>3.3 Notation | dissertation.knit</title>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+/* show arrow before summary tag as in bootstrap
+TODO: remove if boostrap in updated in html_document (rmarkdown#1485) */
+details > summary {
+  display: list-item;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<div class="row">
+<div class="col-sm-12">
+<!--bookdown:toc:end-->
+<!--bookdown:toc:start-->
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div id="Intro-notation" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Notation</h2>
+<p>In history matching there is a simulator with <span class="math inline">\(p\)</span> active input parameters, denoted by the p-vector <span class="math inline">\(\mathbf{x} = [x^{(1)}, x^{(2)},...,x^{(p)}]\)</span>. In this application <span class="math inline">\(p=28\)</span>. <span class="math inline">\(\mathbf{x}\)</span> can be any point in the 28-dimensional volume <span class="math inline">\(\mathcal{X}\)</span>, which could be the set of all <span class="math inline">\(\mathbf{x}\)</span> that the simulator accepts as inputs, or a smaller subset of feasible inputs dictated by physical constraints or expert knowledge. In this application, <span class="math inline">\(\mathcal{X}=[0.1,10]^{28}\)</span> as described in Section <a href="2.3-Background:talys.html#Background:talys">2.3</a>. The simulator implements a mathematical model describing some physical process <span class="math inline">\(y\)</span>. The physical process is observed imperfectly through some measurement process <span class="math inline">\(z\)</span>. In general there is a vector of measurements, denoted by the n-vector <span class="math inline">\(\mathbf{z} = [z_1,z_2,...,z_n]\)</span>, and the individual measurements are indexed as <span class="math inline">\(z_i~i \in 1,2,...,n\)</span>. Each <span class="math inline">\(z_i\)</span> corresponds to a physical process <span class="math inline">\(y_i\)</span>, denoted collectively as <span class="math inline">\(\mathbf{y} = [y_1,y_2,...,y_n]\)</span>. In this application <span class="math inline">\(n=588\)</span> (see Section <a href="2.4-Background:data.html#Background:data">2.4</a>). The simulator simulates all of <span class="math inline">\(\mathbf{y}\)</span> in one code run at some value of <span class="math inline">\(\mathbf{x}\)</span>. The simulated output vector is denoted <span class="math inline">\(\mathbf{f}(\mathbf{x})= [f_1(\mathbf{x}), f_2(\mathbf{x}),...,f_n(\mathbf{x}) ]\)</span>. In the context of the discussion in Section <a href="2.4-Background:data.html#Background:data">2.4</a>, each element of <span class="math inline">\(\mathbf{f(x)}\)</span> corresponds to a cross-section for a given reaction at a given energy from a single code run.</p>
+<p>The imperfection of the experimental measurement process is represented by writing</p>
+<p><span class="math display">\[\begin{equation}
+z_i = y_i + \delta_i
+\label{eq:observation-uncertainty}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\delta_i\)</span> is a univariate Gaussian random variable with expectation 0 and variance <span class="math inline">\(V^{(obs)}_i\)</span> representing our belief about the uncertainty of <span class="math inline">\(y_i|z_i\)</span>.</p>
+<p>The imperfection of the simulator is represented by writing</p>
+<p><span class="math display">\[\begin{equation}
+f_i(\mathbf{x}) = y_i + \phi_i
+\label{eq:model_inadequacy}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\phi_i\)</span> is a zero-centred univariate Gaussian random variable with variance <span class="math inline">\(V_i^{(s)}\)</span> used to represent out belief about the uncertainty of <span class="math inline">\(y_i|f_i(\mathbf{x})\)</span>. It is assumed that <span class="math inline">\(\phi_i\)</span> is independent from <span class="math inline">\(\mathbf{x}\)</span>.</p>
+<p>The aim of history matching is to identify a subset or subsets of <span class="math inline">\(\mathcal{X}\)</span> for which the simulator could feasibly produce outputs consistent with the true process <span class="math inline">\(y\)</span>. This requires comparing the simulator output to observations for <span class="math inline">\(m\)</span> proposal inputs, <span class="math inline">\(\mathbf{x_1},\mathbf{x_2},...,\mathbf{x_m}\)</span>, indexed using <span class="math inline">\(j = 1,2,...,m\)</span>, where each of the <span class="math inline">\(\mathbf{x_j}\)</span> is a p-vector with a proposed scalar value for each of the <span class="math inline">\(p\)</span> active parameters. Theoretically, if the models in TALYS were a perfect representation of reality, there would exist a <span class="math inline">\(\mathbf{x_j}\)</span> such that <span class="math inline">\(f_i(\mathbf{x_j})= y_i~ \forall i\)</span>. All of the the elements of <span class="math inline">\(\mathbf{x}\)</span> are theoretically observable quantities, so in that context a perfect match would arise if they could all be set to their ‘correct’ value. A perfect match could also arise for some proposal <span class="math inline">\(\mathbf{x}\)</span> if TALYS were not a perfect representation of reality (getting the right answer for the wrong reasons). Regardless, a perfect match between <span class="math inline">\(f\)</span> and <span class="math inline">\(y\)</span> could not be detected, because <span class="math inline">\(y\)</span> is never observed directly.</p>
+<p>In order to well explore <span class="math inline">\(\mathcal{X}\)</span> it is required that <span class="math inline">\(m\)</span> be very large. It is often the case that one run of the simulator can take several hours to complete, and as such it is not possible to examine a very large number of proposal <span class="math inline">\(\mathbf{x_j}\)</span> directly. To address this, <span class="math inline">\(k&lt;&lt;m\)</span> training runs of the simulator are used to build <span class="math inline">\(n\)</span> emulators, <span class="math inline">\(\hat{f}_1(\cdot),\hat{f}_2(\cdot),...,\hat{f}_n(\cdot)\)</span> one for each of the <span class="math inline">\(f_1(\cdot),f_2(\cdot),...,f_n(\cdot)\)</span>. The <span class="math inline">\(\hat{f}_i\)</span> are all statistically independent. The set of <span class="math inline">\(k\)</span> training points used to train the emulators is denoted <span class="math inline">\(\mathcal{X}^*\)</span>.</p>
+<p>The <span class="math inline">\(\hat{f}_i\)</span> can then be used to predict the simulator outputs <span class="math inline">\(f_i\)</span> for many samples from <span class="math inline">\(\mathcal{X}\)</span>. The emulators will predict the simulator outputs at points from <span class="math inline">\(\mathcal{X}^*\)</span> exactly<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> but predictions at points not from <span class="math inline">\(\mathcal{X}^*\)</span> will be imprecise. In Chapter <a href="4-GPR.html#GPR">4</a> it will be seen that the <span class="math inline">\(\hat{f}_i\)</span> are Gaussian random variables whose means and variances depend on <span class="math inline">\(\mathbf{x}\)</span>.</p>
+<p>Our uncertainty about the simulator output at unobserved <span class="math inline">\(\mathbf{x_j}\)</span> is represented by writing</p>
+<p><span class="math display">\[\begin{equation}
+\label{eq:emulator-uncertainty}
+f_i(\mathbf{x_j}) \sim \N\left(\E[f_i(\mathbf{x_j})],\V[f_i(\mathbf{x_j})] \right)
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\E[f_i(\mathbf{x_j})]\)</span> and <span class="math inline">\(\V[f_i(\mathbf{x_j})]\)</span> are the mean and variance of emulator <span class="math inline">\(\hat{f}_i(\mathbf{x_j})\)</span>.</p>
+<p>A summary of the notation used hereafter is presented in Table <span class="math inline">\(\ref{tab:notation}\)</span>.</p>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="3">
+<li id="fn3"><p>In Section <a href="4.5-covariance.html#covariance">4.5</a> this idea is modified slightly, but the ideas discussed here still stand<a href="3.3-Intro-notation.html#fnref3" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+<p style="text-align: center;">
+<a href="3.2-motivation.html"><button class="btn btn-default">Previous</button></a>
+<a href="3.4-workflow.html"><button class="btn btn-default">Next</button></a>
+</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+</body>
+</html>

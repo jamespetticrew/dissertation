@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Lay Summary of the Dissertation | dissertation.knit" />
+<meta property="og:title" content="6.3 Further work and conclusions | dissertation.knit" />
 <meta property="og:type" content="book" />
 
 <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
@@ -22,7 +22,7 @@ MathJax.Hub.Config({
 
 <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
 
-<title>Lay Summary of the Dissertation | dissertation.knit</title>
+<title>6.3 Further work and conclusions | dissertation.knit</title>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -175,15 +175,20 @@ details > summary {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="lay-summary-of-the-dissertation" class="section level1 unnumbered">
-<h1>Lay Summary of the Dissertation</h1>
-<p>In nuclear physics applications, cross-sections are used to quantify the probabilities of interactions between radiation and matter across energy states. They are commonly modelled using computer simulation tools as it is impossible to measure them comprehensively enough across energy fidelities and interaction scenarios. However the capacity of these tools to produce accurate results is limited, partially due to incomplete knowledge of the physical processes they try to model, and partially because the simulator takes a set of user-defined input parameters, the correct values of which are not known.</p>
-<p>One way to learn more about these parameters is through history matching. In this dissertation, history matching was used to efficiently identify and discard values of the parameters that were unlikely to result in the simulator giving good match to experiments once the inadequacy of the simulator and experimental imprecision were accounted for. Gaussian process (GP) statistical models were used to emulate the relationships between the input parameters and the simulator outputs. This greatly sped up computation at the expense of adding another source of uncertainty, which had to be considered when assessing the inputs. GP emulators were built using a small number of simulator runs at carefully chosen values of the input parameters. Emulators that displayed good out-of-sample predictive performance were then used to identify parameters settings that could plausibly result in the the simulator well matching experiments, and further emulators were built for using simulator runs at those parameter settings. Iterating over this process, known as refocussing, was shown to greatly reduce the space of plausible values for the 28 input parameters considered, at the cost of only several hundred simulator runs.</p>
+<div id="further-work-and-conclusions" class="section level2" number="6.3">
+<h2><span class="header-section-number">6.3</span> Further work and conclusions</h2>
+<p>Identifying TALYS input parameter which give rise to good agreement with experiments is a step towards one of the endpoints of nuclear data evaluation, which is to have a set of cross-sections consistent with experimental data and with accompanying uncertainties. One way to achieve this with the results of history matching, is to run TALYS at many different values of the input parameters drawn from their joint posterior distribution. If a sufficient number of runs could be carried out, sample means and covariance matrices computed from the outputs of these runs could be used to define the evaluated dataset, one that would be consistent with experimental data and uncertainties, conditional on the modelling approach used. This task could also be made more efficient by using Gaussian process emulation in a similar way to that described in this work.</p>
+<p>In conclusion, nuclear data evaluation is an enormous task and in this dissertation a small case study was examined to assess the usefulness of history matching as an addition to the evaluation tool-kit. The analysis showed some good results, with a large volume of parameter space able to be analysed with the help of Gaussian process emulation. It is expected that better results could be seen with better computational resources, by carefully defining relevant uncertainties, and by accounting for correlations between similar processes.</p>
+
 
 </div>
+<!-- </div> -->
+
+
+
 <p style="text-align: center;">
-<a href="index.html"><button class="btn btn-default">Previous</button></a>
-<a href="1-Intro.html"><button class="btn btn-default">Next</button></a>
+<a href="6.2-limits.html"><button class="btn btn-default">Previous</button></a>
+<a href="A-OMP-model-appendix.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

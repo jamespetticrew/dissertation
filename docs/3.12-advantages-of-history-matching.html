@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Lay Summary of the Dissertation | dissertation.knit" />
+<meta property="og:title" content="3.12 Advantages of history matching | dissertation.knit" />
 <meta property="og:type" content="book" />
 
 <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
@@ -22,7 +22,7 @@ MathJax.Hub.Config({
 
 <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
 
-<title>Lay Summary of the Dissertation | dissertation.knit</title>
+<title>3.12 Advantages of history matching | dissertation.knit</title>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -175,15 +175,20 @@ details > summary {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="lay-summary-of-the-dissertation" class="section level1 unnumbered">
-<h1>Lay Summary of the Dissertation</h1>
-<p>In nuclear physics applications, cross-sections are used to quantify the probabilities of interactions between radiation and matter across energy states. They are commonly modelled using computer simulation tools as it is impossible to measure them comprehensively enough across energy fidelities and interaction scenarios. However the capacity of these tools to produce accurate results is limited, partially due to incomplete knowledge of the physical processes they try to model, and partially because the simulator takes a set of user-defined input parameters, the correct values of which are not known.</p>
-<p>One way to learn more about these parameters is through history matching. In this dissertation, history matching was used to efficiently identify and discard values of the parameters that were unlikely to result in the simulator giving good match to experiments once the inadequacy of the simulator and experimental imprecision were accounted for. Gaussian process (GP) statistical models were used to emulate the relationships between the input parameters and the simulator outputs. This greatly sped up computation at the expense of adding another source of uncertainty, which had to be considered when assessing the inputs. GP emulators were built using a small number of simulator runs at carefully chosen values of the input parameters. Emulators that displayed good out-of-sample predictive performance were then used to identify parameters settings that could plausibly result in the the simulator well matching experiments, and further emulators were built for using simulator runs at those parameter settings. Iterating over this process, known as refocussing, was shown to greatly reduce the space of plausible values for the 28 input parameters considered, at the cost of only several hundred simulator runs.</p>
-
+<div id="advantages-of-history-matching" class="section level2" number="3.12">
+<h2><span class="header-section-number">3.12</span> Advantages of history matching</h2>
+<p>History matching provides an efficient, pragmatic alternative to common inference methods such as maximum likelihood (ML) or Markov chain Monte Carlo (MCMC), which seek to learn a full distributional description of the active TALYS inputs from the data. In ML, the joint density of the inputs is modelled with some common likelihood function, commonly Gaussian. An optimisation algorithm is used to maximise this likelihood of the data with respect to the statistical model parameters. The maximum likelihood model parameters and the assumptions of the models together are sufficient to give a full probabilistic description of the active inputs. This method relies on the validity of the modelling assumptions and the success of the parameter estimation routine. Gradient-based, local optimisation algorithms risk converging on local, non-global maxima when trying to maximise the likelihood function, and this risk grows with dimensionality of the search space. Global optimisation algorithms can grow computationally very expensive and have no guarantee of successfully finding a global maximum for a finite run-time. In MCMC, the posterior distribution of the active inputs is not constrained to belong to a particular model family, instead samples can be numerically generated from the posteriors once the chains have converged on their joint stationary distribution. However, this convergence often requires a great many more samples than ML, and the chains can get stuck in regions of search space, both problems which can become worse in high dimensions.</p>
+<p>Contrastingly, instead of searching for values of the active inputs that are most consistent with all of the observed data points, history matching identifies values of the active inputs that are inconsistent with one or more of the observed data points and discards them as implausible. This approach helps address some of the issues associated with high-dimensionality, and can rapidly reduce the non-implausible search space very quickly. The method is efficient because it is primarily concerned with simple functions of means and variances, which level of statistical detail is often appropriate given the performance of the simulators <span class="citation">(<a href="#ref-jeremy_histmatch" role="doc-biblioref">Andrianakis et al. 2015</a>)</span>. History matching does not require any likelihoods to be defined or any complex probabilistic calculations. The method is also efficient because the non-implausible search space is identified in iterations known as waves, where the search space shrinks each time. Because it is not a formal inference method, pragmatic decisions can be made on things such as implausibility cut-offs and how many samples to take.</p>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-jeremy_histmatch" class="csl-entry">
+Andrianakis, Ioannis, Ian R Vernon, Nicky McCreesh, Trevelyan J McKinley, Jeremy E Oakley, Rebecca N Nsubuga, Michael Goldstein, and Richard G White. 2015. <span>“Bayesian History Matching of Complex Infectious Disease Models Using Emulation: A Tutorial and a Case Study on HIV in Uganda.”</span> <em>PLoS Computational Biology</em> 11 (1): e1003968.
+</div>
 </div>
 <p style="text-align: center;">
-<a href="index.html"><button class="btn btn-default">Previous</button></a>
-<a href="1-Intro.html"><button class="btn btn-default">Next</button></a>
+<a href="3.11-HM-Multi-D.html"><button class="btn btn-default">Previous</button></a>
+<a href="3.13-conclusion-1.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

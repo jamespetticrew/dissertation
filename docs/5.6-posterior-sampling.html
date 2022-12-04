@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="5.6 Posterior sampling of active inputs | dissertation.knit" />
+<meta property="og:type" content="book" />
+
+<meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
+
+<title>5.6 Posterior sampling of active inputs | dissertation.knit</title>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+/* show arrow before summary tag as in bootstrap
+TODO: remove if boostrap in updated in html_document (rmarkdown#1485) */
+details > summary {
+  display: list-item;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<div class="row">
+<div class="col-sm-12">
+<!--bookdown:toc:end-->
+<!--bookdown:toc:start-->
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div id="posterior-sampling" class="section level2" number="5.6">
+<h2><span class="header-section-number">5.6</span> Posterior sampling of active inputs</h2>
+<p>Eventually the iterative history matching process must stop. This might be because there is enough evidence to suggest that further waves will not reduce the non-implausible input space much further, or that there is a suitable probability of choosing a non-implausible random sample from the remaining active parameter space, such as in <span class="citation">(<a href="#ref-jeremy_histmatch" role="doc-biblioref">Andrianakis et al. 2015</a>)</span>. In this dissertation the process was stopped as all the time/compute resource available was used up. Results that arise in this way can still be useful due to the rapid reduction of the plausible parameter space that occurs in early waves, as can be seen in Table <a href="#tab:hm-summary"><strong>??</strong></a>.</p>
+<p>One endpoint of nuclear data evaluation is a set of multivariate normal distributions, one for each reaction, describing a suite of cross-sections on a fine energy grid. Consequently, the non-implausible active parameter space, denoted <span class="math inline">\(\{\mathbf{x_{ni}}\}\)</span>, is of secondary interest and the primary interest lies in the implication for the distribution of non-implausible TALYS outputs. One way to learn about the distribution of these non-implausible outputs would be through Monte Carlo (MC) sampling, where TALYS is run at samples of <span class="math inline">\(\mathbf{x}\)</span> drawn from the posterior distribution of active parameters. The results can be used to learn the properties of the required multivariate normal distributions. This requires being able to generate samples from the required posterior. The non-implausible parameter space is not an estimate of the posterior distribution of <span class="math inline">\(\mathbf{x}\)</span>, denoted <span class="math inline">\(\pi(\mathbf{x}|z)\)</span>, but it does contain it. Consequently it was possible to sample from it, using the following method, taken from <span class="citation">(<a href="#ref-jeremy_histmatch" role="doc-biblioref">Andrianakis et al. 2015</a>)</span>.</p>
+<p>A proposal density was required to allow proposal posterior samples to be generated. A sensible choice was</p>
+<p><span class="math display">\[\begin{equation}
+\label{eq:proposal}
+P(\mathbf{x}) = N\left(\mathbf{x}|\hat{\mathbf{\mu}}_x, \kappa\hat{\mathbf{\Sigma}}_x \right)
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\hat{\mathbf{\mu}}_x\)</span> and <span class="math inline">\(\hat{\mathbf{\Sigma}}_x\)</span> were the sample mean and covariance matrices of <span class="math inline">\(\{\mathbf{x_{ni}}\}\)</span>. Random samples were drawn from Equation <a href="#eq:proposal">(<strong>??</strong>)</a>, each one a proposal for a sample from <span class="math inline">\(\pi(\mathbf{x}|z)\)</span>. The constant <span class="math inline">\(\kappa\)</span> was used to ‘widen’ the search area, which has been seen to make the posterior sampling more effective <span class="citation">(<a href="#ref-jeremy_histmatch" role="doc-biblioref">Andrianakis et al. 2015</a>)</span>. The first step was to draw a large set of proposal samples from Equation <a href="#eq:proposal">(<strong>??</strong>)</a>. In this dissertation, this was done with the aid of the R package ‘mvtnorm’ <span class="citation">(<a href="#ref-mvtnorm" role="doc-biblioref">Genz et al. 2021</a>)</span>. <span class="math inline">\(\kappa\)</span> was set equal to 2.</p>
+<p>The likelihood of the data <span class="math inline">\(\mathbf{z}\)</span> with respect to the proposal samples needed be computed for each proposal. As an approximation to the likelihood</p>
+<p><span class="math display">\[\begin{equation}
+\label{eq:likelihood-posterior}
+L(\mathbf{x}) = p\left(\mathbf{z}| \mathbf{x}\right) = N\left( \mathbf{z}| E[g(\mathbf{x})], V(\mathbf{x})\right)
+\end{equation}\]</span></p>
+<p>was used.</p>
+<p>Each time a proposal <span class="math inline">\(\mathbf{x}\)</span> was generated from <span class="math inline">\(P(\mathbf{x})\)</span>, the wave three emulator predictions at this point <span class="math inline">\(\mathbf{\hat{f}(x)}\)</span> were computed. The mean vector in Equation <a href="#eq:likelihood-posterior">(<strong>??</strong>)</a> was the vector of predictive emulator means at <span class="math inline">\(\mathbf{x}\)</span>, each element a prediction of an observation from <span class="math inline">\(\mathbf{z}\)</span>. The covariance matrix was constructed by putting the sum of the emulator predictor variance, the observation uncertainty and simulator inadequacy as the diagonals, and zeros for the off diagonals. The likelihood of the data was then computed using ‘mvtnorm’. This is the multivariate equivalent of using the ‘dnorm’ function from base R, that is the probability density, <span class="math inline">\(L(\mathbf{x})\)</span> with respect to Equation <a href="#eq:likelihood-posterior">(<strong>??</strong>)</a> was computed with respect to <span class="math inline">\(\mathbf{z}\)</span>.</p>
+<p>The likelihood <span class="math inline">\(P(\mathbf{x})\)</span> was also computed with respect to <span class="math inline">\(\mathbf{x}\)</span>, and a weight <span class="math inline">\(w(x) = \frac{L(\mathbf{x})}{P(\mathbf{x})}\)</span> was assigned to <span class="math inline">\(\mathbf{x}\)</span>. <span class="math inline">\(L(\mathbf{x})\)</span> is a measure of the probability of observing the data given the proposal <span class="math inline">\(\mathbf{x}\)</span> and <span class="math inline">\(P(\mathbf{x})\)</span> as the probability of having proposed <span class="math inline">\(\mathbf{x}\)</span> in the first place.</p>
+<p>Once weights have been computed for all the proposal <span class="math inline">\(\mathbf{x}\)</span>, if the proposals are randomly sampled with respect to their weights, this is approximately equivalent to sampling from the posterior <span class="math inline">\(\pi(\mathbf{x}|\mathbf{z})\)</span>. The weighted sampling was achieved using the R function ‘sample’ with the ‘prob’ option set equal to the vector of weights.</p>
+<p>This approach requires that the simulator inadequacy and observation uncertainty terms were normally distributed, an assumption that is commonly leveraged <span class="citation">(<a href="#ref-bower2010galaxy" role="doc-biblioref">Bower, Goldstein, and Vernon 2010</a>)</span>. Implemented in this way, the sampling method also requires that the prior distribution of <span class="math inline">\(\mathbf{x}\)</span> is constant over the likelihood domain. This assumption is often reasonable giving how small the non-implausible space is with respect to the original parameter space after history matching.</p>
+<p>In this dissertation, implementing this method proved challenging. Evaluating <span class="math inline">\(L(\mathbf{x})\)</span> almost always led to values below machine precision, effectively zero. One possible reason for this is that the history matching stopped at wave three, and the non-implausible space was not yet small enough to allow the emulators to predict very well. Hence the likelihood of the data given the parameters was vanishingly small. It may have also been due to the number of relevant observations, 440 for wave three. Given that the probability density must integrate to one it was perhaps not unusual that many instantaneous values for the density function of a 440-dimensional Gaussian would be vanishingly small. Some investigation revealed that reducing the number of relevant data points did indeed result in non-zero results for <span class="math inline">\(L(\mathbf{x})\)</span>. Consequently it was decided to generate posterior samples of <span class="math inline">\(\mathbf{x}\)</span> with respect to a subset of the observations <span class="math inline">\(\mathbf{z}\)</span>. As the elements of <span class="math inline">\(\mathbf{z}\)</span> each corresponded to a different reaction (see Section <a href="2.4-Background:data.html#Background:data">2.4</a>), a natural way to subset the observations was by reaction. From Section <a href="4.2-GPR:GPR.html#GPR:GPR">4.2</a>, any subset of a multivariate normal distribution is itself normal, consequently any marginal likelihood of Equation <a href="4.3-model-selection.html#eq:likelihood">(4.4)</a> is also normal, and it was possible follow the procedure to generate samples from the marginal posterior densities of the active parameters. This also provided an interesting way to investigate if different values of the parameters were better at reproducing different reactions.</p>
+<p>This approach resulted in samples from the posterior being generated that were non-zero outside of the allowable range of values ([-1,1] on the log scale). This was addressed by implying a uniform prior on [-1,1] and 0 otherwise, which translates in practical terms to zero-weighting any posterior samples generated outside of the interval [-1,1].</p>
+<p>Plots for the posterior samples generated in this way are shown in Figures <a href="5.6-posterior-sampling.html#fig:np-posterior">5.4</a> and <a href="5.6-posterior-sampling.html#fig:na-posterior">5.5</a>. The likelihood was evaluated with respect to the experimental data for these reactions for which there were valid emulators, that is for three data points for reaction (n,a) and fifty data points for reaction (n,p).</p>
+The posterior samples are fairly uniform across most of the parameters, which may indicate that the two reaction types are fairly insensitive to the settings of most of the parameters, at least at the observed energy states, or that further waves of history matching may be needec in order to build better emulators and increase the ‘signal’ in the posterior sampling. However, in both figures, it is evident that lower values of rvadjust and rwdadjust are favoured, and this is particularly evident in Figure <a href="5.6-posterior-sampling.html#fig:na-posterior">5.5</a>. Since there is evidence of this in both figures, there is a good chance that lower values of these parameters are characteristics of the scenario being examined, neutrons incident upon Iron-56, rather than characteristic of a particular reaction. Contrastingly, the (n,a) reaction appears not to favour any particular values for the v3adjust parameter, whereas the (n,p) reaction appears to favour higher values, which could indicate that the parameter is of particular importance in modelling that reaction.
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:np-posterior"></span>
+<embed src="figures/np_posterior.pdf" title="Posterior samples for active input parameters when the approximate likelihood is evaluated with respect to (n,p) experimental data. This reaction appears to favour lower values for parameters 'rvadjust' and 'rwdadjust' and higher values for 'v3adjust'." width="80%" type="application/pdf" />
+<p class="caption">
+Figure 5.4: Posterior samples for active input parameters when the approximate likelihood is evaluated with respect to (n,p) experimental data. This reaction appears to favour lower values for parameters ‘rvadjust’ and ‘rwdadjust’ and higher values for ‘v3adjust’.
+</p>
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:na-posterior"></span>
+<embed src="figures/na_posterior.pdf" title="Posterior samples for active input parameters when the approximate likelihood is evaluated with respect to (n,a) experimental data. This reaction shows a preference for lower values of 'rvadjust' and 'rwdadjust'." width="80%" type="application/pdf" />
+<p class="caption">
+Figure 5.5: Posterior samples for active input parameters when the approximate likelihood is evaluated with respect to (n,a) experimental data. This reaction shows a preference for lower values of ‘rvadjust’ and ‘rwdadjust’.
+</p>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-jeremy_histmatch" class="csl-entry">
+Andrianakis, Ioannis, Ian R Vernon, Nicky McCreesh, Trevelyan J McKinley, Jeremy E Oakley, Rebecca N Nsubuga, Michael Goldstein, and Richard G White. 2015. <span>“Bayesian History Matching of Complex Infectious Disease Models Using Emulation: A Tutorial and a Case Study on HIV in Uganda.”</span> <em>PLoS Computational Biology</em> 11 (1): e1003968.
+</div>
+<div id="ref-bower2010galaxy" class="csl-entry">
+Bower, Richard G, Michael Goldstein, and Ian Vernon. 2010. <span>“<span class="nocase">Galaxy formation: a Bayesian uncertainty analysis</span>.”</span> <em>Bayesian Analysis</em> 5 (4): 619–69.
+</div>
+<div id="ref-mvtnorm" class="csl-entry">
+Genz, Alan, Frank Bretz, Tetsuhisa Miwa, Xuefei Mi, Friedrich Leisch, Fabian Scheipl, and Torsten Hothorn. 2021. <em><span class="nocase">mvtnorm</span>: Multivariate Normal and t Distributions</em>. <a href="https://CRAN.R-project.org/package=mvtnorm">https://CRAN.R-project.org/package=mvtnorm</a>.
+</div>
+</div>
+<p style="text-align: center;">
+<a href="5.5-subsequent-waves.html"><button class="btn btn-default">Previous</button></a>
+<a href="5.7-conclusion-3.html"><button class="btn btn-default">Next</button></a>
+</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+</body>
+</html>

@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="References | dissertation.knit" />
+<meta property="og:title" content="3.11 Multidimensional implausibility | dissertation.knit" />
 <meta property="og:type" content="book" />
 
 <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
@@ -22,7 +22,7 @@ MathJax.Hub.Config({
 
 <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
 
-<title>References | dissertation.knit</title>
+<title>3.11 Multidimensional implausibility | dissertation.knit</title>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -175,100 +175,36 @@ details > summary {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="references" class="section level1 unnumbered">
-<h1>References</h1>
-
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div class="csl-entry">
-Alhassan, Erwin, Dimitri Rochman, Alexander Vasiliev, Mathieu Hursin, Arjan J Koning, and Hakim Ferroukhi. 2022. <span>“<span class="nocase">Iterative Bayesian Monte Carlo for nuclear data evaluation</span>.”</span> <em>Nuclear Science and Techiques</em> 30 (50).
+<div id="HM-Multi-D" class="section level2" number="3.11">
+<h2><span class="header-section-number">3.11</span> Multidimensional implausibility</h2>
+<p>588 outputs <span class="math inline">\(f_1(\mathbf{x_j}),f_2(\mathbf{x_j}),...,f_{588}(\mathbf{x_j})\)</span> were produced each time TALYS was run for some <span class="math inline">\(\mathbf{x_j}\)</span>. Each output <span class="math inline">\(f_i(\mathbf{x})\)</span> had a corresponding measurement <span class="math inline">\(z_i\)</span> of a true process <span class="math inline">\(y_i\)</span>. In the literature there exist some methods for emulating multivariate outputs and accounting for correlations <span class="citation">(<a href="#ref-jonty_efficient" role="doc-biblioref">Rougier 2008</a>; <a href="#ref-multivariate_gp" role="doc-biblioref">Fricker, Oakley, and Urban 2013</a>)</span> amongst the <span class="math inline">\(f\)</span>s. In this dissertation, the simple approach of emulating each of the <span class="math inline">\(f\)</span> independently was taken. As a consequence of this, there were up to 588 univariate implausibility measures for each input, and the criterion for labelling <span class="math inline">\(\mathbf{x_j}\)</span> plausible or non-implausible had to be modified. One approach was to take the maximum of the 588 measures as <span class="math inline">\(I_j\)</span> and to require that this be less than three for <span class="math inline">\(\mathbf{x_j}\)</span> to non-implausible. A common approach <span class="citation">(<a href="#ref-jeremy_histmatch" role="doc-biblioref">Andrianakis et al. 2015</a>; <a href="#ref-bower2010galaxy" role="doc-biblioref">Bower, Goldstein, and Vernon 2010</a>)</span> is to take the second or third largest <span class="math inline">\(I^{(i)}_j\)</span>. The choice is a pragmatic one and the sensitivity of the size of the non-implausible space to the choice of metric was examined in this dissertation, allowing a suitable choice can be made.</p>
+<p>A second multivariate implausibility metric is</p>
+<p><span class="math display" id="eq:chi-sq-impl">\[\begin{equation}
+\tag{3.2}
+I(\mathbf{x_j}) = (\mathbf{z} - \E[\mathbf{f(x_j)}])^T\left(\mathbf{V}_i^{(obs)} + \mathbf{V}_i^{(sim)} + \mathbf{V}[\mathbf{f(x_j)}]\right)(\mathbf{z} - \E[\mathbf{f(x_j})])
+\end{equation}\]</span></p>
+<p>in which the vector of observations <span class="math inline">\(\mathbf{z} = (z_1,z_2,...,z_n)\)</span> and the corresponding emulated quantities <span class="math inline">\(\mathbf{f(x_j)} = (f_1(\mathbf{x_j}),f_2(\mathbf{x_j}),...,f_n(\mathbf{x_j}))\)</span> are used and where <span class="math inline">\(\left(\mathbf{V}_i^{(obs)} + \mathbf{V}_i^{(sim)} + \mathbf{V}[f_i(\mathbf{x_j})]\right)\)</span> should now be a full <span class="math inline">\(n \times n\)</span> covariance matrix. Under suitable assumptions, <span class="math inline">\(I(\mathbf{x_j})\)</span> has an asymptotic <span class="math inline">\(\chi^2\)</span> distribution and consequently an appropriate percentile can be chosen from the <span class="math inline">\(\chi^2\)</span> distribution with <span class="math inline">\(n\)</span> degrees of freedom and use as the implausible/ non–implausible cut-off for <span class="math inline">\(\mathbf{x_j}\)</span>.</p>
+<p>One potential problem could arise in specifying the full covariance structure of <span class="math inline">\(\left(\mathbf{V}_i^{(obs)} + \mathbf{V}_i^{(sim)} + \mathbf{V}[\mathbf{f(x_j)}]\right)\)</span>. The simple approach was taken here to assume that all of the uncertainties were uncorrelated. In that case, all three covariance matrices are diagonal, with the <span class="math inline">\(i,i\)</span>th element equal to the sum of the univariate uncertainties for that process, and all other elements zero. Taking this approach, it can be see that the multivariate implausibility measure from Equation <a href="3.11-HM-Multi-D.html#eq:chi-sq-impl">(3.2)</a> is just the sum of the squared univariate implausibility measures from Equation <a href="3.9-HM-Implausibility.html#eq:one-d-implausibility">(3.1)</a>, <span class="math inline">\(I_j(\mathbf{x_j}) = \sum_{i=1}^n \left(I_j^{(i)}\right)^2\)</span></p>
+<p>Here, <span class="math inline">\(I_j^{(uv)}\)</span> is used to denote the univariate implausibility metric chosen for a given wave, and <span class="math inline">\(I_j^{(mv)}\)</span> for the multivariate measure, where it is hoped that the intended meaning should be clear from the superscript, and that these would not be mistaken for the <span class="math inline">\(uv\)</span>th or <span class="math inline">\(mv\)</span>th univariate implausibility metric for <span class="math inline">\(\mathbf{x_j}\)</span>.</p>
 </div>
-<div class="csl-entry">
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-jeremy_histmatch" class="csl-entry">
 Andrianakis, Ioannis, Ian R Vernon, Nicky McCreesh, Trevelyan J McKinley, Jeremy E Oakley, Rebecca N Nsubuga, Michael Goldstein, and Richard G White. 2015. <span>“Bayesian History Matching of Complex Infectious Disease Models Using Emulation: A Tutorial and a Case Study on HIV in Uganda.”</span> <em>PLoS Computational Biology</em> 11 (1): e1003968.
 </div>
-<div class="csl-entry">
-Bastos, Leonardo S, and Anthony O’Hagan. 2009. <span>“Diagnostics for Gaussian Process Emulators.”</span> <em>Technometrics</em> 51 (4): 425–38.
-</div>
-<div class="csl-entry">
+<div id="ref-bower2010galaxy" class="csl-entry">
 Bower, Richard G, Michael Goldstein, and Ian Vernon. 2010. <span>“<span class="nocase">Galaxy formation: a Bayesian uncertainty analysis</span>.”</span> <em>Bayesian Analysis</em> 5 (4): 619–69.
 </div>
-<div class="csl-entry">
-Brown, David A, MB Chadwick, R Capote, AC Kahler, A Trkov, MW Herman, AA Sonzogni, et al. 2018. <span>“ENDF/b-VIII. 0: The 8th Major Release of the Nuclear Reaction Data Library with CIELO-Project Cross Sections, New Standards and Thermal Scattering Data.”</span> <em>Nuclear Data Sheets</em> 148: 1–142.
-</div>
-<div class="csl-entry">
-Carnell, Rob. 2022. <em>Lhs: Latin Hypercube Samples</em>. <a href="https://CRAN.R-project.org/package=lhs">https://CRAN.R-project.org/package=lhs</a>.
-</div>
-<div class="csl-entry">
-Erickson, Collin B, Bruce E Ankenman, and Susan M Sanchez. 2018. <span>“<span class="nocase">Comparison of Gaussian process modeling software</span>.”</span> <em>European Journal of Operational Research</em> 266 (1): 179–92.
-</div>
-<div class="csl-entry">
+<div id="ref-multivariate_gp" class="csl-entry">
 Fricker, Thomas E, Jeremy E Oakley, and Nathan M Urban. 2013. <span>“Multivariate Gaussian Process Emulators with Nonseparable Covariance Structures.”</span> <em>Technometrics</em> 55 (1): 47–56.
 </div>
-<div class="csl-entry">
-Gelman, A., J. B. Carlin, H. S. Stern, D. B. Dunson, A. Vehtari, and D. B. Rubin. 2013. <em>Bayesian Data Analysis, Third Edition</em>. Chapman &amp; Hall/CRC Texts in Statistical Science. Taylor &amp; Francis.
-</div>
-<div class="csl-entry">
-Genz, Alan, Frank Bretz, Tetsuhisa Miwa, Xuefei Mi, Friedrich Leisch, Fabian Scheipl, and Torsten Hothorn. 2021. <em><span class="nocase">mvtnorm</span>: Multivariate Normal and t Distributions</em>. <a href="https://CRAN.R-project.org/package=mvtnorm">https://CRAN.R-project.org/package=mvtnorm</a>.
-</div>
-<div class="csl-entry">
-Gu, Mengyang, Jesus Palomo, and James Berger. 2022. <em>RobustGaSP: Robust Gaussian Stochastic Process Emulation</em>. <a href="https://CRAN.R-project.org/package=RobustGaSP">https://CRAN.R-project.org/package=RobustGaSP</a>.
-</div>
-<div class="csl-entry">
-Helgesson, P., and H. Sjöstrand. 2018. <span>“Treating Model Defects by Fitting Smoothly Varying Model Parameters: Energy Dependence in Nuclear Data Evaluation.”</span> <em>Annals of Nuclear Energy</em> 120: 35–47. https://doi.org/<a href="https://doi.org/10.1016/j.anucene.2018.05.026">https://doi.org/10.1016/j.anucene.2018.05.026</a>.
-</div>
-<div class="csl-entry">
-Iwamoto, Hiroki. 2020. <span>“<span class="nocase">Generation of nuclear data using Gaussian process regression</span>.”</span> <em>Journal of Nuclear Science and Technology</em> 57 (8): 932–38. <a href="https://doi.org/10.1080/00223131.2020.1736202">https://doi.org/10.1080/00223131.2020.1736202</a>.
-</div>
-<div class="csl-entry">
-Koning, A. J., and D. Rochman. 2012. <span>“Modern Nuclear Data Evaluation with the TALYS Code System.”</span> <em>Nuclear Data Sheets</em> 113 (12): 2841–2934. https://doi.org/<a href="https://doi.org/10.1016/j.nds.2012.11.002">https://doi.org/10.1016/j.nds.2012.11.002</a>.
-</div>
-<div class="csl-entry">
-Koning, AJ, D Rochman, J-Ch Sublet, N Dzysiuk, M Fleming, and S Van der Marck. 2019. <span>“TENDL: Complete Nuclear Data Library for Innovative Nuclear Science and Technology.”</span> <em>Nuclear Data Sheets</em> 155: 1–55.
-</div>
-<div class="csl-entry">
-Oakley, Jeremy. 1999. <span>“Bayesian Uncertainty Analysis for Complex Computer Codes.”</span> PhD thesis, The University of Sheffield.
-</div>
-<div class="csl-entry">
-Otuka, N., E. Dupont, V. Semkova, B. Pritychenko, A. I. Blokhin, M. Aikawa, S. Babykina, et al. 2014. <span>“Towards a More Complete and Accurate Experimental Nuclear Reaction Data Library (EXFOR): International Collaboration Between Nuclear Reaction Data Centres (NRDC).”</span> <em>Nuclear Data Sheets</em> 120: 272–76. https://doi.org/<a href="https://doi.org/10.1016/j.nds.2014.07.065">https://doi.org/10.1016/j.nds.2014.07.065</a>.
-</div>
-<div class="csl-entry">
-Pedregosa, Fabian, Gaël Varoquaux, Alexandre Gramfort, Vincent Michel, Bertrand Thirion, Olivier Grisel, Mathieu Blondel, et al. 2011. <span>“Scikit-Learn: Machine Learning in Python.”</span> <em>Journal of Machine Learning Research</em> 12 (Oct): 2825–30.
-</div>
-<div class="csl-entry">
-Pukelsheim, Friedrich. 1994. <span>“The Three Sigma Rule.”</span> <em>The American Statistician</em> 48: 88–91.
-</div>
-<div class="csl-entry">
+<div id="ref-jonty_efficient" class="csl-entry">
 Rougier, Jonathan. 2008. <span>“Efficient Emulators for Multivariate Deterministic Functions.”</span> <em>Journal of Computational and Graphical Statistics</em> 17 (4): 827–43.
 </div>
-<div class="csl-entry">
-Roustant, Olivier, David Ginsbourger, and Yves Deville. 2012. <span>“<span class="nocase">DiceKriging, DiceOptim: Two R packages for the analysis of computer experiments by kriging-based metamodeling and optimization</span>.”</span> <em>Journal of Statistical Software</em> 51: 1–55.
 </div>
-<div class="csl-entry">
-Schnabel, G., H. Sjöstrand, J. Hansson, D. Rochman, A. Koning, and R. Capote. 2021. <span>“Conception and Software Implementation of a Nuclear Data Evaluation Pipeline.”</span> <em>Nuclear Data Sheets</em> 173 (March): 239–84. <a href="https://doi.org/10.1016/j.nds.2021.04.007">https://doi.org/10.1016/j.nds.2021.04.007</a>.
-</div>
-<div class="csl-entry">
-Shibata, Keiichi, Osamu Iwamoto, Tsuneo Nakagawa, Nobuyuki Iwamoto, Akira Ichihara, Satoshi Kunieda, Satoshi Chiba, et al. 2011. <span>“JENDL-4.0: A New Library for Nuclear Science and Engineering.”</span> <em>Journal of Nuclear Science and Technology</em> 48 (1): 1–30.
-</div>
-<div class="csl-entry">
-Williams, Christopher KI, and Carl Edward Rasmussen. 2006. <em>Gaussian Processes for Machine Learning</em>. Vol. 2. 3. MIT press Cambridge, MA.
-</div>
-</div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <p style="text-align: center;">
-<a href="C-ethics-approval.html"><button class="btn btn-default">Previous</button></a>
+<a href="3.10-hm-worked-example.html"><button class="btn btn-default">Previous</button></a>
+<a href="3.12-advantages-of-history-matching.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

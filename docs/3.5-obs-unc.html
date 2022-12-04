@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Lay Summary of the Dissertation | dissertation.knit" />
+<meta property="og:title" content="3.5 Observation uncertainty | dissertation.knit" />
 <meta property="og:type" content="book" />
 
 <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
@@ -22,7 +22,7 @@ MathJax.Hub.Config({
 
 <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
 
-<title>Lay Summary of the Dissertation | dissertation.knit</title>
+<title>3.5 Observation uncertainty | dissertation.knit</title>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -175,15 +175,20 @@ details > summary {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="lay-summary-of-the-dissertation" class="section level1 unnumbered">
-<h1>Lay Summary of the Dissertation</h1>
-<p>In nuclear physics applications, cross-sections are used to quantify the probabilities of interactions between radiation and matter across energy states. They are commonly modelled using computer simulation tools as it is impossible to measure them comprehensively enough across energy fidelities and interaction scenarios. However the capacity of these tools to produce accurate results is limited, partially due to incomplete knowledge of the physical processes they try to model, and partially because the simulator takes a set of user-defined input parameters, the correct values of which are not known.</p>
-<p>One way to learn more about these parameters is through history matching. In this dissertation, history matching was used to efficiently identify and discard values of the parameters that were unlikely to result in the simulator giving good match to experiments once the inadequacy of the simulator and experimental imprecision were accounted for. Gaussian process (GP) statistical models were used to emulate the relationships between the input parameters and the simulator outputs. This greatly sped up computation at the expense of adding another source of uncertainty, which had to be considered when assessing the inputs. GP emulators were built using a small number of simulator runs at carefully chosen values of the input parameters. Emulators that displayed good out-of-sample predictive performance were then used to identify parameters settings that could plausibly result in the the simulator well matching experiments, and further emulators were built for using simulator runs at those parameter settings. Iterating over this process, known as refocussing, was shown to greatly reduce the space of plausible values for the 28 input parameters considered, at the cost of only several hundred simulator runs.</p>
-
+<div id="obs-unc" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> Observation uncertainty</h2>
+<p>The process of measurement resembles an aleatoric process, in that if one measurement <span class="math inline">\(z_i^{(1)}\)</span> of the process <span class="math inline">\(y_i\)</span> is taken, and then a second measurement <span class="math inline">\(z_i^{(2)}\)</span>, in general <span class="math inline">\(z_i^{(1)} \neq z_i^{(2)}\)</span>. The general assumption, though, is that the measurement process is imprecise, but not systematically wrong. This implies that if <span class="math inline">\(q\)</span> measurements <span class="math inline">\(z_i^{(1)},z_i^{(2)},...,z_i^{(q)}\)</span> were taken, as q gets larger <span class="math inline">\(\frac{1}{q}\sum_{j=1}^q z_i^{(j)} \rightarrow y_i\)</span> and that the variance of the estimator for <span class="math inline">\(y_i\)</span> is proportional to <span class="math inline">\(\frac{1}{\sqrt{q}}\)</span>. In most practical cases, it is only possible to take one measurement <span class="math inline">\(z_i\)</span> and the scientist must provide their own estimate of the observation uncertainty, based on their knowledge of the experimental process.</p>
+<p>The authors of <span class="citation">(<a href="#ref-Schnabel_2021" role="doc-biblioref">Schnabel et al. 2021</a>)</span> provided tools for extracting and contextualising the uncertainties that accompanied the experimental data used in this dissertation. However, the computational expense required to use the tools was too large to undertake. Consequently a simple approach was taken in order allow progress to be made, and it was decided that the observation uncertainty <span class="math inline">\(V_i^{(obs)}\)</span> from Equation <a href="#eq:observation-uncertainty">(<strong>??</strong>)</a> for <span class="math inline">\(y_i\)</span> should be <span class="math inline">\(0.1z_i\)</span>.</p>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Schnabel_2021" class="csl-entry">
+Schnabel, G., H. Sjöstrand, J. Hansson, D. Rochman, A. Koning, and R. Capote. 2021. <span>“Conception and Software Implementation of a Nuclear Data Evaluation Pipeline.”</span> <em>Nuclear Data Sheets</em> 173 (March): 239–84. <a href="https://doi.org/10.1016/j.nds.2021.04.007">https://doi.org/10.1016/j.nds.2021.04.007</a>.
+</div>
 </div>
 <p style="text-align: center;">
-<a href="index.html"><button class="btn btn-default">Previous</button></a>
-<a href="1-Intro.html"><button class="btn btn-default">Next</button></a>
+<a href="3.4-workflow.html"><button class="btn btn-default">Previous</button></a>
+<a href="3.6-sim-ad.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Lay Summary of the Dissertation | dissertation.knit" />
+<meta property="og:title" content="3.2 Motivation | dissertation.knit" />
 <meta property="og:type" content="book" />
 
 <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
@@ -22,7 +22,7 @@ MathJax.Hub.Config({
 
 <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
 
-<title>Lay Summary of the Dissertation | dissertation.knit</title>
+<title>3.2 Motivation | dissertation.knit</title>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -175,15 +175,20 @@ details > summary {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="lay-summary-of-the-dissertation" class="section level1 unnumbered">
-<h1>Lay Summary of the Dissertation</h1>
-<p>In nuclear physics applications, cross-sections are used to quantify the probabilities of interactions between radiation and matter across energy states. They are commonly modelled using computer simulation tools as it is impossible to measure them comprehensively enough across energy fidelities and interaction scenarios. However the capacity of these tools to produce accurate results is limited, partially due to incomplete knowledge of the physical processes they try to model, and partially because the simulator takes a set of user-defined input parameters, the correct values of which are not known.</p>
-<p>One way to learn more about these parameters is through history matching. In this dissertation, history matching was used to efficiently identify and discard values of the parameters that were unlikely to result in the simulator giving good match to experiments once the inadequacy of the simulator and experimental imprecision were accounted for. Gaussian process (GP) statistical models were used to emulate the relationships between the input parameters and the simulator outputs. This greatly sped up computation at the expense of adding another source of uncertainty, which had to be considered when assessing the inputs. GP emulators were built using a small number of simulator runs at carefully chosen values of the input parameters. Emulators that displayed good out-of-sample predictive performance were then used to identify parameters settings that could plausibly result in the the simulator well matching experiments, and further emulators were built for using simulator runs at those parameter settings. Iterating over this process, known as refocussing, was shown to greatly reduce the space of plausible values for the 28 input parameters considered, at the cost of only several hundred simulator runs.</p>
-
+<div id="motivation" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Motivation</h2>
+<p>The motivation for using history matching was to find a subset or subsets of TALYS’s 28-dimensional active parameter space which could give rise to acceptable matches between TALYS outputs, denoted <span class="math inline">\(f\)</span>, and the true cross-sections which it attempts to simulate, denoted <span class="math inline">\(y\)</span>. The term ‘acceptable’ here implies that an exact match is not expected. One reason for this is that <span class="math inline">\(y\)</span> cannot be measured perfectly, but there is a discrepancy between the measured cross-section, denoted <span class="math inline">\(z\)</span>, and <span class="math inline">\(y\)</span>. A second reason is that TALYS is not expected to perfectly simulate <span class="math inline">\(y\)</span>. At third reason is that history matching requires <span class="math inline">\(f\)</span> to be evaluated a large number of times and consequently a statistical emulator <span class="math inline">\(\hat{f}\)</span> is used to approximate <span class="math inline">\(f\)</span> (see Section <a href="4-GPR.html#GPR">4</a>) because it takes much less time to evaluate. The relationships between these four quantities are shown in Figure <a href="3.2-motivation.html#fig:uncertainty-sketch">3.1</a>. If the discrepancies between the quantities are well quantified (see Sections <a href="3.5-obs-unc.html#obs-unc">3.5</a>-<a href="3.7-em-var.html#em-var">3.7</a>), then there is enough information to compute some metric to decide if the match been TALYS and the true process is non-implausible (Section <a href="3.9-HM-Implausibility.html#HM-Implausibility">3.9</a>) for some value of the active input parameters.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:uncertainty-sketch"></span>
+<img src="figures/uncertanties_bigger.png" alt="Both the experimental measurement $z$ and the simulator $f$ imperfectly capture the true process $y$. A further discrepancy occurs because the simulator itself must be imperfectly emulated by $f$." width="80%" />
+<p class="caption">
+Figure 3.1: Both the experimental measurement <span class="math inline">\(z\)</span> and the simulator <span class="math inline">\(f\)</span> imperfectly capture the true process <span class="math inline">\(y\)</span>. A further discrepancy occurs because the simulator itself must be imperfectly emulated by <span class="math inline">\(f\)</span>.
+</p>
+</div>
+<p>History matching works by iteratively discounting values of the active input parameters as implausible give measurements and relevant uncertainties. New sets of emulators are built which focus on predicting well in the non-implausible active parameter space, known as ‘refocussing’. In order to describe it in more detail, we now develop our mathematical notation further.</p>
 </div>
 <p style="text-align: center;">
-<a href="index.html"><button class="btn btn-default">Previous</button></a>
-<a href="1-Intro.html"><button class="btn btn-default">Next</button></a>
+<a href="3.1-HM-Intro.html"><button class="btn btn-default">Previous</button></a>
+<a href="3.3-Intro-notation.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

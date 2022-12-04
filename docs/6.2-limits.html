@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="6.2 Limitations of the analysis | dissertation.knit" />
+<meta property="og:type" content="book" />
+
+<meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
+
+<title>6.2 Limitations of the analysis | dissertation.knit</title>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+/* show arrow before summary tag as in bootstrap
+TODO: remove if boostrap in updated in html_document (rmarkdown#1485) */
+details > summary {
+  display: list-item;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<div class="row">
+<div class="col-sm-12">
+<!--bookdown:toc:end-->
+<!--bookdown:toc:start-->
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div id="limits" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> Limitations of the analysis</h2>
+<p>The intention of this dissertation was to demonstrate how Bayesian history matching could be used as a part of a nuclear data evaluation workflow. However, limitations in the analysis mean that the results themselves are only demonstrative and care should be taken in interpreting them too closely.</p>
+<p>The main limitation of the analysis was the lack of availability of computational resources. Nuclear data evaluation is usually a high performance computing task, and this analysis was carried out on a personal laptop. Consequently, decisions on how long to run calculations for were made pragmatically. For example, in references <span class="citation">(<a href="#ref-jeremy_histmatch" role="doc-biblioref">Andrianakis et al. 2015</a>)</span> and <span class="citation">(<a href="#ref-bower2010galaxy" role="doc-biblioref">Bower, Goldstein, and Vernon 2010</a>)</span>, more simulator runs were carried out in successive waves to allow for higher order trend functions to be fitted. This was attempted in the second wave, where the time and opportunity arose to double the number of simulator from the first wave to 600. A trend function with first order and squared terms was fitted ( but not interaction terms as the number of interactions between 28 parameters was too large). However a great many of these models failed, indicating that more runs may have been needed in order to fit the more complex models, so a first order linear trend term was used instead. For the third wave, there was only resource to carry out 300 simulator runs for training the emulators.</p>
+<p>A similar problem arose when evaluating proposal samples for the non-implausible space, as for each proposal sample, predictions had to be carried out for hundreds of models, and consequently, even computing implausibility measures for a few tens of thousands of proposal inputs required running calculations for a day or more. Issues such as these were non-trivial when making progress on analysis depended on the availability of results. Consequently some decisions were made that were not consistent with history matching in the literature, such as decreasing the number of training points used for the second wave, and not examining more complex trend functions.</p>
+<p>One important consequence of not using enough training data to build emulators is that there are large regions of space in which the emulator must interpolate, and as discussed in Section <a href="4.5-covariance.html#covariance">4.5</a>, predictive uncertainty grows as the distance from the observed data. This can result in emulators being validated and proposal points being evaluated as non-implausible by virtue of a great amount of predictive uncertainty, as opposed to making a good match to results. Figure <a href="6.2-limits.html#fig:good-emulator">6.1</a> illustrates this point. The figure shows the results of the validation runs for the emulator of the (n,tot) reaction at energy 5.49 MeV for the third wave. The vertical lines show the two standard deviation predictive intervals for the emulator, and the reference line x=y is plotted. This emulator validated successfully. The emulator certainly captured the general trend of the simulator, but the good match can be seen to be in no small part due to the wide predictive intervals, the majority of which intersect the x=y line, indicating that the emulator predictions are within two standard deviations of the simulator outputs. As an illustration, the dashed lines indicate the emulator predictions that would not intersect the x=y line if the predictive standard deviation were reduced by a half. Although the two-sigma intervals intersecting the x=y line do not indicate that the emulator would be validated, it does help as a visual guide for how consistent the emulator is with the model outputs.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:good-emulator"></span>
+<embed src="figures/good_emulator2.pdf" title="Validation run results for the emulator for the (n,tot) reaction at energy 5.49 MeV. The emulated versus simulated cross-sections are plotted with their two standard deviation error bars, as well as an x=y line for reference. Dashed error bars indicate emulator results than would not be within two standard deviations of the simulator results if the marginal predictive error were reduced by a half." width="80%" type="application/pdf" />
+<p class="caption">
+Figure 6.1: Validation run results for the emulator for the (n,tot) reaction at energy 5.49 MeV. The emulated versus simulated cross-sections are plotted with their two standard deviation error bars, as well as an x=y line for reference. Dashed error bars indicate emulator results than would not be within two standard deviations of the simulator results if the marginal predictive error were reduced by a half.
+</p>
+</div>
+<p>In Figure <a href="6.2-limits.html#fig:good-emulator">6.1</a>, the nominal measured cross section for this reaction at this energy is 3732 barns. This is certainly within the range of this plot, however it can be seen that the emulator predicts at cross sections two orders of magnitude greater than this, depending on the values of the active parameters. It was decided early on in the analysis that, when training emulators, the simulator outputs should not be scaled. This decision was taken as it was thought that an error could easily have been made when rescaling the emulator predictions to compute implausibility measures such as Equation <a href="3.11-HM-Multi-D.html#eq:chi-sq-impl">(3.2)</a> and due to a lack of certainty in how the assumptions pertaining to the measures would hold up under rescaling. However, Figure <a href="6.2-limits.html#fig:good-emulator">6.1</a> proves good evidence that the simulator output would have benefited from logarithmic scaling to give the emulators a smaller predictive volume, and also to enforce non-negativity, which is a characteristic of cross-sections, and which can be seen to be violated in some of the predictions in the figure.</p>
+<p>In <span class="citation">(<a href="#ref-jeremy_histmatch" role="doc-biblioref">Andrianakis et al. 2015</a>)</span> nine history matching waves are carried out over 18 active input parameters, and in <span class="citation">(<a href="#ref-bower2010galaxy" role="doc-biblioref">Bower, Goldstein, and Vernon 2010</a>)</span>, five history matching waves were carried out over 17 input parameters, using many thousands of simulator runs. In this dissertation, three history matching waves were carried out over 28 input parameters. Consequently, it is expected that further waves would refocus the input volume yet further and produce a more focussed non-implausible space.</p>
+<p>In Section <a href="4.8-gp-software.html#gp-software">4.8</a>, different Gaussian process software implementations were discussed, with the R package ‘DiceKriging’ being chosen because of its relatively quick run time and because it exposed a function that allowed access to predictive covariance matrices, an important component of model validation. However it is worth noting that <span class="citation">(<a href="#ref-gp_comparison" role="doc-biblioref">Erickson, Ankenman, and Sanchez 2018</a>)</span> found that ‘DiceKriging’ was one of the worst performers when tested against other Gaussian process software implementations. In particular, having to include a ‘nugget’ parameter (Section <a href="4.5-covariance.html#covariance">4.5</a>) to help the fitting procedure was unsatisfactory, but it was necessary in order to allow may of the parameter estimation routine to complete successfully.</p>
+<p>It is expected that cross-sections at energies close together for the same reaction should be similar, and that an input parameter setting that gives good results for a given energy would also give good results for a neighbouring energy points. In this dissertation, independent emulators were built for every unique point, and no account was made for potential correlations of similar simulator outputs. This decision was taken because emulation of correlated multivariate outputs such as in <span class="citation">(<a href="#ref-multivariate_gp" role="doc-biblioref">Fricker, Oakley, and Urban 2013</a>)</span> is a non-trivial extension to univariate emulation, and not easily implemented using out-of-the-box and well-known software implementations.</p>
+<p>Finally, the values for observation uncertainties and simulator inadequacies used in this work were chosen arbitrarily, and this would be reflected in the results. More representative uncertainties could be obtained by better mastering the software described in <span class="citation">(<a href="#ref-Schnabel_2021" role="doc-biblioref">Schnabel et al. 2021</a>)</span> and through expert elicitation to better understand how far the simulator predictions should be expected to deviate from reality.</p>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-jeremy_histmatch" class="csl-entry">
+Andrianakis, Ioannis, Ian R Vernon, Nicky McCreesh, Trevelyan J McKinley, Jeremy E Oakley, Rebecca N Nsubuga, Michael Goldstein, and Richard G White. 2015. <span>“Bayesian History Matching of Complex Infectious Disease Models Using Emulation: A Tutorial and a Case Study on HIV in Uganda.”</span> <em>PLoS Computational Biology</em> 11 (1): e1003968.
+</div>
+<div id="ref-bower2010galaxy" class="csl-entry">
+Bower, Richard G, Michael Goldstein, and Ian Vernon. 2010. <span>“<span class="nocase">Galaxy formation: a Bayesian uncertainty analysis</span>.”</span> <em>Bayesian Analysis</em> 5 (4): 619–69.
+</div>
+<div id="ref-gp_comparison" class="csl-entry">
+Erickson, Collin B, Bruce E Ankenman, and Susan M Sanchez. 2018. <span>“<span class="nocase">Comparison of Gaussian process modeling software</span>.”</span> <em>European Journal of Operational Research</em> 266 (1): 179–92.
+</div>
+<div id="ref-multivariate_gp" class="csl-entry">
+Fricker, Thomas E, Jeremy E Oakley, and Nathan M Urban. 2013. <span>“Multivariate Gaussian Process Emulators with Nonseparable Covariance Structures.”</span> <em>Technometrics</em> 55 (1): 47–56.
+</div>
+<div id="ref-Schnabel_2021" class="csl-entry">
+Schnabel, G., H. Sjöstrand, J. Hansson, D. Rochman, A. Koning, and R. Capote. 2021. <span>“Conception and Software Implementation of a Nuclear Data Evaluation Pipeline.”</span> <em>Nuclear Data Sheets</em> 173 (March): 239–84. <a href="https://doi.org/10.1016/j.nds.2021.04.007">https://doi.org/10.1016/j.nds.2021.04.007</a>.
+</div>
+</div>
+<p style="text-align: center;">
+<a href="6.1-summary.html"><button class="btn btn-default">Previous</button></a>
+<a href="6.3-further-work-and-conclusions.html"><button class="btn btn-default">Next</button></a>
+</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+</body>
+</html>

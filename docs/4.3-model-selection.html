@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="4.3 Parameter estimation | dissertation.knit" />
+<meta property="og:type" content="book" />
+
+<meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
+
+<title>4.3 Parameter estimation | dissertation.knit</title>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+/* show arrow before summary tag as in bootstrap
+TODO: remove if boostrap in updated in html_document (rmarkdown#1485) */
+details > summary {
+  display: list-item;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<div class="row">
+<div class="col-sm-12">
+<!--bookdown:toc:end-->
+<!--bookdown:toc:start-->
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div id="model-selection" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Parameter estimation</h2>
+<p>The mean function in a GP takes the form of a linear model</p>
+<p><span class="math display" id="eq:mean-function">\[\begin{equation}
+\tag{4.3}
+\mu(\mathbf{x}) = \sum_{i=1}^b h_b(\mathbf{x})^T \mathbf{\beta}_b
+\end{equation}\]</span></p>
+<p>Where <span class="math inline">\(b\)</span> is the number of basis functions in the model. These basis functions are chosen by the user. Although any linear combination of basis functions is permissible, some software implementations offer more flexibility than others (Section <a href="4.8-gp-software.html#gp-software">4.8</a>). The <span class="math inline">\(\mathbf{\beta}_b\)</span> must be learned from the data.</p>
+<p>Each element of the covariance matrix in Equation <a href="4.2-GPR:GPR.html#eq:joint-distro">(4.2)</a> is computed by using some function <span class="math inline">\(c(\mathbf{x}, \mathbf{x&#39;})=\sigma^2 r(\mathbf{x}, \mathbf{x&#39;})\)</span>, where <span class="math inline">\(r\)</span> is a correlation function that depends on <span class="math inline">\(|\mathbf{x} - \mathbf{x&#39;}|\)</span> where <span class="math inline">\(\mathbf{x}\)</span> and <span class="math inline">\(\mathbf{x&#39;}\)</span> are two points from <span class="math inline">\(\mathcal{X}\)</span>. So the covariance between two of the <span class="math inline">\(f\)</span>s depends in some way on the distance between their <span class="math inline">\(\mathbf{x}\)</span>-coordinates. The function <span class="math inline">\(r\)</span> has <span class="math inline">\(p\)</span> hyperparameters <span class="math inline">\(\mathbf{\gamma}_1,\mathbf{\gamma}_2,...,\mathbf{\gamma}_p\)</span>, one for each element of <span class="math inline">\(\mathbf{x}\)</span>, which must be learned from the observed data, along with the variance parameter <span class="math inline">\(\theta\)</span>. An optional noise parameter, sometimes called a nugget, can be learned (see Section <a href="4.5-covariance.html#covariance">4.5</a> for more on the <span class="math inline">\(\mathbf{\gamma}\)</span> and the noise parameter). The vector of model parameters is denoted <span class="math inline">\(\mathbf{\theta}\)</span>.</p>
+<p>The mean function can simply be <span class="math inline">\(\mu(\mathbf{x})=0~\forall~\mathbf{x}\)</span> and as such the minimum amount of parameters that must be learned from the data for a function with a <span class="math inline">\(p-\)</span>dimensional input is <span class="math inline">\(p+1\)</span>, <span class="math inline">\(p\)</span> <span class="math inline">\(\gamma\)</span>s and one <span class="math inline">\(\sigma\)</span>. In a Bayesian context an expression proportional to the joint posterior distribution of the the parameters <span class="math inline">\(\mathbf{\theta}\)</span> given the observed data<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> <span class="math inline">\(f(\mathcal{X^*})\)</span> is derived <span class="math inline">\(\pi(\mathbf{\theta}|f(\mathcal{X^*}))\)</span> using the product of the likelihood of the data given the parameters <span class="math inline">\(L(f(\mathcal{X^*})| \mathbf{\theta})\)</span> and the priors for the parameters <span class="math inline">\(\pi(\mathbf{\theta})\)</span>. One approach is to then use MCMC to generate samples from <span class="math inline">\(\pi(\mathbf{\theta}|f(\mathbf{\mathbf{x^*}}))\)</span>. However this requires a great many proposal samples from the posterior to be generated. Consequently if it is computationally expensive to generate one proposal sample, this method becomes impractical, and an alternative approach is required. A common compromise is to find the mode of the posterior distributions and use these modal values as point estimates for the parameters in the model.</p>
+<p>In this dissertation the Dice Kriging <span class="citation">(<a href="#ref-dicekriging" role="doc-biblioref">Roustant, Ginsbourger, and Deville 2012</a>)</span> software package was used, which implements improper uniform priors <span class="citation">(<a href="#ref-dicekriging" role="doc-biblioref">Roustant, Ginsbourger, and Deville 2012</a>)</span> for the <span class="math inline">\(\mathbf{\theta}\)</span> and as a result <span class="math inline">\(\pi(\mathbf{\theta}|f(\mathcal{X^*})) \propto L(f(\mathcal{X^*})| \mathbf{\theta})\)</span>. Consequently ML estimation was used to learn the <span class="math inline">\(\mathbf{\theta}\)</span>, which is equivalent to finding the maximum posterior mode in the uniform prior case, provided the domain of the likelihood is the same as, or a subset of, the domain of the priors. The training points <span class="math inline">\(f(\mathcal{X^*})\)</span> are assumed to have a joint Gaussian distribution with mean <span class="math inline">\(\mu(\mathcal{X^*})=\mathbf{h(\mathcal{X^*})\mathbf{\beta}}\)</span> and covariance <span class="math inline">\(\mathbf{\Sigma^*}=\mathbf{C} = \sigma^2 \mathbf{R}\)</span>, where <span class="math inline">\(\mathbf{R}\)</span> is a <span class="math inline">\(k \times k\)</span> covariance matrix with the <span class="math inline">\(i,j\)</span>-th element equal to <span class="math inline">\(r(\mathbf{x_i}, \mathbf{x_j})\)</span> and where <span class="math inline">\(k\)</span> is the number of training points and<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> <span class="math inline">\(i \in 1,2,...,k\)</span>, <span class="math inline">\(j \in 1,2,...,k\)</span>. Hence the likelihood function that is maximised is</p>
+<p><span class="math display" id="eq:likelihood">\[\begin{equation}
+\tag{4.4}
+L(f(\mathcal{X^*})| \mathbf{\theta}) = \frac{1}{(2\pi)^{k/2} |\sigma^2 \mathbf{R}|^{1/2}} \exp \left( - \frac{1}{2} \left( f(\mathcal{X^*}) - \mathbf{H}^T\mathbf{\beta}\right)^T \left(\sigma^2 \mathbf{R} \right)^{-1} \left( f(\mathcal{X^*}) - \mathbf{H}^T\mathbf{\beta}\right) \right)
+\end{equation}\]</span></p>
+<p>Where <span class="math inline">\(\mathbf{H}\)</span> is the <span class="math inline">\(k \times p\)</span> matrix with each row <span class="math inline">\(\mu(\mathbf{\mathbf{x}})\)</span> for one of the <span class="math inline">\(k\)</span> training points and each column one of the <span class="math inline">\(p\)</span> parameters. Each time the likelihood is evaluated, the matrix <span class="math inline">\(\mathbf{R}\)</span> needs to be inverted, which requires <span class="math inline">\(\mathcal{O}(k^3)\)</span> computation<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a> <span class="citation">(<a href="#ref-gelman2013bayesian" role="doc-biblioref">Gelman et al. 2013</a>)</span>, which means the computational expense can become prohibitively large if the likelihood has to be evaluated a great many times and/ or for a great many training points. This, and numerical issues that can arise from inverting <span class="math inline">\(\mathbf{R}\)</span> (see Section <a href="4.5-covariance.html#covariance">4.5</a>) are the two main hurdles that motivate the use of posterior mode/ ML point estimates of the model parameters, as opposed to ‘full Bayesian’ distributions, which usually requires the likelihood to be evaluated many more times.</p>
+<p>Equation <a href="4.3-model-selection.html#eq:likelihood">(4.4)</a> is maximised with respect to the <span class="math inline">\(\mathbf{\beta}, \sigma\)</span> and <span class="math inline">\(\mathbf{\gamma}\)</span>. Analytic expressions for ML estimators for <span class="math inline">\(\mathbf{\beta}\)</span> and <span class="math inline">\(\sigma\)</span> can be found in terms of <span class="math inline">\(\mathbf{R}\)</span> and the data:</p>
+<p><span class="math display" id="eq:beta-hat">\[\begin{equation}
+\tag{4.5}
+\mathbf{\hat{\beta}} = \left( \mathbf{H}^T\mathbf{R}^{-1}\mathbf{H} \right)^{-1}\mathbf{H}^T \mathbf{R}f(\mathcal{X^*})
+\end{equation}\]</span></p>
+<p>and</p>
+<p><span class="math display" id="eq:sigma-hat">\[\begin{equation}
+\tag{4.6}
+\hat{\sigma}^2 = \frac{1}{k} \left( f(\mathcal{X^*}) - \mathbf{H}^T\mathbf{\hat{\beta}}\right)^T \mathbf{R} ^{-1}\left( f(\mathcal{X^*}) - \mathbf{H}^T\mathbf{\hat{\beta}}\right)
+\end{equation}\]</span></p>
+<p>which look similar to the predictors for the similar terms in ordinary linear model theory, except for the presence of <span class="math inline">\(\mathbf{R}\)</span> which accounts for correlation in the residuals. With this re-parametrisation, the likelihood need only be maximised with respect to the <span class="math inline">\(\mathbf{\gamma}\)</span>, a slightly easier numerical task. The maximum of the likelihood is then found using a gradient-based numerical optimisation algorithm, with multiple starting points to combat possible multi-modality in the likelihood <span class="citation">(<a href="#ref-dicekriging" role="doc-biblioref">Roustant, Ginsbourger, and Deville 2012</a>)</span>. Once the parameter estimates are obtained the joint distribution of <span class="math inline">\(f(\mathcal{X^*})\)</span> and <span class="math inline">\(f(\mathcal{X^\dagger})\)</span> is fully characterised. Consequently the joint conditional distribution <span class="math inline">\(f(\mathcal{X^\dagger})|f(\mathcal{X^*}), \mathbf{\theta}\)</span> can be found, which is used to emulate the simulator at unobserved <span class="math inline">\(\mathbf{x}\)</span>.</p>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-gelman2013bayesian" class="csl-entry">
+Gelman, A., J. B. Carlin, H. S. Stern, D. B. Dunson, A. Vehtari, and D. B. Rubin. 2013. <em>Bayesian Data Analysis, Third Edition</em>. Chapman &amp; Hall/CRC Texts in Statistical Science. Taylor &amp; Francis.
+</div>
+<div id="ref-dicekriging" class="csl-entry">
+Roustant, Olivier, David Ginsbourger, and Yves Deville. 2012. <span>“<span class="nocase">DiceKriging, DiceOptim: Two R packages for the analysis of computer experiments by kriging-based metamodeling and optimization</span>.”</span> <em>Journal of Statistical Software</em> 51: 1–55.
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="5">
+<li id="fn5"><p>The observed data includes both the outputs <span class="math inline">\(f(\mathcal{X^*})\)</span> and the inputs <span class="math inline">\(\mathcal{X}^*\)</span> but the inputs are omitted here for brevity.<a href="4.3-model-selection.html#fnref5" class="footnote-back">↩︎</a></p></li>
+<li id="fn6"><p>Indices <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> are borrowed here and not again; elsewhere i indexes over processes/measurements/emulator outputs and j indexes over proposal points from <span class="math inline">\(\mathcal{X}\)</span>.<a href="4.3-model-selection.html#fnref6" class="footnote-back">↩︎</a></p></li>
+<li id="fn7"><p>The computational expense is proportional to <span class="math inline">\(n^3\)</span><a href="4.3-model-selection.html#fnref7" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+<p style="text-align: center;">
+<a href="4.2-GPR:GPR.html"><button class="btn btn-default">Previous</button></a>
+<a href="4.4-conditioning-on-the-data.html"><button class="btn btn-default">Next</button></a>
+</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+</body>
+</html>

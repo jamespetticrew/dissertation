@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Lay Summary of the Dissertation | dissertation.knit" />
+<meta property="og:title" content="6.1 Summary | dissertation.knit" />
 <meta property="og:type" content="book" />
 
 <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
@@ -22,7 +22,7 @@ MathJax.Hub.Config({
 
 <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
 
-<title>Lay Summary of the Dissertation | dissertation.knit</title>
+<title>6.1 Summary | dissertation.knit</title>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -175,15 +175,14 @@ details > summary {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="lay-summary-of-the-dissertation" class="section level1 unnumbered">
-<h1>Lay Summary of the Dissertation</h1>
-<p>In nuclear physics applications, cross-sections are used to quantify the probabilities of interactions between radiation and matter across energy states. They are commonly modelled using computer simulation tools as it is impossible to measure them comprehensively enough across energy fidelities and interaction scenarios. However the capacity of these tools to produce accurate results is limited, partially due to incomplete knowledge of the physical processes they try to model, and partially because the simulator takes a set of user-defined input parameters, the correct values of which are not known.</p>
-<p>One way to learn more about these parameters is through history matching. In this dissertation, history matching was used to efficiently identify and discard values of the parameters that were unlikely to result in the simulator giving good match to experiments once the inadequacy of the simulator and experimental imprecision were accounted for. Gaussian process (GP) statistical models were used to emulate the relationships between the input parameters and the simulator outputs. This greatly sped up computation at the expense of adding another source of uncertainty, which had to be considered when assessing the inputs. GP emulators were built using a small number of simulator runs at carefully chosen values of the input parameters. Emulators that displayed good out-of-sample predictive performance were then used to identify parameters settings that could plausibly result in the the simulator well matching experiments, and further emulators were built for using simulator runs at those parameter settings. Iterating over this process, known as refocussing, was shown to greatly reduce the space of plausible values for the 28 input parameters considered, at the cost of only several hundred simulator runs.</p>
-
+<div id="summary" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Summary</h2>
+<p>In this dissertation a discussion was presented on nuclear data evaluation, history matching, and Gaussian process emulation. Methodology and results on three waves of history matching were then discussed. History matching iteratively reduces the plausible space of simulator inputs by comparing its outputs to experimental measurements while accounting for uncertainties. The analysis is made tractable by employing a Gaussian process model to emulate the relationship between the simulator inputs and outputs. The discussed methodology included choosing an appropriate set of design points at which to run the simulator, training and validating waves of emulators, using these emulators to identify non-implausible values for the input parameters, and sampling from the marginal posterior distributions of the active inputs conditional on subsets of the observed data.</p>
+<p>The dissertation focussed on a particular case study examining nuclear reactions that take place when neutrons are incident upon the isotope Iron-56 at energies between 5 and 10 MeV. Experimental data on four reactions in this energy interval were extracted from EXFOR, a public database of nuclear reactions. The TALYS software was used to simulate nuclear data across the measured reactions and energies. A total of 28 TALYS parameters were examined across their ranges of possible values. No prior knowledge was employed to narrow the search space. After three waves of history matching, the non-implausible space was 0.03% of the volume of the original search space. The cost for this was approximately 1300 TALYS runs. Samples were then drawn from the marginal conditional posterior distributions of the parameters, using likelihoods functions for data on two of the observed reactions. The analysis showed that for many of the active parameters, a range of values were still consistent with the relevant data, which may indicate that more history matching waves would be required to reduce the plausible volume further, or that relevant outputs were insensitive to the settings for that parameter.</p>
 </div>
 <p style="text-align: center;">
-<a href="index.html"><button class="btn btn-default">Previous</button></a>
-<a href="1-Intro.html"><button class="btn btn-default">Next</button></a>
+<a href="6-Discussion.html"><button class="btn btn-default">Previous</button></a>
+<a href="6.2-limits.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

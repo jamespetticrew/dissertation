@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Lay Summary of the Dissertation | dissertation.knit" />
+<meta property="og:title" content="4.7 Model complexity and the predictive distribution | dissertation.knit" />
 <meta property="og:type" content="book" />
 
 <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
@@ -22,7 +22,7 @@ MathJax.Hub.Config({
 
 <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
 
-<title>Lay Summary of the Dissertation | dissertation.knit</title>
+<title>4.7 Model complexity and the predictive distribution | dissertation.knit</title>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -175,15 +175,13 @@ details > summary {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="lay-summary-of-the-dissertation" class="section level1 unnumbered">
-<h1>Lay Summary of the Dissertation</h1>
-<p>In nuclear physics applications, cross-sections are used to quantify the probabilities of interactions between radiation and matter across energy states. They are commonly modelled using computer simulation tools as it is impossible to measure them comprehensively enough across energy fidelities and interaction scenarios. However the capacity of these tools to produce accurate results is limited, partially due to incomplete knowledge of the physical processes they try to model, and partially because the simulator takes a set of user-defined input parameters, the correct values of which are not known.</p>
-<p>One way to learn more about these parameters is through history matching. In this dissertation, history matching was used to efficiently identify and discard values of the parameters that were unlikely to result in the simulator giving good match to experiments once the inadequacy of the simulator and experimental imprecision were accounted for. Gaussian process (GP) statistical models were used to emulate the relationships between the input parameters and the simulator outputs. This greatly sped up computation at the expense of adding another source of uncertainty, which had to be considered when assessing the inputs. GP emulators were built using a small number of simulator runs at carefully chosen values of the input parameters. Emulators that displayed good out-of-sample predictive performance were then used to identify parameters settings that could plausibly result in the the simulator well matching experiments, and further emulators were built for using simulator runs at those parameter settings. Iterating over this process, known as refocussing, was shown to greatly reduce the space of plausible values for the 28 input parameters considered, at the cost of only several hundred simulator runs.</p>
-
+<div id="model-complexity-and-the-predictive-distribution" class="section level2" number="4.7">
+<h2><span class="header-section-number">4.7</span> Model complexity and the predictive distribution</h2>
+<p>The denominator in Equation <a href="4.3-model-selection.html#eq:sigma-hat">(4.6)</a> should be <span class="math inline">\(k-p\)</span>, where <span class="math inline">\(p\)</span> is the number of parameters in the GP mean function (Section <a href="4.6-mean.html#mean">4.6</a>), and consequently the predictive distribution of the GP emulator is a Student-t with <span class="math inline">\(k-p\)</span> degrees of freedom. Often in practice, as is the case with the software used in this dissertation, it is assumed that <span class="math inline">\(k&gt;&gt;p\)</span> and as such the number of degrees of freedom is large enough that the predictive distribution is approximately Normal. In what follows it is assumed that the predictive distributions of the emulators are Gaussian, as the number of simulator runs used to train the emulators numbered in the hundreds, and the number of parameters was in the tens. Care must be taken with model complexity, if <span class="math inline">\(k\)</span> is not much greater than <span class="math inline">\(p\)</span>, an assumption of Gaussian predictions may not be valid, and the predictive intervals significantly wider than assumed.</p>
 </div>
 <p style="text-align: center;">
-<a href="index.html"><button class="btn btn-default">Previous</button></a>
-<a href="1-Intro.html"><button class="btn btn-default">Next</button></a>
+<a href="4.6-mean.html"><button class="btn btn-default">Previous</button></a>
+<a href="4.8-gp-software.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>
